@@ -98,5 +98,32 @@
   "changePasswordError": "Old password incorrect or someting went wrong",
 
   "strongPassword": "Please enter more stronger password",
-  "notMatch": "The new password that you entered do not match!"
+  "notMatch": "The new password that you entered do not match!",
+
+  "privacyTitle": "Profile privacy",
+  "privacyDescription": "Choose the details that may appear on your member profile. Changes apply only after you save.",
+  "privacyDefaultTitle": "Private by default",
+  "privacyDefaultDescription": "Every option below is visible only to you and administrators by default. Enable a switch to show it on your profile.",
+  "privacyOptionalTitle": "Details you may show",
+  "privacyVisible": "Public",
+  "privacyPrivate": "Private",
+  "privacySensitiveNote": "Passwords, tokens, administrator or leadership permissions, internal IDs, and any government-issued identification always remain protected and cannot be made public here.",
+  "privacySave": "Save privacy settings",
+  "privacySaving": "Saving…",
+  "privacySaveSuccess": "Profile privacy updated.",
+  "privacySaveError": "We could not save your privacy settings. Please try again.",
+  "visibilityAbout": "About me",
+  "visibilityNickname": "Nickname",
+  "visibilityJob": "Job",
+  "visibilitySchool": "School",
+  "visibilityWorkplace": "Workplace",
+  "visibilitySkills": "Skills",
+  "visibilityFavourites": "Hobbies",
+  "visibilityLeetcode": "LeetCode profile",
+  "visibilitySocials": "Social accounts",
+  "visibilityEmail": "Email",
+  "visibilityPhone": "Phone number",
+  "visibilityStudentId": "Student ID",
+  "visibilityBirthday": "Birthday",
+  "visibilityHometown": "Hometown"
 }

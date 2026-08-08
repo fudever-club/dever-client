@@ -1,0 +1,10 @@
+{
+  "welcome": "FU-DEVER member accounts",
+  "description": "FU-DEVER administrators provision accounts for verified members.",
+  "accessNoticeTitle": "Self-registration is unavailable",
+  "accessNoticeDescription": "This page cannot create a new account, keeping member data protected.",
+  "whatToDoTitle": "Need access?",
+  "whatToDoDescription": "Contact the FU-DEVER administrators to have an account created or restore your access.",
+  "alreadyHaveAccount": "Already have an account?",
+  "signIn": "Sign in"
+}

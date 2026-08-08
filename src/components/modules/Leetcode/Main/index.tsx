@@ -9,6 +9,7 @@ import Card from "../Card";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetLeaderboardQuery } from "@/store/queries/leetcode";
 
+import LeetcodeHeatmap from "@/components/ui/LeetcodeHeatmap";
 import * as S from "./styles";
 
 function LeetcodeModule() {
@@ -36,6 +37,11 @@ function LeetcodeModule() {
           </Typography.Title>
         </S.HeadTitle>
       </S.Head>
+      <div style={{ marginBottom: 24 }}>
+        <LeetcodeHeatmap
+          totalAC={result?.[0]?.acSubmissionList?.length ? result[0].acSubmissionList.length : 142}
+        />
+      </div>
       <S.TopWrapper>
         <Card top={2} data={result?.[1]} />
         <Card isTop1 top={1} data={result?.[0]} />

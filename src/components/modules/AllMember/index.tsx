@@ -247,15 +247,19 @@ function AllMemberModule() {
                   defaultValue={kGeneration || undefined}
                   options={[
                     {
-                      label: " K20",
+                      label: " K21 (Gen 9)",
+                      value: 21,
+                    },
+                    {
+                      label: " K20 (Gen 8)",
                       value: 20,
                     },
                     {
-                      label: " K19",
+                      label: " K19 (Gen 7)",
                       value: 19,
                     },
                     {
-                      label: " K18",
+                      label: " K18 (Gen 6)",
                       value: 18,
                     },
                     {

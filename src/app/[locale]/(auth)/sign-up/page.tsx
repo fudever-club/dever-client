@@ -1,11 +1,13 @@
 import { Metadata } from "next";
 
+import SignUpModule from "@/components/modules/SignUp";
+
 export const metadata: Metadata = {
-  title: "Đăng ký | Fu - Dever",
+  title: "Quyền truy cập thành viên | FU-DEVER",
 };
 
 function SignUpPage() {
-  return <div>SignUpPage</div>;
+  return <SignUpModule />;
 }
 
 export default SignUpPage;

@@ -18,6 +18,7 @@ import { constants } from "@/settings";
 import { useGetMyProfileQuery } from "@/store/queries/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import LeetcodeSubcriber from "./LeetcodeSubcriber";
+import PrivacySettings from "./PrivacySettings";
 
 function SettingsModules() {
   const params = useParams();
@@ -91,6 +92,10 @@ function SettingsModules() {
                 ></LeetcodeSubcriber>
               </>
             )}
+            <PrivacySettings
+              isUserProfileLoading={isFetching}
+              userData={result}
+            />
           </S.LGalleryCol>
 
           <S.RGalleryCol>

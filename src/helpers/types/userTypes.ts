@@ -19,6 +19,7 @@ export interface UserInfo {
   slug: string;
   updatedAt: string;
   workplace: string;
+  profileVisibility?: ProfileVisibility;
   __v: number;
   _id: string;
 
@@ -30,6 +31,41 @@ export interface UserInfo {
   socials: Social[];
 
   acSubmissionList: Submissoion[];
+}
+
+/**
+ * Member-controlled visibility for optional profile details.
+ * Any missing key is treated as private by the UI and API contract.
+ */
+export interface ProfileVisibility {
+  description?: boolean;
+  email?: boolean;
+  phone?: boolean;
+  nickname?: boolean;
+  MSSV?: boolean;
+  dob?: boolean;
+  hometown?: boolean;
+  job?: boolean;
+  school?: boolean;
+  workplace?: boolean;
+  socials?: boolean;
+  skills?: boolean;
+  favourites?: boolean;
+  leetcode?: boolean;
+}
+
+/**
+ * Shape returned by the public member directory. It intentionally excludes
+ * database identifiers and private contact/profile fields.
+ */
+export interface PublicMemberInfo {
+  avatar?: string;
+  firstname?: string;
+  lastname?: string;
+  gen?: number;
+  /** Opaque, server-issued identifier allowed in public profile URLs. */
+  profileKey?: string;
+  positionId?: Pick<UserEnum, "constant"> | null;
 }
 
 export interface Submissoion {

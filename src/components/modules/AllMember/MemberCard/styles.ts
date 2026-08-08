@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Image, Select as SelectFromAntd } from "antd";
 
-export const ComponentsWrapper = styled.div`
+export const ComponentsWrapper = styled.div<{ $interactive: boolean }>`
   max-width: 100%;
   display: flex;
   flex-direction: column;
@@ -11,10 +11,20 @@ export const ComponentsWrapper = styled.div`
   
   transition: 300ms;
   
-  cursor: pointer;
+  cursor: ${(props) => (props.$interactive ? "pointer" : "default")};
   
   &:hover{
-    scale: 1.02;
+    ${(props) => props.$interactive && "scale: 1.02;"}
+  }
+
+  &:focus-visible {
+    outline: ${(props) => (props.$interactive ? "3px solid #0066cc" : "none")};
+    outline-offset: 4px;
+    border-radius: 12px;
+  }
+
+  &:active {
+    ${(props) => props.$interactive && "scale: 0.98;"}
   }
 `;
 
@@ -52,4 +62,11 @@ export const TextWrapper = styled.div`
     display: flex;
     flex-direction: column; 
     text-align: center;
+`;
+
+export const ProfileUnavailable = styled.span`
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.4;
 `;

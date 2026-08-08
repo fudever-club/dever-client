@@ -40,5 +40,8 @@
   "SECURITY": "An toàn thông tin ",
   "AI": "Trí tuệ nhân tạo",
   "DESIGN": "Thiết kế đồ họa",
-  "DMARKETING": "Digital marketing"
+  "DMARKETING": "Digital marketing",
+  "anonymousMember": "Thành viên FU-DEVER",
+  "profileNotPublic": "Hồ sơ chưa công khai",
+  "openPublicProfile": "Mở hồ sơ công khai của {{name}}"
 }

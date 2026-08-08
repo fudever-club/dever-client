@@ -1,17 +1,25 @@
 {
-  "welcome": "Welcome",
-  "description": "Please log in to access the FU-DEVER members system",
+  "welcome": "Sign in to FU-DEVER",
+  "description": "Access the learning space, profile, and activities for FU-DEVER members.",
+  "accessNoticeTitle": "Members-only area",
+  "accessNoticeDescription": "Use the email registered with the club to continue.",
 
+  "email": "Email",
   "enterEmail": "Enter your email",
   "password": "Password",
   "enterPassword": "Enter your password",
   "rememberMe": "Remember me",
   "forgotPassword": "Forgot password",
+  "passwordRecoveryUnavailable": "Self-service password reset is not available yet. Please contact the FU-DEVER administrators for help.",
 
   "signIn": "Sign In",
-  "dontHaveAccount": "Don't have account?",
-  "signUp": "Sign Up",
+  "signingIn": "Signing in...",
+  "signInSuccess": "Signed in successfully!",
+  "accountProvisioning": "Need an account? Please contact the FU-DEVER administrators to receive access.",
 
-  "emailError": "Please enter your email",
-  "passwordError": "Please enter your password"
+  "emailError": "Please enter your email.",
+  "emailInvalid": "Enter a valid email address.",
+  "passwordError": "Please enter your password.",
+  "passwordMinLength": "Password must be at least 6 characters.",
+  "invalidCredentials": "Email or password is incorrect."
 }

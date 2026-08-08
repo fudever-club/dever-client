@@ -6,8 +6,6 @@ import React from "react";
 interface DataType {
   key: React.Key;
   name: string;
-  studentId: string;
-  idCard: string;
   scoreQ1: number;
   timeQ1: number;
   scoreQ2: number;
@@ -23,18 +21,6 @@ const columns: TableColumnsType<DataType> = [
     title: "Họ và Tên",
     dataIndex: "name",
     key: "name",
-    width: 150,
-  },
-  {
-    title: "Mã số SV",
-    dataIndex: "studentId",
-    key: "studentId",
-    width: 100,
-  },
-  {
-    title: "Số CMND/CCCD",
-    dataIndex: "idCard",
-    key: "idCard",
     width: 150,
   },
   {
@@ -111,8 +97,6 @@ const dataSource: DataType[] = [
   {
     key: 1,
     name: "Dương Nguyễn Phú Quý",
-    studentId: "DE180677",
-    idCard: "049204005210",
     scoreQ1: 90,
     timeQ1: 588,
     scoreQ2: 90,
@@ -125,8 +109,6 @@ const dataSource: DataType[] = [
   {
     key: 2,
     name: "Lê Đức Anh Phương",
-    studentId: "DE180914",
-    idCard: "048204004325",
     scoreQ1: 90,
     timeQ1: 600,
     scoreQ2: 84,
@@ -139,8 +121,6 @@ const dataSource: DataType[] = [
   {
     key: 3,
     name: "Nguyễn Văn Duy Khang",
-    studentId: "DE180943",
-    idCard: "046204011334",
     scoreQ1: 88,
     timeQ1: 600,
     scoreQ2: 85,

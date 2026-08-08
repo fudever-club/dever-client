@@ -1,0 +1,10 @@
+{
+  "welcome": "Tài khoản thành viên FU-DEVER",
+  "description": "Tài khoản được Ban quản trị FU-DEVER cấp cho thành viên đã được xác nhận.",
+  "accessNoticeTitle": "Không hỗ trợ tự đăng ký",
+  "accessNoticeDescription": "Để bảo vệ dữ liệu thành viên, trang này không tạo tài khoản mới.",
+  "whatToDoTitle": "Bạn cần hỗ trợ?",
+  "whatToDoDescription": "Hãy liên hệ Ban quản trị FU-DEVER để được tạo tài khoản hoặc khôi phục quyền truy cập.",
+  "alreadyHaveAccount": "Đã có tài khoản?",
+  "signIn": "Đăng nhập"
+}

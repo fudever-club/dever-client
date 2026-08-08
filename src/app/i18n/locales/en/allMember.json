@@ -40,5 +40,8 @@
   "SECURITY": "Information security ",
   "AI": "Artificial intelligence",
   "DESIGN": "Digital graphic design",
-  "DMARKETING": "Digital marketing"
+  "DMARKETING": "Digital marketing",
+  "anonymousMember": "FU-DEVER member",
+  "profileNotPublic": "Profile is not public",
+  "openPublicProfile": "Open {{name}}'s public profile"
 }

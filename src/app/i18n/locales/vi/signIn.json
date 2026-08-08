@@ -1,17 +1,25 @@
 {
-  "welcome": "Xin chào",
-  "description": "Vui lòng đăng nhập để truy cập hệ thống thành viên FU-DEVER",
+  "welcome": "Đăng nhập FU-DEVER",
+  "description": "Truy cập không gian học tập, hồ sơ và hoạt động dành cho thành viên FU-DEVER.",
+  "accessNoticeTitle": "Khu vực dành cho thành viên",
+  "accessNoticeDescription": "Hãy dùng email đã đăng ký với câu lạc bộ để tiếp tục.",
 
+  "email": "Email",
   "enterEmail": "Nhập email của bạn",
   "password": "Mật khẩu",
   "enterPassword": "Nhập mật khẩu của bạn",
   "rememberMe": "Ghi nhớ thông tin đăng nhập",
   "forgotPassword": "Quên mật khẩu",
+  "passwordRecoveryUnavailable": "Chức năng tự đặt lại mật khẩu chưa khả dụng. Vui lòng liên hệ Ban quản trị FU-DEVER để được hỗ trợ.",
 
   "signIn": "Đăng nhập",
-  "dontHaveAccount": "Bạn không có tài khoản?",
-  "signUp": "Đăng ký",
+  "signingIn": "Đang đăng nhập...",
+  "signInSuccess": "Đăng nhập thành công!",
+  "accountProvisioning": "Chưa có tài khoản? Vui lòng liên hệ Ban quản trị để được cấp quyền truy cập.",
 
-  "emailError": "Vui lòng nhập email của bạn",
-  "passwordError": "Vui lòng nhập mật khẩu của bạn"
+  "emailError": "Vui lòng nhập email của bạn.",
+  "emailInvalid": "Email chưa đúng định dạng.",
+  "passwordError": "Vui lòng nhập mật khẩu của bạn.",
+  "passwordMinLength": "Mật khẩu cần có ít nhất 6 ký tự.",
+  "invalidCredentials": "Email hoặc mật khẩu không chính xác."
 }

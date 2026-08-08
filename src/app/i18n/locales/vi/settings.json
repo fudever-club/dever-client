@@ -98,5 +98,32 @@
   "changePasswordError": "Mật khẩu cũ không đúng hoặc xảy ra lỗi",
 
   "strongPassword": "Vui lòng nhập mật khẩu mạnh hơn",
-  "notMatch": "Không trùng với mật khẩu mới"
+  "notMatch": "Không trùng với mật khẩu mới",
+
+  "privacyTitle": "Quyền riêng tư hồ sơ",
+  "privacyDescription": "Chọn thông tin bạn muốn hiển thị trên hồ sơ thành viên. Các thay đổi chỉ áp dụng sau khi bạn lưu.",
+  "privacyDefaultTitle": "Mặc định riêng tư",
+  "privacyDefaultDescription": "Mọi lựa chọn bên dưới mặc định chỉ bạn và Ban quản trị có thể xem. Bật công tắc khi bạn muốn công khai trên hồ sơ.",
+  "privacyOptionalTitle": "Thông tin có thể hiển thị",
+  "privacyVisible": "Công khai",
+  "privacyPrivate": "Riêng tư",
+  "privacySensitiveNote": "Mật khẩu, token, quyền quản trị/lãnh đạo, mã nội bộ và mọi giấy tờ định danh nhà nước luôn được bảo mật; không thể công khai tại đây.",
+  "privacySave": "Lưu quyền riêng tư",
+  "privacySaving": "Đang lưu…",
+  "privacySaveSuccess": "Đã cập nhật quyền riêng tư hồ sơ.",
+  "privacySaveError": "Chưa thể lưu quyền riêng tư. Vui lòng thử lại.",
+  "visibilityAbout": "Giới thiệu bản thân",
+  "visibilityNickname": "Nickname",
+  "visibilityJob": "Nghề nghiệp",
+  "visibilitySchool": "Trường học",
+  "visibilityWorkplace": "Nơi làm việc",
+  "visibilitySkills": "Kỹ năng",
+  "visibilityFavourites": "Sở thích",
+  "visibilityLeetcode": "Hồ sơ LeetCode",
+  "visibilitySocials": "Mạng xã hội",
+  "visibilityEmail": "Email",
+  "visibilityPhone": "Số điện thoại",
+  "visibilityStudentId": "Mã số sinh viên",
+  "visibilityBirthday": "Ngày sinh",
+  "visibilityHometown": "Quê quán"
 }
