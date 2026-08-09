@@ -75,13 +75,17 @@ function DropdownMenu() {
           <span>✍️</span> Đăng Bài Tech Blog Mới
         </a>
         <a
-          href="http://localhost:3000"
+          href="https://fu-dever-landingpage-v2.vercel.app"
+          target="_blank"
+          rel="noreferrer"
           className="text-xs text-gray-700 hover:text-[#0098FF] flex items-center gap-2 p-1.5 rounded hover:bg-blue-50 transition-colors"
         >
           <span>🌐</span> Trang Chủ Landing Page
         </a>
         <a
-          href="http://localhost:3003"
+          href="https://dever-admin-lac.vercel.app/vi/sign-in"
+          target="_blank"
+          rel="noreferrer"
           className="text-xs text-gray-700 hover:text-[#0098FF] flex items-center gap-2 p-1.5 rounded hover:bg-blue-50 transition-colors"
         >
           <span>🛡️</span> Cổng Admin Portal

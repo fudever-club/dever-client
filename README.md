@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DEVER Member Portal
 
-## Getting Started
+The authenticated portal for FU-DEVER Club members. Members can manage their profile visibility, explore other public profiles, follow the LeetCode leaderboard, and contribute club content within the permissions granted by administrators.
 
-First, run the development server:
+## Related services
+
+| Service | Repository | Production |
+| --- | --- | --- |
+| Landing page | [fu-dever-landingpage](https://github.com/fudever-club/fu-dever-landingpage) | [Open](https://fu-dever-landingpage-v2.vercel.app) |
+| Member portal | [dever-client](https://github.com/fudever-club/dever-client) | [Open](https://dever-client-taupe.vercel.app/vi/sign-in) |
+| Admin dashboard | [dever-admin](https://github.com/fudever-club/dever-admin) | [Open](https://dever-admin-lac.vercel.app/vi/sign-in) |
+| Backend API | [dever-backend](https://github.com/fudever-club/dever-backend) | [Open](https://dever-backend-production.up.railway.app/health) |
+
+## Key flows
+
+- Sign in with an account provisioned by an administrator. Public self-registration is intentionally unavailable.
+- Review and update personal information and choose which optional fields are public.
+- Browse members through privacy-safe public profile links.
+- View LeetCode activity and create authorised club blog content.
+
+## Tech stack
+
+Next.js 14 App Router, TypeScript, Ant Design, Redux Toolkit Query, and `next-intl` (Vietnamese and English).
+
+## Run locally
+
+Requires Node.js 20+ and a running DEVER backend.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci
+Copy-Item .env.example .env.local
+npm run dev -- -p 3002
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set the following in `.env.local`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+NEXT_PUBLIC_API_SERVER=http://localhost:5000
+NEXT_PUBLIC_ASSETS_URL=http://localhost:5000/static
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Open [http://localhost:3002/vi/sign-in](http://localhost:3002/vi/sign-in). Use the production API URL when deploying the portal.
 
-## Learn More
+## Quality checks
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npx tsc --noEmit
+npm run lint
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Do not expose sensitive member data in client-side routes or static fixtures. Profile links must use the opaque `profileKey` returned by the API, and all API failures should have a visible recovery state.
