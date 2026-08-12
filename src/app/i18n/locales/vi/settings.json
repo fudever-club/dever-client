@@ -15,6 +15,12 @@
   "cantBeEmpty": "Không được để trống",
 
   "leetcode": "Leetcode",
+  "leetcodeUsername": "Tên người dùng LeetCode",
+  "leetcodeUsernamePlaceholder": "Nhập LeetCode username",
+  "leetcodeUpdateHint": "Tên người dùng được lưu ngay. Dữ liệu xếp hạng sẽ được Ban quản trị đồng bộ sau.",
+  "leetcodeSaving": "Đang lưu…",
+  "leetcodeUpdateSuccess": "Đã lưu tên người dùng LeetCode.",
+  "leetcodeUpdateError": "Chưa thể lưu tên người dùng LeetCode. Vui lòng thử lại.",
 
   "socials": "Tài khoản mạng xã hội",
   "disconnect": "Ngắt liên kết",

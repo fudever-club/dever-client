@@ -23,7 +23,7 @@ export const authAPI = baseApi.injectEndpoints({
     updateLeetcode: build.mutation({
       query: () => ({
         url: endpointLeetcode.UPDATE,
-        method: "GET",
+        method: "POST",
         flashError: true,
       }),
     }),

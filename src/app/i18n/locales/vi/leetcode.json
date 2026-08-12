@@ -1,3 +1,9 @@
 {
-  "heading": "Bảng xếp hạng Leetcode"
+  "heading": "Bảng xếp hạng Leetcode",
+  "liveDescription": "Thứ hạng được tổng hợp từ dữ liệu LeetCode đã đồng bộ.",
+  "liveNotice": "Dữ liệu được làm mới bởi Ban quản trị, không tự thay đổi khi bạn mở trang.",
+  "loadErrorTitle": "Chưa thể tải bảng xếp hạng",
+  "loadErrorDescription": "Kiểm tra kết nối rồi thử lại.",
+  "retry": "Thử lại",
+  "emptyDescription": "Chưa có thành viên nào tham gia bảng xếp hạng."
 }

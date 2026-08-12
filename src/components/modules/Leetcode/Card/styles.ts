@@ -93,3 +93,33 @@ export const ImageWrapper = styled.div`
     }
   }
 `;
+
+export const AvatarFallback = styled.div`
+  width: 290px;
+  max-width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid ${(props) => props.theme.colors.primary};
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0066cc, #004c99);
+  color: white;
+  font-size: 48px;
+  font-weight: 700;
+
+  @media ${(props) => props.theme.breakpoints.lgMax} {
+    height: 320px;
+  }
+
+  @media ${(props) => props.theme.breakpoints.mdMax} {
+    height: 240px;
+    font-size: 36px;
+  }
+
+  @media ${(props) => props.theme.breakpoints.smMax} {
+    height: 180px;
+    border-width: 2px;
+    font-size: 28px;
+  }
+`;

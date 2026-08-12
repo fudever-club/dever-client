@@ -1,84 +1,96 @@
 "use client";
 
+import { Alert, Avatar, Button, Col, Empty, Flex, Result, Row, Skeleton } from "antd";
 import { useParams } from "next/navigation";
-import { Avatar, Col, Flex, Grid, Row } from "antd";
 
 import Typography from "@/components/core/common/Typography";
-import Card from "../Card";
-
+import LeetcodeHeatmap from "@/components/ui/LeetcodeHeatmap";
 import { useTranslation } from "@/app/i18n/client";
+import { LeetcodeLeaderboardEntry } from "@/helpers/types/leetcodeTypes";
 import { useGetLeaderboardQuery } from "@/store/queries/leetcode";
 
-import LeetcodeHeatmap from "@/components/ui/LeetcodeHeatmap";
+import Card from "../Card";
 import * as S from "./styles";
+
+const getName = (entry: LeetcodeLeaderboardEntry) =>
+  [entry.user?.firstname, entry.user?.lastname].filter(Boolean).join(" ").trim() || "Thành viên DEVER";
+
+const getInitials = (entry: LeetcodeLeaderboardEntry) =>
+  getName(entry).split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
 
 function LeetcodeModule() {
   const params = useParams();
-
-  const { useBreakpoint } = Grid;
-  const screens = useBreakpoint();
-
   const { t } = useTranslation(params.locale as string, "leetcode");
-
-  const { result } = useGetLeaderboardQuery(undefined, {
-    selectFromResult: (data) => {
-      return {
-        result: data?.data?.data,
-      };
-    },
-  });
+  const { data, isLoading, isError, refetch } = useGetLeaderboardQuery(undefined);
+  const leaderboard: LeetcodeLeaderboardEntry[] = data?.data ?? [];
+  const submissions = leaderboard.flatMap((entry) => entry.acSubmissionList ?? []);
+  const podium = leaderboard.length >= 3
+    ? [
+        { entry: leaderboard[1], rank: 2 },
+        { entry: leaderboard[0], rank: 1 },
+        { entry: leaderboard[2], rank: 3 },
+      ]
+    : leaderboard.map((entry, index) => ({ entry, rank: index + 1 }));
 
   return (
     <S.PageWrapper>
       <S.Head>
         <S.HeadTitle>
-          <Typography.Title level={3} style={{ fontWeight: 700 }}>
-            {t("heading")}
-          </Typography.Title>
+          <div>
+            <Typography.Title level={3} style={{ fontWeight: 700 }}>{t("heading")}</Typography.Title>
+            <Typography.Text>{t("liveDescription")}</Typography.Text>
+          </div>
         </S.HeadTitle>
       </S.Head>
-      <div style={{ marginBottom: 24 }}>
-        <LeetcodeHeatmap
-          totalAC={result?.[0]?.acSubmissionList?.length ? result[0].acSubmissionList.length : 142}
-        />
-      </div>
-      <S.TopWrapper>
-        <Card top={2} data={result?.[1]} />
-        <Card isTop1 top={1} data={result?.[0]} />
-        <Card top={3} data={result?.[2]} />
-      </S.TopWrapper>
-      <Row gutter={[16, 16]}>
-        {result?.map((item: any, index: number) => (
-          <Col span={24} key={item?._id}>
-            <S.RankCard>
-              <Flex
-                align="center"
-                style={{ width: "100%" }}
-                justify="space-between"
-              >
-                <Flex gap={screens.xs ? 20 : 40} align="center">
-                  <Typography.Text>{index + 1}</Typography.Text>
-                  <Flex align="center" gap={screens.xs ? 20 : 40}>
-                    <Avatar size={40} src={item?.userId?.avatar} />
-                    <Typography.Text>
-                      {`${item?.userId?.firstname} ${item?.userId?.lastname}`}
-                    </Typography.Text>
-                  </Flex>
-                </Flex>
 
-                <Flex gap={screens.xs ? 20 : 40} align="center">
-                  <Flex align="center" gap={screens.xs ? 20 : 40}>
-                    <Typography.Text>{item?.leetcodeUsername!}</Typography.Text>
-                    <Typography.Text>
-                      {item?.acSubmissionList?.length * 10} Pts
-                    </Typography.Text>
+      {isLoading && (
+        <>
+          <Skeleton active paragraph={{ rows: 6 }} />
+          <Row gutter={[16, 16]}>{Array.from({ length: 4 }).map((_, index) => <Col span={24} key={index}><Skeleton active avatar paragraph={{ rows: 1 }} /></Col>)}</Row>
+        </>
+      )}
+
+      {isError && (
+        <Result
+          status="error"
+          title={t("loadErrorTitle")}
+          subTitle={t("loadErrorDescription")}
+          extra={<Button type="primary" onClick={() => refetch()}>{t("retry")}</Button>}
+        />
+      )}
+
+      {!isLoading && !isError && leaderboard.length === 0 && (
+        <Empty description={t("emptyDescription")} />
+      )}
+
+      {!isLoading && !isError && leaderboard.length > 0 && (
+        <>
+          <LeetcodeHeatmap submissions={submissions} />
+          <Alert showIcon type="info" message={t("liveNotice")} />
+          <S.TopWrapper>
+            {podium.map(({ entry, rank }) => <Card key={entry.leetcodeUsername} data={entry} top={rank} isTop1={rank === 1} />)}
+          </S.TopWrapper>
+          <Row gutter={[16, 16]}>
+            {leaderboard.map((entry, index) => (
+              <Col span={24} key={`${entry.leetcodeUsername}-${index}`}>
+                <S.RankCard>
+                  <Flex align="center" justify="space-between" style={{ width: "100%" }} gap={16} wrap>
+                    <Flex gap={16} align="center">
+                      <Typography.Text>{index + 1}</Typography.Text>
+                      <Avatar src={entry.user?.avatar || undefined}>{getInitials(entry)}</Avatar>
+                      <div>
+                        <Typography.Text>{getName(entry)}</Typography.Text>
+                        <S.Username>{entry.leetcodeUsername}</S.Username>
+                      </div>
+                    </Flex>
+                    <Typography.Text>{entry.acSubmissionList.length} AC · {entry.acSubmissionList.length * 10} Pts</Typography.Text>
                   </Flex>
-                </Flex>
-              </Flex>
-            </S.RankCard>
-          </Col>
-        ))}
-      </Row>
+                </S.RankCard>
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
     </S.PageWrapper>
   );
 }

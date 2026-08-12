@@ -1,41 +1,39 @@
 import Image from "next/image";
-import { Flex, Grid } from "antd";
+import { Flex } from "antd";
+import { useState } from "react";
 
 import Typography from "@/components/core/common/Typography";
+import { LeetcodeLeaderboardEntry } from "@/helpers/types/leetcodeTypes";
 
 import * as S from "./styles";
 
-function Card({
-  data,
-  top,
-  isTop1,
-}: {
-  data: any;
-  top: number;
-  isTop1?: boolean;
-}) {
+function getInitials(entry: LeetcodeLeaderboardEntry) {
+  const name = [entry.user?.firstname, entry.user?.lastname].filter(Boolean).join(" ").trim();
+  return name ? name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase() : "D";
+}
 
-  const { useBreakpoint } = Grid;
-  const screens = useBreakpoint();
+function Card({ data, top, isTop1 }: { data: LeetcodeLeaderboardEntry; top: number; isTop1?: boolean }) {
+  const [hasAvatarError, setHasAvatarError] = useState(false);
+  const avatar = data.user?.avatar?.trim();
+  const showAvatar = Boolean(avatar && !hasAvatarError);
+  const name = [data.user?.firstname, data.user?.lastname].filter(Boolean).join(" ").trim() || "Thành viên DEVER";
 
   return (
     <S.Main $isTop1={isTop1}>
-      {isTop1 && (
-        <Image src={"/icons/crown.svg"} alt="" width={screens.lg ? 60 : screens.sm ? 52 : 32} height={screens.lg ? 52 : screens?.sm ? 42 : 38} />
-      )}
+      {isTop1 && <Image src="/icons/crown.svg" alt="Hạng nhất" width={60} height={52} />}
       <S.ImageWrapper>
-        <Image src={data?.userId?.avatar} alt="" width={290} height={400} />
+        {showAvatar ? (
+          <Image src={avatar!} alt={name} width={290} height={400} onError={() => setHasAvatarError(true)} />
+        ) : (
+          <S.AvatarFallback aria-label={name}>{getInitials(data)}</S.AvatarFallback>
+        )}
         <span>{top}</span>
       </S.ImageWrapper>
       <S.Content>
-        <Typography.Title
-          level={screens.md ? 3 : 5} $align="center"
-        >{`${data?.userId?.firstname} ${data?.userId?.lastname}`}</Typography.Title>
+        <Typography.Title level={3} $align="center">{name}</Typography.Title>
         <Flex justify="center" gap={4}>
-          <Image src={"/icons/leetcode.svg"} alt="" width={20} height={20} />
-          <Typography.Text>
-            {data?.acSubmissionList?.length * 10} Pts
-          </Typography.Text>
+          <Image src="/icons/leetcode.svg" alt="" width={20} height={20} />
+          <Typography.Text>{data.acSubmissionList.length * 10} Pts</Typography.Text>
         </Flex>
       </S.Content>
     </S.Main>

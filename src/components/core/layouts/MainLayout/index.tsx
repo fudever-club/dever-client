@@ -80,6 +80,7 @@ const MainLayout = ({
           lastname: res?.data?.lastname,
           avatar: res?.data?.avatar,
           nickname: res?.data?.nickname,
+          isAdmin: Boolean(res?.data?.isAdmin),
         })
       );
     } catch (error) {
@@ -156,13 +157,7 @@ const MainLayout = ({
               <S.MenuCustom
                 mode="inline"
                 defaultSelectedKeys={[pathname?.split("/")[2] || "members"]}
-                onClick={(e) => {
-                  if (e?.key !== "members" && e?.key !== "leetcode") {
-                    message.error(t("featureNotAvailable"));
-                    return;
-                  }
-                  router?.push(`/${localActive}/${e?.key}`);
-                }}
+                onClick={(e) => router?.push(`/${localActive}/${e?.key}`)}
                 items={sideBarMenuFormat}
               />
             </S.SiderContainer>
@@ -246,14 +241,7 @@ const MainLayout = ({
               <S.MenuCustom
                 mode="inline"
                 defaultSelectedKeys={[pathname?.split("/")[2] || "members"]}
-                onClick={(e) => {
-                  if (e?.key !== "members" && e?.key !== "leetcode") {
-                    message.error(t("featureNotAvailable"));
-                    return;
-                  }
-
-                  router?.push(`/${localActive}/${e?.key}`);
-                }}
+                onClick={(e) => router?.push(`/${localActive}/${e?.key}`)}
                 items={sideBarMenuFormat}
               />
             </S.SiderCustom>

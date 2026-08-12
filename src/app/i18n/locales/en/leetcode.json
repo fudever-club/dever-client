@@ -1,3 +1,9 @@
 {
-  "heading": "Leetcode Leaderboard"
+  "heading": "Leetcode Leaderboard",
+  "liveDescription": "Rankings are calculated from synchronized LeetCode data.",
+  "liveNotice": "Administrators refresh this data; it does not change simply by opening the page.",
+  "loadErrorTitle": "The leaderboard could not be loaded",
+  "loadErrorDescription": "Check your connection and try again.",
+  "retry": "Try again",
+  "emptyDescription": "No members have joined the leaderboard yet."
 }

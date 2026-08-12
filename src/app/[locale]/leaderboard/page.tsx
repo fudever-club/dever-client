@@ -1,164 +1,71 @@
 "use client";
 
-import { Flex, Table, TableColumnsType, Typography } from "antd";
-import React from "react";
+import { Avatar, Button, Empty, Result, Skeleton, Table, TableColumnsType, Tag, Typography } from "antd";
+import { useParams } from "next/navigation";
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  scoreQ1: number;
-  timeQ1: number;
-  scoreQ2: number;
-  timeQ2: number;
-  scoreQ3: number;
-  timeQ3: number;
-  totalScore: number;
-  totalTime: number;
+import { useTranslation } from "@/app/i18n/client";
+import { LeetcodeLeaderboardEntry } from "@/helpers/types/leetcodeTypes";
+import { useGetLeaderboardQuery } from "@/store/queries/leetcode";
+
+interface LeaderboardRow extends LeetcodeLeaderboardEntry {
+  key: string;
+  rank: number;
+  solved: number;
 }
 
-const columns: TableColumnsType<DataType> = [
-  {
-    title: "Họ và Tên",
-    dataIndex: "name",
-    key: "name",
-    width: 150,
-  },
-  {
-    title: "Câu hỏi số 1",
-    children: [
-      {
-        title: "Điểm",
-        dataIndex: "scoreQ1",
-        key: "scoreQ1",
-        width: 80,
-      },
-      {
-        title: "Thời gian",
-        dataIndex: "timeQ1",
-        key: "timeQ1",
-        width: 100,
-      },
-    ],
-  },
-  {
-    title: "Câu hỏi số 2",
-    children: [
-      {
-        title: "Điểm",
-        dataIndex: "scoreQ2",
-        key: "scoreQ2",
-        width: 80,
-      },
-      {
-        title: "Thời gian",
-        dataIndex: "timeQ2",
-        key: "timeQ2",
-        width: 100,
-      },
-    ],
-  },
-  {
-    title: "Câu hỏi số 3",
-    children: [
-      {
-        title: "Điểm",
-        dataIndex: "scoreQ3",
-        key: "scoreQ3",
-        width: 80,
-      },
-      {
-        title: "Thời gian",
-        dataIndex: "timeQ3",
-        key: "timeQ3",
-        width: 100,
-      },
-    ],
-  },
-  {
-    title: "Tổng",
-    children: [
-      {
-        title: "Điểm",
-        dataIndex: "totalScore",
-        key: "totalScore",
-        width: 80,
-      },
-      {
-        title: "Thời gian",
-        dataIndex: "totalTime",
-        key: "totalTime",
-        width: 100,
-      },
-    ],
-  },
-];
+const getName = (entry: LeetcodeLeaderboardEntry) =>
+  [entry.user?.firstname, entry.user?.lastname].filter(Boolean).join(" ").trim() || "Thành viên DEVER";
 
-const dataSource: DataType[] = [
-  {
-    key: 1,
-    name: "Dương Nguyễn Phú Quý",
-    scoreQ1: 90,
-    timeQ1: 588,
-    scoreQ2: 90,
-    timeQ2: 600,
-    scoreQ3: 95,
-    timeQ3: 600,
-    totalScore: 275,
-    totalTime: 1788,
-  },
-  {
-    key: 2,
-    name: "Lê Đức Anh Phương",
-    scoreQ1: 90,
-    timeQ1: 600,
-    scoreQ2: 84,
-    timeQ2: 600,
-    scoreQ3: 98,
-    timeQ3: 600,
-    totalScore: 272,
-    totalTime: 1800,
-  },
-  {
-    key: 3,
-    name: "Nguyễn Văn Duy Khang",
-    scoreQ1: 88,
-    timeQ1: 600,
-    scoreQ2: 85,
-    timeQ2: 844,
-    scoreQ3: 89,
-    timeQ3: 597,
-    totalScore: 262,
-    totalTime: 2041,
-  },
-];
+const getInitials = (entry: LeetcodeLeaderboardEntry) =>
+  getName(entry).split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
 
-function DashboardPage() {
+function PublicLeaderboardPage() {
+  const params = useParams();
+  const { t } = useTranslation(params.locale as string, "leetcode");
+  const { data, isLoading, isError, refetch } = useGetLeaderboardQuery(undefined);
+  const rows: LeaderboardRow[] = (data?.data ?? []).map((entry: LeetcodeLeaderboardEntry, index: number) => ({
+    ...entry,
+    key: `${entry.leetcodeUsername}-${index}`,
+    rank: index + 1,
+    solved: entry.acSubmissionList?.length ?? 0,
+  }));
+
+  const columns: TableColumnsType<LeaderboardRow> = [
+    { title: "#", dataIndex: "rank", width: 64, align: "center" },
+    {
+      title: "Thành viên",
+      key: "member",
+      render: (_, row) => (
+        <div className="flex items-center gap-3">
+          <Avatar src={row.user?.avatar || undefined}>{getInitials(row)}</Avatar>
+          <div>
+            <div className="font-medium text-slate-900">{getName(row)}</div>
+            <div className="text-xs text-slate-500">@{row.leetcodeUsername}</div>
+          </div>
+        </div>
+      ),
+    },
+    { title: "Đã giải", dataIndex: "solved", width: 120, align: "right", render: (solved) => `${solved} AC` },
+    { title: "Điểm", key: "score", width: 120, align: "right", render: (_, row) => <Tag color="blue">{row.solved * 10} Pts</Tag> },
+  ];
+
   return (
-    <Flex
-      vertical
-      gap={16}
-      style={{
-        padding: "40px 10px",
-      }}
-    >
-      <Typography.Title
-        style={{
-          textAlign: "center",
-        }}
-      >
-        Bảng xếp hạng
-      </Typography.Title>
-      <Typography.Text>Ngày 23/06/2023</Typography.Text>
-      <Table<DataType>
-        // className={styles.customTable}
-        columns={columns}
-        dataSource={dataSource}
-        bordered
-        size="middle"
-        scroll={{ x: "calc(700px + 50%)", y: 47 * 5 }}
-      />
-    </Flex>
+    <main className="mx-auto min-h-screen w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      <header className="mb-8 text-center">
+        <Typography.Title level={1} className="!mb-3 !text-[#0066CC]">{t("heading")}</Typography.Title>
+        <Typography.Paragraph type="secondary">{t("liveDescription")}</Typography.Paragraph>
+      </header>
+
+      {isLoading && <Skeleton active paragraph={{ rows: 8 }} />}
+      {isError && <Result status="error" title={t("loadErrorTitle")} subTitle={t("loadErrorDescription")} extra={<Button type="primary" onClick={() => refetch()}>{t("retry")}</Button>} />}
+      {!isLoading && !isError && rows.length === 0 && <Empty description={t("emptyDescription")} />}
+      {!isLoading && !isError && rows.length > 0 && (
+        <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <Table<LeaderboardRow> columns={columns} dataSource={rows} pagination={{ pageSize: 10, showSizeChanger: false }} scroll={{ x: 640 }} />
+        </section>
+      )}
+    </main>
   );
 }
 
-export default DashboardPage;
+export default PublicLeaderboardPage;

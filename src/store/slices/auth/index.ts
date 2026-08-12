@@ -11,6 +11,7 @@ interface UserStateInfo {
   email: string | null;
   avatar: string | null;
   nickname: string | null;
+  isAdmin: boolean | null;
 }
 interface AuthSlickInterface {
   userInfo: UserStateInfo;
@@ -25,6 +26,7 @@ const initialState: AuthSlickInterface = {
     email: null,
     avatar: null,
     nickname:null,
+    isAdmin: null,
   },
   access_token: null,
 };

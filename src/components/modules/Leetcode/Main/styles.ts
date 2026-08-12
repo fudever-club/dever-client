@@ -153,3 +153,9 @@ export const RankCard = styled.div`
     padding: 10px 20px;
   }
 `;
+
+export const Username = styled.div`
+  margin-top: 2px;
+  color: ${(props) => props.theme.colors.secondary};
+  font-size: 12px;
+`;

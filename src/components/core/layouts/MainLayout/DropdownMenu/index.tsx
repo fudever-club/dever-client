@@ -68,12 +68,14 @@ function DropdownMenu() {
       </Flex>
       <Divider $margin={8} />
       <div className="flex flex-col gap-1 p-1">
-        <a
-          href={`/${locale}/create-blog`}
-          className="text-xs font-bold text-[#0098FF] hover:text-[#0064C8] flex items-center gap-2 p-1.5 rounded bg-blue-50/80 hover:bg-blue-100/80 transition-colors"
-        >
-          <span>✍️</span> Đăng Bài Tech Blog Mới
-        </a>
+        {userInfo.isAdmin === true && (
+          <a
+            href={`/${locale}/create-blog`}
+            className="text-xs font-bold text-[#0098FF] hover:text-[#0064C8] flex items-center gap-2 p-1.5 rounded bg-blue-50/80 hover:bg-blue-100/80 transition-colors"
+          >
+            <span>✍️</span> Đăng Bài Tech Blog Mới
+          </a>
+        )}
         <a
           href="https://fu-dever-landingpage-v2.vercel.app"
           target="_blank"

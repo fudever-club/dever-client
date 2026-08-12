@@ -51,6 +51,12 @@
   "workspace": "Workspace",
   "enterWorkspace": "Example: Fu-Dever Club",
   "leetcode": "Leetcode",
+  "leetcodeUsername": "LeetCode username",
+  "leetcodeUsernamePlaceholder": "Enter your LeetCode username",
+  "leetcodeUpdateHint": "Your username is saved immediately. The leaderboard is refreshed by administrators.",
+  "leetcodeSaving": "Saving…",
+  "leetcodeUpdateSuccess": "Your LeetCode username has been saved.",
+  "leetcodeUpdateError": "Your LeetCode username could not be saved. Please try again.",
 
   "THUKYBANSUKIEN": "Secretary of Events",
   "MEMBER": "Member",

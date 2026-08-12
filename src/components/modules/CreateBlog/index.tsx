@@ -14,6 +14,8 @@ import {
   Tag,
   Row,
   Col,
+  Alert,
+  Result,
 } from "antd";
 import {
   EditOutlined,
@@ -28,6 +30,8 @@ import {
 } from "@ant-design/icons";
 import { useRouter } from "next-nprogress-bar";
 import { useLocale } from "next-intl";
+import { useAppSelector } from "@/hooks/redux-toolkit";
+import webStorageClient from "@/utils/webStorageClient";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -61,6 +65,7 @@ export default function CreateBlogModule() {
   const [content, setContent] = useState("");
   const router = useRouter();
   const locale = useLocale();
+  const { userInfo } = useAppSelector((state) => state.auth);
 
   const handleInsertTag = (tag: string) => {
     const updated = (content ? content + "\n" : "") + tag;
@@ -71,31 +76,39 @@ export default function CreateBlogModule() {
   const onFinish = async (values: any) => {
     setLoading(true);
     const API_SERVER = process.env.NEXT_PUBLIC_API_SERVER || "http://localhost:5000";
+    const token = webStorageClient.getToken();
+
+    if (!token) {
+      message.error("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+      setLoading(false);
+      router.push(`/${locale}/sign-in`);
+      return;
+    }
 
     try {
       const res = await fetch(`${API_SERVER}/api/v1/blogs`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           title: values.title,
           category: values.category,
           excerpt: values.excerpt,
           content: values.content,
-          coverImage: formatImageUrl(values.coverImage || coverUrl || "/images/dever_blog_hero.png"),
-          author: {
-            name: "Lê Đức Anh Phương",
-            role: "Lead Developer",
-            avatar: "https://i.ibb.co/TgXZgwv/445356269-973328174802658-3860307921523704298-n.jpg",
-          },
+          coverImage: formatImageUrl(values.coverImage || coverUrl),
         }),
       });
 
       const json = await res.json();
-      if (json.status === "success") {
-        message.success("🎉 Đăng bài viết Tech Blog thành công! Bài viết đã được lưu vào Database MongoDB.");
+      if (res.ok && json.status === "success") {
+        message.success("Bài viết Tech Blog đã được xuất bản.");
         router.push(`/${locale}/members`);
+      } else if (res.status === 401 || res.status === 403) {
+        message.error("Chỉ Ban quản trị mới có thể xuất bản bài viết. Vui lòng dùng tài khoản quản trị.");
       } else {
-        message.error("Có lỗi xảy ra khi xuất bản bài viết!");
+        message.error(json?.message || "Có lỗi xảy ra khi xuất bản bài viết.");
       }
     } catch (err) {
       message.error("Không thể kết nối đến Express Backend API!");
@@ -103,6 +116,21 @@ export default function CreateBlogModule() {
       setLoading(false);
     }
   };
+
+  if (userInfo.isAdmin === null) {
+    return <div style={{ maxWidth: 1000, margin: "0 auto", padding: "24px 16px" }}><Card loading /></div>;
+  }
+
+  if (userInfo.isAdmin !== true) {
+    return (
+      <Result
+        status="403"
+        title="Khu vực xuất bản dành cho Ban quản trị"
+        subTitle="Tài khoản thành viên vẫn có thể đọc và chia sẻ bài viết công khai. Hãy liên hệ Ban quản trị nếu cần đăng bài."
+        extra={<Button type="primary" onClick={() => router.push(`/${locale}/members`)}>Về trang thành viên</Button>}
+      />
+    );
+  }
 
   return (
     <div style={{ maxWidth: 1000, margin: "0 auto", padding: "24px 16px" }}>
@@ -121,9 +149,16 @@ export default function CreateBlogModule() {
             Tạo Bài Viết Tech Blog Mới
           </Title>
           <Text type="secondary">
-            Chia sẻ kiến thức lập trình, kinh nghiệm thi đấu và dự án thực tế cùng các thành viên CLB.
+            Xuất bản nội dung đã được Ban quản trị kiểm duyệt. Tác giả được lấy từ tài khoản hiện tại.
           </Text>
         </div>
+        <Alert
+          showIcon
+          type="info"
+          message="Nội dung được xuất bản công khai"
+          description="Kiểm tra tiêu đề, ảnh bìa và nội dung trước khi đăng."
+          style={{ marginBottom: 24 }}
+        />
 
         <Form
           form={form}

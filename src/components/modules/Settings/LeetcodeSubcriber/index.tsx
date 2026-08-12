@@ -2,29 +2,20 @@
 
 import * as S from "./styles";
 
-import React, { useEffect, useRef, useState } from "react";
-import { TweenOneGroup } from "rc-tween-one";
+import React, { useEffect } from "react";
 import {
   Button,
   Form,
   Input,
-  InputRef,
   message,
   Skeleton,
-  Tag,
-  theme,
 } from "antd";
 import { useParams } from "next/navigation";
 
 import { UserInfo } from "@/helpers/types/userTypes";
 import Typography from "@/components/core/common/Typography";
-import { PlusOutlined } from "@ant-design/icons";
-import { useUpdateUserProfileMutation } from "@/store/queries/settings";
 import { useTranslation } from "@/app/i18n/client";
-import {
-  useSubscribeLeaderboardMutation,
-  useUpdateLeetcodeMutation,
-} from "@/store/queries/leetcode";
+import { useSubscribeLeaderboardMutation } from "@/store/queries/leetcode";
 
 interface IProps {
   isUserProfileLoading: boolean;
@@ -35,28 +26,30 @@ interface IUpdateData {
   leetcodeUsername: string;
 }
 
-function LeetcodeSubcriber({ userData }: IProps) {
+function LeetcodeSubcriber({ isUserProfileLoading, userData }: IProps) {
   const params = useParams();
   const { t } = useTranslation(params?.locale as string, "settings");
 
   const [form] = Form.useForm();
 
-  const [subscribeLeaderboard] = useSubscribeLeaderboardMutation();
-  const [updateLeetcode, { isLoading }] = useUpdateLeetcodeMutation();
+  const [subscribeLeaderboard, { isLoading }] = useSubscribeLeaderboardMutation();
 
   const onFishish = async (values: any) => {
     try {
       await subscribeLeaderboard(values).unwrap();
-      await updateLeetcode(null).unwrap();
-      message.success(t("updateSuccess"));
+      message.success(t("leetcodeUpdateSuccess"));
     } catch (error) {
-      message.error(t("updateError"));
+      message.error(t("leetcodeUpdateError"));
     }
   };
 
   useEffect(() => {
     form?.setFieldsValue(userData);
   }, [userData, form]);
+
+  if (isUserProfileLoading) {
+    return <Skeleton active paragraph={{ rows: 3 }} />;
+  }
 
   return (
     <S.ContainerWrapper>
@@ -67,6 +60,7 @@ function LeetcodeSubcriber({ userData }: IProps) {
             <Form.Item<IUpdateData>
               label={t("leetcodeUsername")}
               name="leetcodeUsername"
+              extra={t("leetcodeUpdateHint")}
               rules={[
                 {
                   required: true,
@@ -74,11 +68,11 @@ function LeetcodeSubcriber({ userData }: IProps) {
                 },
               ]}
             >
-              <Input placeholder="Leetcode username" />
+              <Input placeholder={t("leetcodeUsernamePlaceholder")} disabled={isLoading} />
             </Form.Item>
             <S.FormItemNotMB>
               <Button htmlType="submit" type="primary" loading={isLoading}>
-                {t("update")}
+                {isLoading ? t("leetcodeSaving") : t("update")}
               </Button>
             </S.FormItemNotMB>
           </Form>
