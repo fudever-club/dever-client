@@ -1,6 +1,6 @@
 "use client";
 
-import { Flex, Grid, Layout, Popover, message } from "antd";
+import { Button, Flex, Grid, Layout, Popover, message } from "antd";
 import { useLocale } from "next-intl";
 import { AppProgressBar, useRouter } from "next-nprogress-bar";
 import Image from "next/image";
@@ -16,6 +16,7 @@ import React, {
 import LoadingScreen from "../../common/LoadingScreen";
 import Typography from "../../common/Typography";
 import DropdownMenu from "./DropdownMenu";
+import EcosystemSwitcher from "./EcosystemSwitcher";
 import SelectLanguage from "./SelectLanguage";
 
 import { useTranslation } from "@/app/i18n/client";
@@ -27,7 +28,7 @@ import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { assignUserInfo } from "@/store/slices/auth";
 import themeColors from "@/style/themes/default/colors";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { AppstoreOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import * as S from "./styles";
 import { UserInfo } from "@/helpers/types/userTypes";
@@ -54,6 +55,7 @@ const MainLayout = ({
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [collapsedMobile, setCollapsedMobile] = useState<boolean>(true);
   const [isShowMenu, setIsShowMenu] = useState<boolean>(false);
+  const [isShowSwitcher, setIsShowSwitcher] = useState<boolean>(false);
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
   const { userInfo } = useAppSelector((state) => state.auth);
@@ -70,7 +72,6 @@ const MainLayout = ({
         webStorageClient.get("_access_token") || "??"
       ).unwrap();
       setIsAuth(true);
-      message.success(t("checkedAccess"));
 
       dispatch(
         assignUserInfo({
@@ -156,7 +157,7 @@ const MainLayout = ({
               </S.LogoWrapper>
               <S.MenuCustom
                 mode="inline"
-                defaultSelectedKeys={[pathname?.split("/")[2] || "members"]}
+                selectedKeys={[pathname?.split("/")[2] || "dashboard"]}
                 onClick={(e) => router?.push(`/${localActive}/${e?.key}`)}
                 items={sideBarMenuFormat}
               />
@@ -193,8 +194,18 @@ const MainLayout = ({
                 </div>
               </S.LogoWrapper>
             </S.HeaderContainerWrapper>
-            <Flex align="center" gap={20}>
+            <Flex align="center" gap={8}>
               <SelectLanguage />
+              <Popover
+                content={<EcosystemSwitcher isAdmin={Boolean(userInfo.isAdmin)} />}
+                title="Chuyển không gian"
+                trigger="click"
+                open={isShowSwitcher}
+                onOpenChange={setIsShowSwitcher}
+                placement="bottomRight"
+              >
+                <Button type="text" shape="circle" size="large" aria-label="Mở hệ sinh thái DEVER" icon={<AppstoreOutlined />} />
+              </Popover>
               <Popover
                 content={<DropdownMenu />}
                 trigger="click"
@@ -240,7 +251,7 @@ const MainLayout = ({
             >
               <S.MenuCustom
                 mode="inline"
-                defaultSelectedKeys={[pathname?.split("/")[2] || "members"]}
+                selectedKeys={[pathname?.split("/")[2] || "dashboard"]}
                 onClick={(e) => router?.push(`/${localActive}/${e?.key}`)}
                 items={sideBarMenuFormat}
               />

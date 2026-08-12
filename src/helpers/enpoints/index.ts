@@ -37,6 +37,13 @@ const endpointLeetcode = {
   UPDATE: `${prefixBase}/leetcode/update`,
 };
 
+const endpointEcosystem = {
+  EVENTS: `${prefixBase}/events`,
+  RESOURCES: `${prefixBase}/resources`,
+  BLOGS: `${prefixBase}/blogs`,
+  PROJECT_LAB: `${prefixBase}/project-lab`,
+};
+
 const endpointOther = {};
 
 export {
@@ -46,4 +53,5 @@ export {
   endpointSettings,
   endpointProfile,
   endpointLeetcode,
+  endpointEcosystem,
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import { CodeOutlined, FireOutlined } from "@ant-design/icons";
 
 import { LeetcodeSubmission } from "@/helpers/types/leetcodeTypes";
 
@@ -74,7 +75,7 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
       <div className="flex flex-col justify-between gap-4 border-b border-slate-100 pb-4 md:flex-row md:items-center dark:border-slate-800">
         <div className="flex items-center gap-3">
           <div className="rounded-xl border border-[#0066CC]/20 bg-[#0066CC]/10 p-2.5 text-[#0066CC]" aria-hidden="true">
-            <span className="text-lg">⌘</span>
+            <CodeOutlined className="text-lg" />
           </div>
           <div>
             <h3 className="text-base font-semibold text-slate-900 dark:text-white">Hoạt động LeetCode của CLB</h3>
@@ -82,7 +83,7 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
           </div>
         </div>
         <div className="flex items-center gap-2 text-xs font-semibold">
-          <span className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-amber-700 dark:text-amber-300">🔥 {streakDays} ngày liên tiếp</span>
+          <span className="inline-flex items-center gap-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-amber-700 dark:text-amber-300"><FireOutlined aria-hidden="true" /> {streakDays} ngày liên tiếp</span>
           <span className="rounded-lg bg-[#0066CC] px-3.5 py-1.5 font-bold text-white shadow-md shadow-[#0066CC]/20">Tổng AC: {totalAC}</span>
         </div>
       </div>

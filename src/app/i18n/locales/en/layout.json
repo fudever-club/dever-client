@@ -1,6 +1,8 @@
 {
+  "dashboard": "Home",
   "leetcode": "Leetcode",
   "allMember": "All Member",
+  "discover": "Explore DEVER",
   "foundation": "Foundation",
   "love": "Love Matching",
   "history": "History Club",

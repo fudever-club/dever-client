@@ -103,7 +103,7 @@ export default function CreateBlogModule() {
 
       const json = await res.json();
       if (res.ok && json.status === "success") {
-        message.success("Bài viết Tech Blog đã được xuất bản.");
+        message.success("Bài viết chia sẻ đã được xuất bản.");
         router.push(`/${locale}/members`);
       } else if (res.status === 401 || res.status === 403) {
         message.error("Chỉ Ban quản trị mới có thể xuất bản bài viết. Vui lòng dùng tài khoản quản trị.");
@@ -143,10 +143,10 @@ export default function CreateBlogModule() {
       >
         <div style={{ marginBottom: 24, textAlign: "center" }}>
           <Tag color="processing" style={{ borderRadius: 12, padding: "4px 12px", fontSize: 12, fontWeight: 700 }}>
-            ✍️ SÁNG TẠO NỘI DUNG FU-DEVER (MONGODB LIVE)
+            <EditOutlined aria-hidden="true" /> SÁNG TẠO NỘI DUNG FU-DEVER
           </Tag>
           <Title level={2} style={{ margin: "12px 0 4px", color: "#0066CC" }}>
-            Tạo Bài Viết Tech Blog Mới
+            Tạo bài viết chia sẻ
           </Title>
           <Text type="secondary">
             Xuất bản nội dung đã được Ban quản trị kiểm duyệt. Tác giả được lấy từ tài khoản hiện tại.
@@ -333,7 +333,7 @@ export default function CreateBlogModule() {
                 paddingRight: 28,
               }}
             >
-              Đăng Bài Ngay 🚀
+              Đăng bài ngay
             </Button>
           </div>
         </Form>

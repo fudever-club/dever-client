@@ -12,6 +12,7 @@ export interface UserInfo {
   isAdmin: boolean;
   isExcellent: boolean;
   job: string;
+  leetcodeUsername?: string;
   lastname: string;
   nickname: string;
   phone: string;

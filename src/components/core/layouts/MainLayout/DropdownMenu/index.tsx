@@ -67,33 +67,6 @@ function DropdownMenu() {
         </Flex>
       </Flex>
       <Divider $margin={8} />
-      <div className="flex flex-col gap-1 p-1">
-        {userInfo.isAdmin === true && (
-          <a
-            href={`/${locale}/create-blog`}
-            className="text-xs font-bold text-[#0098FF] hover:text-[#0064C8] flex items-center gap-2 p-1.5 rounded bg-blue-50/80 hover:bg-blue-100/80 transition-colors"
-          >
-            <span>✍️</span> Đăng Bài Tech Blog Mới
-          </a>
-        )}
-        <a
-          href="https://fu-dever-landingpage-v2.vercel.app"
-          target="_blank"
-          rel="noreferrer"
-          className="text-xs text-gray-700 hover:text-[#0098FF] flex items-center gap-2 p-1.5 rounded hover:bg-blue-50 transition-colors"
-        >
-          <span>🌐</span> Trang Chủ Landing Page
-        </a>
-        <a
-          href="https://dever-admin-lac.vercel.app/vi/sign-in"
-          target="_blank"
-          rel="noreferrer"
-          className="text-xs text-gray-700 hover:text-[#0098FF] flex items-center gap-2 p-1.5 rounded hover:bg-blue-50 transition-colors"
-        >
-          <span>🛡️</span> Cổng Admin Portal
-        </a>
-      </div>
-      <Divider $margin={4} />
       <S.MenuCustom
         items={sideBarMenuFormat}
         onClick={(e) => handleClickItem(e?.key)}

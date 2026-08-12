@@ -10,6 +10,8 @@ import {
   Flex,
   Grid,
   List,
+  Pagination,
+  Result,
   Row,
   Select,
   SelectProps,
@@ -61,23 +63,20 @@ function AllMemberModule() {
 
   const { t } = useTranslation(params?.locale as string, "allMember");
 
-  const { result, total, isFetching, refetch } = useGetAllUsersQuery(
+  const { result, total, isFetching, isError, refetch } = useGetAllUsersQuery(
     {
       page: page,
-      page_size: 10,
+      limit: 12,
       search: search,
-      filter: JSON.stringify({ positionId, departments, majorId, kGeneration }),
+      filter: JSON.stringify({ positionId, departments, majorId, gen: kGeneration }),
     },
     {
-      selectFromResult: ({ data, isFetching }) => {
-        const newDataUsers = data?.data?.users?.map((user: any) => ({
-          name: `${user?.firstname} ${user?.lastname}`,
-          ...user,
-        }));
+      selectFromResult: ({ data, isFetching, isError }) => {
         return {
           result: data?.data?.users ?? [],
-          total: data?.result ?? 0,
+          total: data?.total ?? 0,
           isFetching,
+          isError,
         };
       },
     }
@@ -149,6 +148,9 @@ function AllMemberModule() {
   const handleFilterDepartment = _.debounce((e) => {
     router.push(createQueryString("departments", `${e ?? ""}`));
   }, 300);
+  const handlePageChange = (nextPage: number) => {
+    router.push(createQueryString("page", `${nextPage}`));
+  };
 
   return (
     <S.PageWrapper>
@@ -290,8 +292,9 @@ function AllMemberModule() {
         ) : null}
       </S.Head>
       <S.CustomContent>
-        <S.ComponentsWrapper>
-          {isFetching ? (
+        <div className="w-full space-y-6">
+          <S.ComponentsWrapper>
+            {isFetching ? (
             <>
               <Row gutter={16}>
                 {Array.from({ length: 20 }).map((_, index) => (
@@ -307,7 +310,14 @@ function AllMemberModule() {
                 ))}
               </Row>
             </>
-          ) : (
+            ) : isError ? (
+            <Result
+              status="error"
+              title="Không thể tải danh sách thành viên"
+              subTitle="Vui lòng kiểm tra kết nối và thử lại."
+              extra={<Button type="primary" onClick={() => refetch()}>Thử lại</Button>}
+            />
+            ) : (
             <Row gutter={16}>
               {result.map((item: UserInfo, index: number) => {
                 return (
@@ -316,16 +326,32 @@ function AllMemberModule() {
                   </Col>
                 );
               })}
-              {result.length == 0 && (
-                <div style={{ width: "100%" }}>
-                  <List></List>
-                </div>
+              {result.length === 0 && (
+                <Col span={24}>
+                  <EmptyState onReset={() => router.push("?")} />
+                </Col>
               )}
             </Row>
+            )}
+          </S.ComponentsWrapper>
+          {!isFetching && !isError && total > 12 && (
+            <div className="flex w-full justify-center border-t border-slate-100 pt-5">
+              <Pagination current={page} pageSize={12} total={total} showSizeChanger={false} onChange={handlePageChange} />
+            </div>
           )}
-        </S.ComponentsWrapper>
+        </div>
       </S.CustomContent>
     </S.PageWrapper>
+  );
+}
+
+function EmptyState({ onReset }: { onReset: () => void }) {
+  return (
+    <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-10 text-center">
+      <Typography.Title level={4}>Không tìm thấy thành viên phù hợp</Typography.Title>
+      <Typography.Paragraph type="secondary">Hãy đổi từ khoá hoặc xoá bớt bộ lọc để xem lại danh bạ.</Typography.Paragraph>
+      <Button onClick={onReset}>Xoá bộ lọc</Button>
+    </div>
   );
 }
 
