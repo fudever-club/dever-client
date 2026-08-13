@@ -36,7 +36,7 @@ function FavouritiesChange({ isUserProfileLoading, userData }: IProps) {
         favourites: tags ?? [],
       };
       setIsHaveNewTag(false);
-      await updateUserProfile(data);
+      await updateUserProfile(data).unwrap();
       message.success(t("updateSuccess"));
     } catch (error) {
       message.error(t("updateError"));

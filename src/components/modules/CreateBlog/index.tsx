@@ -75,7 +75,9 @@ export default function CreateBlogModule() {
 
   const onFinish = async (values: any) => {
     setLoading(true);
-    const API_SERVER = process.env.NEXT_PUBLIC_API_SERVER || "http://localhost:5000";
+    const API_SERVER =
+      process.env.NEXT_PUBLIC_API_SERVER ||
+      "https://dever-backend-production.up.railway.app";
     const token = webStorageClient.getToken();
 
     if (!token) {

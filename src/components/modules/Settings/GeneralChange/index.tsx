@@ -63,7 +63,7 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
 
   const onFinish: FormProps<IUpdateValues>["onFinish"] = async (values) => {
     try {
-      const res = await updateUserProfile(values);
+      await updateUserProfile(values).unwrap();
       dispatch(
         applyChangeName({
           firstname: values.firstname,

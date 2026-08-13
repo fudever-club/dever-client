@@ -24,7 +24,7 @@ Next.js 14 App Router, TypeScript, Ant Design, Redux Toolkit Query, and `next-in
 
 ## Run locally
 
-Requires Node.js 20+ and a running DEVER backend.
+Requires Node.js 20+. By default, the local portal uses the production DEVER API on Railway.
 
 ```bash
 npm ci
@@ -32,14 +32,21 @@ Copy-Item .env.example .env.local
 npm run dev -- -p 3002
 ```
 
-Set the following in `.env.local`:
+Set the following production API configuration in `.env.local`:
+
+```env
+NEXT_PUBLIC_API_SERVER=https://dever-backend-production.up.railway.app
+NEXT_PUBLIC_ASSETS_URL=https://dever-backend-production.up.railway.app/static
+```
+
+Only when intentionally running the Backend locally, replace those values with:
 
 ```env
 NEXT_PUBLIC_API_SERVER=http://localhost:5000
 NEXT_PUBLIC_ASSETS_URL=http://localhost:5000/static
 ```
 
-Open [http://localhost:3002/vi/sign-in](http://localhost:3002/vi/sign-in). Use the production API URL when deploying the portal.
+Open [http://localhost:3002/vi/sign-in](http://localhost:3002/vi/sign-in) for local development. This browser address is expected for `next dev`; it does not mean the portal is using a local Backend. For the deployed portal, open [the production Client](https://dever-client-taupe.vercel.app/vi/sign-in).
 
 ## Quality checks
 

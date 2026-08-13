@@ -10,6 +10,7 @@ export interface UserInfo {
   gen: number;
   hometown: string;
   isAdmin: boolean;
+  isLeader: boolean;
   isExcellent: boolean;
   job: string;
   leetcodeUsername?: string;

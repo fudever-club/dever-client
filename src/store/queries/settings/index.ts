@@ -14,6 +14,7 @@ export const authAPI = baseApi.injectEndpoints({
         method: "GET",
         flashError: true,
       }),
+      providesTags: (_result, _error, id) => [{ type: "Profile", id }],
     }),
 
     updateUserProfile: build.mutation({
@@ -23,6 +24,7 @@ export const authAPI = baseApi.injectEndpoints({
         body: body,
         flashError: true,
       }),
+      invalidatesTags: ["Profile"],
     }),
 
     changePassword: build.mutation({

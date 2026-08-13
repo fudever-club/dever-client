@@ -82,6 +82,7 @@ const MainLayout = ({
           avatar: res?.data?.avatar,
           nickname: res?.data?.nickname,
           isAdmin: Boolean(res?.data?.isAdmin),
+          isLeader: Boolean(res?.data?.isLeader),
         })
       );
     } catch (error) {
