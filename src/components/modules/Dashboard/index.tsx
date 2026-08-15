@@ -20,6 +20,8 @@ import { useAppSelector } from "@/hooks/redux-toolkit";
 import { useGetMyProfileQuery } from "@/store/queries/settings";
 import { useGetBlogsQuery, useGetEventsQuery, useGetProjectLabsQuery, useGetResourcesQuery } from "@/store/queries/ecosystem";
 import { useGetLeaderboardQuery } from "@/store/queries/leetcode";
+import LevelProgressCard from "@/components/ui/Gamification/LevelProgressCard";
+import BadgeShowcaseGrid from "@/components/ui/Gamification/BadgeShowcaseGrid";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -49,17 +51,12 @@ function Dashboard() {
   };
 
   return (
-    <main className="mx-auto w-full max-w-7xl space-y-6 px-1 pb-4 sm:px-2">
-      <section className="rounded-2xl border border-blue-100 bg-gradient-to-br from-[#004C99] to-[#0066CC] p-6 text-white shadow-sm sm:p-8">
-        <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-          <div className="max-w-2xl">
-            <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold"><CheckCircleOutlined /> Không gian thành viên</span>
-            <Title level={1} className="!mb-2 !text-3xl !text-white sm:!text-4xl">Chào {getDisplayName(profile)}</Title>
-            <Paragraph className="!mb-0 !text-base !text-blue-100">Theo dõi hồ sơ, hoạt động học tập và những cập nhật mới nhất từ FU-DEVER ở một nơi.</Paragraph>
-          </div>
-          <Button size="large" icon={<EditOutlined />} onClick={() => router.push(`/${locale}/settings`)} className="!h-11 !border-white/40 !bg-white !font-semibold !text-[#0066CC]">Cập nhật hồ sơ</Button>
-        </div>
-      </section>
+    <main className="mx-auto w-full max-w-7xl space-y-6 px-1 pb-8 sm:px-2">
+      {/* Top Level & Gamification EXP Banner */}
+      <LevelProgressCard />
+
+      {/* 3D SVG Badges Showcase Grid */}
+      <BadgeShowcaseGrid />
 
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={14}>

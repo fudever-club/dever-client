@@ -5,11 +5,14 @@ interface EcosystemSwitcherProps {
 }
 
 function EcosystemSwitcher({ isAdmin }: EcosystemSwitcherProps) {
+  const landingUrl = process.env.NEXT_PUBLIC_LANDING_URL || "http://localhost:3000";
+  const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:3003";
+
   return (
     <div className="w-64 space-y-1 p-1">
       <p className="px-2 pb-1 pt-1 text-xs font-semibold uppercase tracking-wide text-slate-400">Hệ sinh thái DEVER</p>
       <a
-        href="https://fu-dever-landingpage-v2.vercel.app"
+        href={landingUrl}
         target="_blank"
         rel="noreferrer"
         className="flex items-start gap-3 rounded-xl p-3 text-slate-700 transition-colors hover:bg-blue-50 hover:text-[#0066CC]"
@@ -19,7 +22,7 @@ function EcosystemSwitcher({ isAdmin }: EcosystemSwitcherProps) {
       </a>
       {isAdmin && (
         <a
-          href="https://dever-admin-lac.vercel.app/vi/sign-in"
+          href={adminUrl}
           target="_blank"
           rel="noreferrer"
           className="flex items-start gap-3 rounded-xl p-3 text-slate-700 transition-colors hover:bg-blue-50 hover:text-[#0066CC]"

@@ -44,6 +44,12 @@ const endpointEcosystem = {
   PROJECT_LAB: `${prefixBase}/project-lab`,
 };
 
+const endpointGamification = {
+  MY_STATS: `${prefixBase}/gamification/my-stats`,
+  DAILY_CHECKIN: `${prefixBase}/gamification/daily-checkin`,
+  HALL_OF_FAME: `${prefixBase}/gamification/hall-of-fame`,
+};
+
 const endpointOther = {};
 
 export {
@@ -54,4 +60,5 @@ export {
   endpointProfile,
   endpointLeetcode,
   endpointEcosystem,
+  endpointGamification,
 };

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
 
 import Providers from "@/providers";
+import "@/app/globals.css";
 
 const deverSans = Be_Vietnam_Pro({
   subsets: ["latin", "vietnamese"],

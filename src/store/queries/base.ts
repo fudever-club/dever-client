@@ -17,6 +17,6 @@ const baseQuery = fetchBaseQuery({
 
 export const baseApi = createApi({
   baseQuery: baseQuery,
-  tagTypes: ["Profile"],
+  tagTypes: ["Profile", "Gamification"],
   endpoints: () => ({}),
 });
