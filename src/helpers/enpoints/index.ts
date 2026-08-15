@@ -37,6 +37,19 @@ const endpointLeetcode = {
   UPDATE: `${prefixBase}/leetcode/update`,
 };
 
+const endpointEcosystem = {
+  EVENTS: `${prefixBase}/events`,
+  RESOURCES: `${prefixBase}/resources`,
+  BLOGS: `${prefixBase}/blogs`,
+  PROJECT_LAB: `${prefixBase}/project-lab`,
+};
+
+const endpointGamification = {
+  MY_STATS: `${prefixBase}/gamification/my-stats`,
+  DAILY_CHECKIN: `${prefixBase}/gamification/daily-checkin`,
+  HALL_OF_FAME: `${prefixBase}/gamification/hall-of-fame`,
+};
+
 const endpointOther = {};
 
 export {
@@ -46,4 +59,6 @@ export {
   endpointSettings,
   endpointProfile,
   endpointLeetcode,
+  endpointEcosystem,
+  endpointGamification,
 };

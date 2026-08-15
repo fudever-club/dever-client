@@ -34,7 +34,7 @@ function SkillsChange({ isUserProfileLoading, userData }: IProps) {
       const data = {
         skills: tags ?? [],
       };
-      await updateUserProfile(data);
+      await updateUserProfile(data).unwrap();
       setIsHaveNewTag(false);
       message.success(t("updateSuccess"));
     } catch (error) {

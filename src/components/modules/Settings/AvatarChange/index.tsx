@@ -71,7 +71,7 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
           avatar: res?.data?.data?.url,
         };
 
-        updateUserProfile(data).unwrap();
+        await updateUserProfile(data).unwrap();
         webStorageClient.set(constants.AVT, res?.data?.data?.url);
         dispatch(applyChangeAvatar(res?.data?.data?.url));
         message.success(t("updateSuccess"));
@@ -97,7 +97,7 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
               />
             ) : (
               <Image
-                src={imageUrl == "" ? userInfo.avatar! : imageUrl}
+                src={imageUrl || userInfo.avatar || "/images/avatar/avatar.jpg"}
                 width={500}
                 height={500}
                 alt="avatar"

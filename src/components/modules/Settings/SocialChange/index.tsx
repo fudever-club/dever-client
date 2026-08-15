@@ -111,8 +111,8 @@ function SocialChange({
       dataArray.push(forUpdateValue);
     }
     try {
-      const res = await updateUserProfile({ socials: dataArray });
-      setSocialData(res?.data?.data?.socials);
+      const res = await updateUserProfile({ socials: dataArray }).unwrap();
+      setSocialData(res?.data?.socials ?? []);
       setIsEdit(false);
       message.success(t("updateSuccess"));
     } catch (error) {
@@ -130,7 +130,7 @@ function SocialChange({
     });
     try {
       message.info(t("disconnecting"));
-      const res = await updateUserProfile({ socials: dataToUpdate });
+      await updateUserProfile({ socials: dataToUpdate }).unwrap();
       setSocialData([...newFilteredList]);
       message.success(t("disconnected"));
     } catch (error) {
