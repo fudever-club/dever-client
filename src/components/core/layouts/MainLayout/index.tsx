@@ -18,6 +18,7 @@ import Typography from "../../common/Typography";
 import DropdownMenu from "./DropdownMenu";
 import EcosystemSwitcher from "./EcosystemSwitcher";
 import SelectLanguage from "./SelectLanguage";
+import NotificationBell from "@/components/ui/NotificationBell";
 
 import { useTranslation } from "@/app/i18n/client";
 import { sidebarMenu } from "@/helpers/data/sidebarMenu";
@@ -196,6 +197,7 @@ const MainLayout = ({
               </S.LogoWrapper>
             </S.HeaderContainerWrapper>
             <Flex align="center" gap={8}>
+              <NotificationBell />
               <SelectLanguage />
               <Popover
                 content={<EcosystemSwitcher isAdmin={Boolean(userInfo.isAdmin)} />}

@@ -58,42 +58,50 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
     fmData.append("image", file);
     try {
       const res = await axios.post(
-        "https://api.imgbb.com/1/upload?key=488e7d944b2bedd5020e1ace8585d1df",
+        "https://api.imgbb.com/1/upload?expiration=600&key=918aada6b01cafd0f2376e075c429457",
         fmData,
         config
       );
-      onSuccess("Ok");
+
       setImageUrl(res?.data?.data?.url);
-      //update user avatar
 
-      if (res) {
-        const data = {
-          avatar: res?.data?.data?.url,
-        };
+      const updateData = {
+        avatar: res?.data?.data?.url,
+      };
 
-        await updateUserProfile(data).unwrap();
-        webStorageClient.set(constants.AVT, res?.data?.data?.url);
-        dispatch(applyChangeAvatar(res?.data?.data?.url));
-        message.success(t("updateSuccess"));
-      }
+      await updateUserProfile(updateData).unwrap();
+
+      webStorageClient.set(constants.AVT, res?.data?.data?.url);
+
+      dispatch(applyChangeAvatar(res?.data?.data?.url));
+
+      onSuccess("ok");
       setIsUploading(false);
+      message.success(t("updateSuccess"));
     } catch (err) {
-      const error = new Error(t("updateError"));
-      onError({ error });
+      onError({ err });
+      setIsUploading(false);
+      message.error(t("updateError"));
     }
   };
+
+  const displayName =
+    [userData?.firstname, userData?.lastname].filter(Boolean).join(" ") ||
+    userData?.nickname ||
+    [userInfo?.firstname, userInfo?.lastname].filter(Boolean).join(" ") ||
+    "Thành viên DEVER";
+
   return (
     <S.ContentWrapper>
       <S.CustomCard>
         <S.AvatarEditorWrapper>
-          <div>
-            {isProfileFetching || isUploading ? (
-              <Skeleton.Image
+          <div style={{ position: "relative" }}>
+            {isProfileFetching ? (
+              <Skeleton.Avatar
                 active={isProfileFetching}
-                style={{
-                  width: 125,
-                  height: 125,
-                }}
+                size={125}
+                shape={"square"}
+                style={{ width: 125, height: 125, borderRadius: "8px" }}
               />
             ) : (
               <Image
@@ -119,7 +127,7 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
                   style={{ width: "100%" }}
                 />
               ) : (
-                userData.firstname! + " " + userData.lastname!
+                displayName
               )}
             </Typography.Title>
             <Typography.Text style={{ fontSize: "16px" }}>

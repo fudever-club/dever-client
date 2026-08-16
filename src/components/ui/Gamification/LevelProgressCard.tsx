@@ -2,7 +2,7 @@
 
 import React from "react";
 import { message, Tooltip } from "antd";
-import { Sparkles, Flame, CheckCircle2, Trophy, Zap, Shield } from "lucide-react";
+import { Sparkles, Flame, CheckCircle2, Trophy, Zap, Shield, Crown } from "lucide-react";
 import {
   useGetMyGamificationStatsQuery,
   useDailyCheckinMutation,
@@ -38,26 +38,38 @@ export default function LevelProgressCard() {
   return (
     <div
       style={{
-        background: "linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #004C99 100%)",
+        background: "linear-gradient(135deg, #004C99 0%, #0066CC 55%, #0080FF 100%)",
         borderRadius: "24px",
         padding: "24px 28px",
         color: "#FFFFFF",
-        boxShadow: "0 12px 32px -4px rgba(0, 76, 153, 0.25)",
-        border: "1px solid rgba(255, 255, 255, 0.12)",
+        boxShadow: "0 12px 32px -4px rgba(0, 102, 204, 0.3)",
+        border: "1px solid rgba(255, 255, 255, 0.2)",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Background Decorative Glow */}
+      {/* Subtle Ambient Decorative Circles */}
       <div
         style={{
           position: "absolute",
-          top: "-60px",
-          right: "-60px",
-          width: "220px",
-          height: "220px",
+          top: "-50px",
+          right: "-50px",
+          width: "200px",
+          height: "200px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0, 128, 255, 0.35) 0%, rgba(0,0,0,0) 70%)",
+          background: "radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255,255,255,0) 70%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "-40px",
+          left: "20%",
+          width: "180px",
+          height: "180px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(0, 229, 255, 0.2) 0%, rgba(0,0,0,0) 70%)",
           pointerEvents: "none",
         }}
       />
@@ -70,17 +82,18 @@ export default function LevelProgressCard() {
               width: "56px",
               height: "56px",
               borderRadius: "18px",
-              background: "linear-gradient(135deg, #0066CC 0%, #00E5FF 100%)",
+              background: "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               fontWeight: 900,
-              boxShadow: "0 6px 16px rgba(0, 102, 204, 0.4)",
-              border: "2px solid rgba(255, 255, 255, 0.4)",
+              color: "#1E293B",
+              boxShadow: "0 6px 16px rgba(255, 165, 0, 0.4)",
+              border: "2px solid #FFFFFF",
             }}
           >
-            <span style={{ fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.05em", opacity: 0.9 }}>LV</span>
+            <span style={{ fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 800 }}>LV</span>
             <span style={{ fontSize: "20px", lineHeight: 1 }}>{stats.level}</span>
           </div>
 
@@ -93,110 +106,106 @@ export default function LevelProgressCard() {
                 style={{
                   fontSize: "11px",
                   fontWeight: 700,
-                  padding: "2px 8px",
+                  padding: "2px 10px",
                   borderRadius: "9999px",
-                  backgroundColor: "rgba(0, 229, 255, 0.15)",
-                  color: "#38BDF8",
-                  border: "1px solid rgba(56, 189, 248, 0.3)",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  color: "#FFFFFF",
+                  border: "1px solid rgba(255, 255, 255, 0.35)",
+                  backdropFilter: "blur(4px)",
                 }}
               >
                 Cấp {stats.level}
               </span>
             </div>
-            <p style={{ fontSize: "13px", color: "#94A3B8", margin: 0 }}>
-              Tổng tích lũy: <strong style={{ color: "#F8FAFC" }}>{stats.exp.toLocaleString()} EXP</strong> · Mở khóa: <strong style={{ color: "#38BDF8" }}>{stats.unlockedCount}/{stats.totalBadgesCount} Huy hiệu</strong>
+            <p style={{ fontSize: "13px", color: "rgba(255, 255, 255, 0.85)", margin: 0, display: "flex", alignItems: "center", gap: "6px" }}>
+              <Zap size={14} color="#FFD700" fill="#FFD700" />
+              Tổng điểm danh vọng: <strong style={{ color: "#FFFFFF" }}>{stats.exp} EXP</strong>
             </p>
           </div>
         </div>
 
-        {/* Right: Streak & Check-in Action */}
+        {/* Right: Daily Check-in & Streak Flame */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          {/* Streak Badge */}
-          <Tooltip title={`Bạn đã duy trì hoạt động liên tiếp ${stats.streakDays} ngày!`}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "8px 14px",
-                borderRadius: "14px",
-                background: "rgba(245, 158, 11, 0.15)",
-                border: "1px solid rgba(245, 158, 11, 0.35)",
-                color: "#FBBF24",
-                fontSize: "13px",
-                fontWeight: 800,
-              }}
-            >
-              <Flame size={16} color="#F59E0B" className="animate-pulse" />
-              <span>{stats.streakDays} Ngày Chuỗi</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              background: "rgba(255, 255, 255, 0.15)",
+              padding: "8px 14px",
+              borderRadius: "14px",
+              border: "1px solid rgba(255, 255, 255, 0.25)",
+              backdropFilter: "blur(6px)",
+            }}
+          >
+            <Flame size={18} color="#FF7A00" fill="#FF7A00" />
+            <div>
+              <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.8)", display: "block", lineHeight: 1 }}>Chuỗi học tập</span>
+              <strong style={{ fontSize: "14px", color: "#FFFFFF", lineHeight: 1.2 }}>{stats.streakDays} ngày</strong>
             </div>
-          </Tooltip>
+          </div>
 
-          {/* Daily Check-in Button */}
           <button
-            type="button"
             onClick={handleDailyCheckin}
             disabled={stats.isCheckedInToday || isCheckingIn}
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
+              background: stats.isCheckedInToday
+                ? "rgba(255, 255, 255, 0.25)"
+                : "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
+              color: "#FFFFFF",
+              border: stats.isCheckedInToday ? "1px solid rgba(255, 255, 255, 0.4)" : "none",
               padding: "10px 18px",
               borderRadius: "14px",
-              fontWeight: 800,
+              fontWeight: 700,
               fontSize: "13px",
               cursor: stats.isCheckedInToday ? "default" : "pointer",
-              border: "none",
-              background: stats.isCheckedInToday
-                ? "rgba(16, 185, 129, 0.2)"
-                : "linear-gradient(135deg, #0066CC 0%, #0080FF 100%)",
-              color: stats.isCheckedInToday ? "#34D399" : "#FFFFFF",
-              boxShadow: stats.isCheckedInToday ? "none" : "0 4px 14px rgba(0, 102, 204, 0.4)",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              boxShadow: stats.isCheckedInToday ? "none" : "0 4px 14px rgba(245, 158, 11, 0.4)",
               transition: "all 0.2s ease",
             }}
           >
             {stats.isCheckedInToday ? (
               <>
-                <CheckCircle2 size={16} /> Đã Điểm Danh (+25 EXP)
+                <CheckCircle2 size={16} color="#FFFFFF" /> Đã điểm danh hôm nay
               </>
             ) : (
               <>
-                <Zap size={16} /> {isCheckingIn ? "Đang nhận..." : "Điểm Danh Hàng Ngày (+25 EXP)"}
+                <Sparkles size={16} color="#FFFFFF" /> Điểm danh nhận EXP
               </>
             )}
           </button>
         </div>
       </div>
 
-      {/* Progress Bar Container */}
+      {/* Progress Bar towards Next Level */}
       <div style={{ position: "relative", zIndex: 1 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12px", fontWeight: 700, marginBottom: "8px" }}>
-          <span style={{ color: "#CBD5E1" }}>
-            Tiến độ lên Cấp {stats.level + 1}
-          </span>
-          <span style={{ color: "#38BDF8" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "rgba(255, 255, 255, 0.9)", marginBottom: "6px", fontWeight: 600 }}>
+          <span>Tiến trình thăng cấp Level {stats.level + 1}</span>
+          <span>
             {stats.currentLevelExp} / {stats.expNeededForNextLevel} EXP ({stats.progressPercent}%)
           </span>
         </div>
 
-        {/* Custom Glowing Progress Bar */}
         <div
           style={{
             height: "10px",
+            background: "rgba(0, 0, 0, 0.2)",
             borderRadius: "9999px",
-            backgroundColor: "rgba(255, 255, 255, 0.12)",
             overflow: "hidden",
+            border: "1px solid rgba(255, 255, 255, 0.25)",
             position: "relative",
           }}
         >
           <div
             style={{
-              height: "100%",
               width: `${Math.min(100, Math.max(0, stats.progressPercent))}%`,
-              background: "linear-gradient(90deg, #0066CC 0%, #0080FF 50%, #00E5FF 100%)",
+              height: "100%",
+              background: "linear-gradient(90deg, #FFD700 0%, #00E5FF 100%)",
               borderRadius: "9999px",
-              boxShadow: "0 0 12px rgba(0, 229, 255, 0.6)",
               transition: "width 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+              boxShadow: "0 0 10px rgba(0, 229, 255, 0.6)",
             }}
           />
         </div>

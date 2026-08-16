@@ -1,5 +1,6 @@
 {
-  "dashboard": "Home",
+  "dashboard": "Dashboard",
+  "hallOfFame": "Hall of Fame",
   "leetcode": "Leetcode",
   "allMember": "All Member",
   "discover": "Explore DEVER",

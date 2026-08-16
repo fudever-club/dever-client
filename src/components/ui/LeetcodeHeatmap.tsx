@@ -21,12 +21,12 @@ const toActivityLevel = (count: number) => {
   return 0;
 };
 
-const levelClassNames = [
-  "bg-slate-100 border-slate-200 dark:bg-slate-800/60 dark:border-slate-700",
-  "bg-blue-200 border-blue-300 dark:bg-blue-900/50 dark:border-blue-800",
-  "bg-blue-400 border-blue-500 dark:bg-blue-700 dark:border-blue-600",
-  "bg-[#0066CC] border-blue-700 shadow-sm shadow-[#0066CC]/30",
-  "bg-[#004C99] border-blue-300 shadow-md shadow-[#0066CC]/50",
+const levelColors = [
+  { bg: "#F1F5F9", border: "#E2E8F0" }, // 0
+  { bg: "#BFDBFE", border: "#93C5FD" }, // 1
+  { bg: "#60A5FA", border: "#3B82F6" }, // 2
+  { bg: "#0066CC", border: "#0052A3" }, // 3
+  { bg: "#004C99", border: "#003366" }, // 4
 ];
 
 export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
@@ -71,48 +71,182 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
   }, [submissions]);
 
   return (
-    <section className="w-full space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
-      <div className="flex flex-col justify-between gap-4 border-b border-slate-100 pb-4 md:flex-row md:items-center dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <div className="rounded-xl border border-[#0066CC]/20 bg-[#0066CC]/10 p-2.5 text-[#0066CC]" aria-hidden="true">
-            <CodeOutlined className="text-lg" />
+    <section
+      style={{
+        width: "100%",
+        backgroundColor: "#FFFFFF",
+        borderRadius: "24px",
+        border: "1px solid #E2E8F0",
+        padding: "20px 18px",
+        boxShadow: "0 4px 16px -2px rgba(0, 0, 0, 0.04)",
+        display: "flex",
+        flexDirection: "column",
+        gap: "16px",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* Header Info */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "12px",
+          borderBottom: "1px solid #F1F5F9",
+          paddingBottom: "14px",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div
+            style={{
+              borderRadius: "12px",
+              backgroundColor: "rgba(0, 102, 204, 0.1)",
+              border: "1px solid rgba(0, 102, 204, 0.2)",
+              padding: "8px",
+              color: "#0066CC",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CodeOutlined style={{ fontSize: "18px" }} />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-slate-900 dark:text-white">Hoạt động LeetCode của CLB</h3>
-            <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Tổng hợp bài AC thực tế trong 52 tuần gần đây.</p>
+            <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#0F172A", margin: 0, lineHeight: 1.3 }}>
+              Hoạt động LeetCode của CLB
+            </h3>
+            <p style={{ fontSize: "12px", color: "#64748B", margin: "2px 0 0 0" }}>
+              Tổng hợp bài AC thực tế trong 52 tuần gần đây.
+            </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 text-xs font-semibold">
-          <span className="inline-flex items-center gap-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-amber-700 dark:text-amber-300"><FireOutlined aria-hidden="true" /> {streakDays} ngày liên tiếp</span>
-          <span className="rounded-lg bg-[#0066CC] px-3.5 py-1.5 font-bold text-white shadow-md shadow-[#0066CC]/20">Tổng AC: {totalAC}</span>
+
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px" }}>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "5px",
+              borderRadius: "8px",
+              backgroundColor: "#FEF3C7",
+              border: "1px solid #FDE68A",
+              padding: "4px 12px",
+              fontSize: "12px",
+              fontWeight: 800,
+              color: "#B45309",
+            }}
+          >
+            <FireOutlined /> {streakDays} ngày liên tiếp
+          </span>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              borderRadius: "8px",
+              backgroundColor: "#0066CC",
+              padding: "4px 14px",
+              fontSize: "12px",
+              fontWeight: 900,
+              color: "#FFFFFF",
+              boxShadow: "0 2px 6px rgba(0, 102, 204, 0.25)",
+            }}
+          >
+            Tổng AC: {totalAC}
+          </span>
         </div>
       </div>
 
-      <div className="space-y-2">
-        <div className="overflow-x-auto pb-2">
-          <div className="flex min-w-[720px] items-center gap-1.5" aria-label="Biểu đồ hoạt động LeetCode 52 tuần">
+      {/* Heatmap Grid & Legend */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div
+          style={{
+            width: "100%",
+            overflowX: "auto",
+            WebkitOverflowScrolling: "touch",
+            paddingBottom: "6px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              minWidth: "900px",
+              padding: "4px 2px",
+            }}
+            aria-label="Biểu đồ hoạt động LeetCode 52 tuần"
+          >
             {weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="flex flex-col gap-1.5">
-                {week.map(({ date, count }) => (
-                  <div
-                    key={toDateKey(date)}
-                    title={`${date.toLocaleDateString("vi-VN")}: ${count} bài AC`}
-                    className={`h-3.5 w-3.5 rounded-[3px] border transition-transform duration-200 hover:scale-125 ${levelClassNames[toActivityLevel(count)]}`}
-                  />
-                ))}
+              <div
+                key={weekIndex}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "4px",
+                  flexShrink: 0,
+                }}
+              >
+                {week.map(({ date, count }) => {
+                  const level = toActivityLevel(count);
+                  const colors = levelColors[level];
+                  return (
+                    <div
+                      key={toDateKey(date)}
+                      title={`${date.toLocaleDateString("vi-VN")}: ${count} bài AC`}
+                      style={{
+                        width: "13px",
+                        height: "13px",
+                        minWidth: "13px",
+                        minHeight: "13px",
+                        borderRadius: "3px",
+                        backgroundColor: colors.bg,
+                        border: `1px solid ${colors.border}`,
+                        flexShrink: 0,
+                        boxSizing: "border-box",
+                        cursor: "pointer",
+                      }}
+                    />
+                  );
+                })}
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-t border-slate-100 pt-2 text-[11px] text-slate-400 dark:border-slate-800/60">
-          <span>52 tuần gần đây</span>
-          <div className="flex items-center gap-2">
-            <span>Ít hoạt động</span>
-            <div className="flex items-center gap-1" aria-hidden="true">
-              {levelClassNames.map((className, index) => <div key={index} className={`h-3 w-3 rounded-[2px] border ${className}`} />)}
+        {/* Legend */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "8px",
+            borderTop: "1px solid #F1F5F9",
+            paddingTop: "8px",
+            fontSize: "11px",
+            color: "#94A3B8",
+            fontWeight: 600,
+          }}
+        >
+          <span>52 tuần gần đây (Vuốt ngang để xem chi tiết)</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <span>Ít</span>
+            <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
+              {levelColors.map((colors, index) => (
+                <div
+                  key={index}
+                  style={{
+                    width: "10px",
+                    height: "10px",
+                    borderRadius: "2px",
+                    backgroundColor: colors.bg,
+                    border: `1px solid ${colors.border}`,
+                  }}
+                />
+              ))}
             </div>
-            <span>Nhiều hoạt động</span>
+            <span>Nhiều</span>
           </div>
         </div>
       </div>
