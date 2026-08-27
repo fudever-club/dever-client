@@ -11,22 +11,23 @@ import {
   Zap,
   Code2,
   ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 import { useGetMyGamificationStatsQuery } from "@/store/queries/gamification";
 
 function getBadgeIcon(id: string, color: string) {
   switch (id) {
     case "algorithmic_prodigy":
-      return <Trophy size={24} color={color} strokeWidth={2.2} />;
+      return <Trophy className="w-6 h-6" style={{ color }} />;
     case "pro_tech_author":
-      return <PenTool size={24} color={color} strokeWidth={2.2} />;
+      return <PenTool className="w-6 h-6" style={{ color }} />;
     case "speed_coder":
-      return <Zap size={24} color={color} strokeWidth={2.2} />;
+      return <Zap className="w-6 h-6" style={{ color }} />;
     case "core_contributor":
-      return <Code2 size={24} color={color} strokeWidth={2.2} />;
+      return <Code2 className="w-6 h-6" style={{ color }} />;
     case "security_sentinel":
     default:
-      return <ShieldCheck size={24} color={color} strokeWidth={2.2} />;
+      return <ShieldCheck className="w-6 h-6" style={{ color }} />;
   }
 }
 
@@ -81,111 +82,96 @@ const DEFAULT_BADGES = [
 export default function BadgeShowcaseGrid() {
   const { data } = useGetMyGamificationStatsQuery();
   const badges = data?.data?.badges || DEFAULT_BADGES;
+  const unlockedCount = badges.filter((b: any) => b.isUnlocked).length;
 
   return (
-    <div
-      style={{
-        backgroundColor: "#FFFFFF",
-        borderRadius: "24px",
-        padding: "24px 28px",
-        border: "1px solid #E2E8F0",
-        boxShadow: "0 4px 20px -2px rgba(0,0,0,0.04)",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
+    <div className="rounded-3xl bg-white p-6 sm:p-7 border border-slate-200/90 shadow-sm transition-all hover:shadow-md">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0F172A", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
-            <Award size={18} color="#0066CC" /> Bộ Sưu Tập Huy Hiệu Kỹ Thuật (3D Badges)
-          </h3>
-          <p style={{ fontSize: "12px", color: "#64748B", margin: "2px 0 0 0" }}>
+          <div className="flex items-center gap-2 mb-1">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-50 text-[#0066CC] border border-blue-100">
+              <Award className="w-4 h-4 text-[#0066CC]" />
+            </div>
+            <h3 className="text-base sm:text-lg font-black text-slate-900 m-0">
+              Bộ Sưu Tập Huy Hiệu Kỹ Thuật (3D Badges)
+            </h3>
+          </div>
+          <p className="text-xs text-slate-500 m-0">
             Mở khóa các danh hiệu cao quý qua hoạt động giải LeetCode, viết Blog và đóng góp Open Source.
           </p>
         </div>
-        <div style={{ fontSize: "12px", fontWeight: 700, color: "#0066CC", backgroundColor: "#EFF6FF", padding: "4px 12px", borderRadius: "9999px", border: "1px solid #BFDBFE" }}>
-          Đã đạt: {badges.filter((b: any) => b.isUnlocked).length} / {badges.length}
+
+        <div className="inline-flex items-center gap-1.5 self-start sm:self-center px-3 py-1 rounded-full bg-blue-50/90 border border-blue-200/80 text-xs font-black text-[#0066CC]">
+          <Sparkles className="w-3.5 h-3.5 text-[#0066CC]" />
+          <span>Đã đạt: {unlockedCount} / {badges.length}</span>
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: "16px" }}>
+      {/* Grid of 5 Badges */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {badges.map((badge: any) => (
           <Tooltip
             key={badge.id}
             title={
-              <div style={{ padding: "4px" }}>
-                <div style={{ fontWeight: 800, marginBottom: "4px" }}>{badge.title}</div>
-                <div style={{ fontSize: "12px", color: "#E2E8F0", marginBottom: "4px" }}>{badge.description}</div>
-                <div style={{ fontSize: "11px", color: "#93C5FD", borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: "4px" }}>
+              <div className="p-1">
+                <div className="font-bold text-sm text-white mb-1">{badge.title}</div>
+                <div className="text-xs text-slate-300 mb-2 leading-relaxed">{badge.description}</div>
+                <div className="text-[11px] text-sky-300 border-t border-slate-700/80 pt-1.5 font-medium">
                   Điều kiện: {badge.requirement}
                 </div>
               </div>
             }
           >
             <div
+              className={`group relative flex flex-col items-center justify-between p-5 rounded-2xl transition-all duration-300 cursor-pointer ${
+                badge.isUnlocked
+                  ? "bg-white border-2 hover:shadow-lg hover:-translate-y-1"
+                  : "bg-slate-50/80 border border-slate-200 hover:border-slate-300"
+              }`}
               style={{
-                borderRadius: "18px",
-                padding: "16px 14px",
-                border: badge.isUnlocked ? `1.5px solid ${badge.color}` : "1.5px dashed #CBD5E1",
-                backgroundColor: badge.isUnlocked ? "#FFFFFF" : "#F8FAFC",
-                boxShadow: badge.isUnlocked ? `0 6px 18px -2px ${badge.color}25` : "none",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-                gap: "10px",
-                opacity: badge.isUnlocked ? 1 : 0.65,
-                transition: "all 0.25s ease",
-                cursor: "pointer",
+                borderColor: badge.isUnlocked ? `${badge.color}60` : undefined,
+                boxShadow: badge.isUnlocked ? `0 6px 20px -3px ${badge.color}25` : undefined,
               }}
             >
-              {/* Badge Icon Frame with vector lucide-react */}
-              <div
-                style={{
-                  width: "52px",
-                  height: "52px",
-                  borderRadius: "16px",
-                  backgroundColor: badge.isUnlocked ? badge.bgColor : "#F1F5F9",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: badge.isUnlocked ? `0 4px 12px ${badge.color}35` : "none",
-                  border: badge.isUnlocked ? `1px solid ${badge.color}50` : "1px solid #E2E8F0",
-                }}
-              >
-                {getBadgeIcon(badge.id, badge.isUnlocked ? badge.color : "#94A3B8")}
+              {/* Top Icon Badge Frame */}
+              <div className="w-full flex items-center justify-center mb-3">
+                <div
+                  className="flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 shadow-xs"
+                  style={{
+                    backgroundColor: badge.isUnlocked ? badge.bgColor : "#E2E8F0",
+                    border: badge.isUnlocked ? `1.5px solid ${badge.color}60` : "1px solid #CBD5E1",
+                  }}
+                >
+                  {getBadgeIcon(badge.id, badge.isUnlocked ? badge.color : "#64748B")}
+                </div>
               </div>
 
               {/* Title & Info */}
-              <div>
-                <h4 style={{ fontSize: "13px", fontWeight: 800, color: "#0F172A", margin: "0 0 3px 0", lineHeight: "1.3" }}>
+              <div className="text-center mb-3">
+                <h4 className="text-xs sm:text-sm font-black text-slate-900 mb-1 line-clamp-1">
                   {badge.title}
                 </h4>
-                <p style={{ fontSize: "11px", color: "#64748B", margin: 0, lineHeight: "1.4", minHeight: "30px" }}>
+                <p className="text-[11px] text-slate-500 font-medium line-clamp-2 m-0 min-h-[30px] leading-snug">
                   {badge.requirement}
                 </p>
               </div>
 
-              {/* Status Tag */}
+              {/* Status Pill */}
               <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "4px",
-                  padding: "3px 10px",
-                  borderRadius: "9999px",
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  backgroundColor: badge.isUnlocked ? `${badge.color}15` : "#E2E8F0",
-                  color: badge.isUnlocked ? badge.color : "#64748B",
-                  border: badge.isUnlocked ? `1px solid ${badge.color}40` : "none",
-                }}
+                className={`inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase ${
+                  badge.isUnlocked
+                    ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
+                    : "bg-slate-200/90 text-slate-600 border border-slate-300"
+                }`}
               >
                 {badge.isUnlocked ? (
                   <>
-                    <Check size={12} strokeWidth={3} /> ĐÃ ĐẠT
+                    <Check className="w-3 h-3" /> ĐÃ ĐẠT
                   </>
                 ) : (
                   <>
-                    <Lock size={12} /> CHƯA MỞ
+                    <Lock className="w-3 h-3" /> CHƯA MỞ
                   </>
                 )}
               </span>

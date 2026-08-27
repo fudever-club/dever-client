@@ -1,31 +1,52 @@
 "use client";
 
+import React from "react";
 import {
-  ArrowRightOutlined,
-  BookOutlined,
-  CalendarOutlined,
-  CheckCircleOutlined,
-  CompassOutlined,
-  EditOutlined,
-  FileTextOutlined,
-  SafetyCertificateOutlined,
-  TeamOutlined,
-  TrophyOutlined,
-} from "@ant-design/icons";
-import { Alert, Button, Card, Col, Empty, Progress, Row, Skeleton, Tag, Typography } from "antd";
+  ArrowRight,
+  BookOpen,
+  Calendar,
+  CheckCircle2,
+  Code2,
+  Compass,
+  Edit3,
+  ExternalLink,
+  FileText,
+  Flame,
+  Layers,
+  Lock,
+  Plus,
+  Shield,
+  Sparkles,
+  Trophy,
+  Users,
+  Zap,
+} from "lucide-react";
+import { Progress, Skeleton, Empty, Alert } from "antd";
 import { useLocale } from "next-intl";
 import { useRouter } from "next-nprogress-bar";
 
 import { useAppSelector } from "@/hooks/redux-toolkit";
 import { useGetMyProfileQuery } from "@/store/queries/settings";
-import { useGetBlogsQuery, useGetEventsQuery, useGetProjectLabsQuery, useGetResourcesQuery } from "@/store/queries/ecosystem";
+import {
+  useGetBlogsQuery,
+  useGetEventsQuery,
+  useGetProjectLabsQuery,
+  useGetResourcesQuery,
+} from "@/store/queries/ecosystem";
 import { useGetLeaderboardQuery } from "@/store/queries/leetcode";
 import LevelProgressCard from "@/components/ui/Gamification/LevelProgressCard";
 import BadgeShowcaseGrid from "@/components/ui/Gamification/BadgeShowcaseGrid";
+import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 
-const { Title, Text, Paragraph } = Typography;
-
-const profileFields = ["avatar", "description", "skills", "socials", "departments", "majorId", "positionId"];
+const profileFields = [
+  { key: "avatar", label: "Ảnh đại diện" },
+  { key: "description", label: "Giới thiệu" },
+  { key: "skills", label: "Kỹ năng" },
+  { key: "socials", label: "Liên hệ" },
+  { key: "departments", label: "Ban chuyên môn" },
+  { key: "majorId", label: "Chuyên ngành" },
+  { key: "positionId", label: "Chức vụ" },
+];
 
 function Dashboard() {
   const locale = useLocale();
@@ -37,239 +58,255 @@ function Dashboard() {
   const blogsQuery = useGetBlogsQuery();
   const labsQuery = useGetProjectLabsQuery();
   const leaderboardQuery = useGetLeaderboardQuery(undefined);
+
   const profile = profileQuery.data?.data ?? userInfo;
-  const completeCount = profileFields.filter((field) => Array.isArray(profile?.[field]) ? profile[field].length > 0 : Boolean(profile?.[field])).length;
+  const filledFields = profileFields.filter((field) => {
+    const val = profile?.[field.key];
+    return Array.isArray(val) ? val.length > 0 : Boolean(val);
+  });
+  const completeCount = filledFields.length;
   const completion = Math.round((completeCount / profileFields.length) * 100);
   const profileLeetcode = profile?.leetcodeUsername;
-  const leetcodeEntry = (leaderboardQuery.data?.data ?? []).find((entry: any) => entry.leetcodeUsername === profileLeetcode);
-  const isLoading = eventsQuery.isLoading || resourcesQuery.isLoading || blogsQuery.isLoading || labsQuery.isLoading;
-  const hasFeedError = eventsQuery.isError || resourcesQuery.isError || blogsQuery.isError || labsQuery.isError;
+  const leetcodeEntry = (leaderboardQuery.data?.data ?? []).find(
+    (entry: any) => entry.leetcodeUsername === profileLeetcode
+  );
+
+  const totalSolved = leetcodeEntry?.totalSolved ?? leetcodeEntry?.acSubmissionList?.length ?? 0;
+
+  const isLoading =
+    eventsQuery.isLoading ||
+    resourcesQuery.isLoading ||
+    blogsQuery.isLoading ||
+    labsQuery.isLoading;
+  const hasFeedError =
+    eventsQuery.isError || resourcesQuery.isError || blogsQuery.isError || labsQuery.isError;
+
   const retryFeed = () => {
-    eventsQuery.refetch(); resourcesQuery.refetch(); blogsQuery.refetch(); labsQuery.refetch();
+    eventsQuery.refetch();
+    resourcesQuery.refetch();
+    blogsQuery.refetch();
+    labsQuery.refetch();
   };
 
   return (
-    <main className="mx-auto w-full max-w-7xl space-y-6 pb-12">
-      {/* Top Level & Gamification EXP Banner */}
+    <main className="mx-auto w-full max-w-7xl space-y-7 pb-12 font-sans">
+      {/* 1. Command Center Hero Gamification Banner */}
       <LevelProgressCard />
 
-      {/* 3D SVG Badges Showcase Grid */}
+      {/* 2. Magic UI Bento Grid Feature Showcase */}
+      <section aria-label="Bento Command Grid">
+        <BentoGrid className="lg:grid-rows-2">
+          {/* Card 1: LeetCode Arena (Span 2 cols on Large Screens) */}
+          <BentoCard
+            name="Đấu Trường LeetCode"
+            className="lg:col-span-2"
+            badge={profileLeetcode ? `@${profileLeetcode} • ${totalSolved} Bài AC` : "Chưa kết nối"}
+            Icon={Trophy}
+            description="Bảng xếp hạng giải thuật toán realtime. Rèn luyện tư duy lập trình, thi đua top điểm danh vọng và sẵn sàng cho các kỳ thi ICPC."
+            href={`/${locale}/leetcode`}
+            cta="Vào Đấu Trường LeetCode"
+            background={
+              <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-gradient-to-br from-amber-400/10 via-blue-400/10 to-transparent blur-2xl group-hover:scale-110 transition-transform duration-700 pointer-events-none" />
+            }
+          />
+
+          {/* Card 2: DEVER Studio Blog Writer (Span 1 col) */}
+          <BentoCard
+            name="DEVER Studio Writer"
+            className="lg:col-span-1"
+            badge="+150 EXP / Bài"
+            Icon={Edit3}
+            description="Soạn thảo và xuất bản bài viết công nghệ Markdown với Live Code Preview, tối ưu SEO và nhận điểm danh vọng CLB."
+            href={`/${locale}/create-blog`}
+            cta="Soạn Bài Viết Mới"
+            background={
+              <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-gradient-to-br from-purple-400/15 to-indigo-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+            }
+          />
+
+          {/* Card 3: Hồ Sơ & Bảo Mật (Span 1 col) */}
+          <BentoCard
+            name="Hồ Sơ & Bảo Mật"
+            className="lg:col-span-1"
+            badge={`${completion}% Hoàn Thiện`}
+            Icon={Shield}
+            description="Hoàn thiện các kỹ năng chuyên môn, kênh liên hệ và thông tin cá nhân để mở khóa huy hiệu Security Sentinel."
+            href={`/${locale}/settings`}
+            cta="Cập Nhật Hồ Sơ"
+            background={
+              <div className="absolute -bottom-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-tr from-emerald-400/15 to-teal-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+            }
+          />
+
+          {/* Card 4: Danh Bạ Thành Viên (Span 1 col) */}
+          <BentoCard
+            name="Danh Bạ Thành Viên"
+            className="lg:col-span-1"
+            badge="150+ Thành Viên"
+            Icon={Users}
+            description="Khám phá mạng lưới tài năng sinh viên CNTT các thế hệ Gen 1 đến Gen 6 thuộc các ban Frontend, Backend, AI và Game."
+            href={`/${locale}/members`}
+            cta="Mở Danh Bạ DEVER"
+            background={
+              <div className="absolute -bottom-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-br from-blue-400/15 to-cyan-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+            }
+          />
+
+          {/* Card 5: Kho Tài Liệu & Slide (Span 1 col) */}
+          <BentoCard
+            name="Kho Tài Liệu & Slide"
+            className="lg:col-span-1"
+            badge="Tài Nguyên FPTU"
+            Icon={BookOpen}
+            description="Truy cập kho cẩm nang ôn thi PE môn SWE201c, CSD201, slide workshop chuyên đề và các bộ source code mẫu chuẩn hóa."
+            href={`/${locale}/discover`}
+            cta="Khám Phá Tài Liệu"
+            background={
+              <div className="absolute -top-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-br from-amber-400/15 to-orange-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+            }
+          />
+        </BentoGrid>
+      </section>
+
+      {/* 3. 3D Badges Showcase Grid */}
       <BadgeShowcaseGrid />
 
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={14}>
-          <Card
-            className="h-full !rounded-3xl !border-slate-200/80 shadow-sm hover:shadow-md transition-all"
-            title={
-              <span className="flex items-center gap-2 font-bold text-slate-800 text-base py-1">
-                <CheckCircleOutlined className="text-[#0066CC]" /> Hồ sơ của tôi
-              </span>
-            }
-            extra={
-              <Button type="link" className="font-semibold text-[#0066CC]" onClick={() => router.push(`/${locale}/settings`)}>
-                Chỉnh sửa
-              </Button>
-            }
-          >
-            {profileQuery.isFetching ? (
-              <Skeleton active paragraph={{ rows: 3 }} />
-            ) : (
-              <div className="space-y-4">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <Text strong className="text-slate-800">Mức hoàn thiện hồ sơ</Text>
-                  <span className="text-xs font-bold text-[#0066CC] bg-blue-50 px-3 py-0.5 rounded-full">
-                    {completeCount}/{profileFields.length} mục đã điền
-                  </span>
-                </div>
-                <Progress percent={completion} strokeColor="#0066CC" trailColor="#E0F2FE" />
-                <p className="text-xs text-slate-500 leading-relaxed mb-0">
-                  Hoàn thiện đầy đủ giới thiệu, kỹ năng chuyên môn và các kênh liên hệ để mở khóa huy hiệu <strong className="text-slate-700">Security Sentinel</strong>.
-                </p>
-              </div>
-            )}
-          </Card>
-        </Col>
-
-        <Col xs={24} lg={10}>
-          <Card
-            className="h-full !rounded-3xl !border-slate-200/80 shadow-sm hover:shadow-md transition-all"
-            title={
-              <span className="flex items-center gap-2 font-bold text-slate-800 text-base py-1">
-                <TrophyOutlined className="text-[#0066CC]" /> LeetCode của tôi
-              </span>
-            }
-            extra={
-              <Button type="link" className="font-semibold text-[#0066CC]" onClick={() => router.push(`/${locale}/leetcode`)}>
-                Xem BXH
-              </Button>
-            }
-          >
-            {leaderboardQuery.isLoading ? (
-              <Skeleton active paragraph={{ rows: 2 }} />
-            ) : profileLeetcode ? (
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <Text strong className="text-base text-slate-800">@{profileLeetcode}</Text>
-                  <Tag color="blue" className="!rounded-md !font-bold !text-xs">
-                    {leetcodeEntry?.acSubmissionList?.length ?? 0} Bài đã AC
-                  </Tag>
-                </div>
-                <p className="text-xs text-slate-500 mb-0">
-                  Dữ liệu thuật toán tự động đồng bộ hàng giờ từ hệ thống LeetCode API.
-                </p>
-              </div>
-            ) : (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Bạn chưa kết nối tài khoản LeetCode">
-                <Button type="primary" className="!bg-[#0066CC] !rounded-xl !font-bold" onClick={() => router.push(`/${locale}/settings`)}>
-                  Kết nối LeetCode
-                </Button>
-              </Empty>
-            )}
-          </Card>
-        </Col>
-      </Row>
-
-      {/* Updates Section */}
-      <section aria-labelledby="dever-updates" className="space-y-4">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+      {/* 4. Ecosystem Updates: 3-Card Bento Feed */}
+      <section className="space-y-4 pt-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 id="dever-updates" className="text-xl font-bold text-slate-900 mb-0">
-              Mới từ Hệ Sinh Thái DEVER
+            <h2 className="text-lg sm:text-xl font-black text-slate-900 m-0 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-[#0066CC]" /> Mới từ Hệ Sinh Thái DEVER
             </h2>
-            <p className="text-xs text-slate-500 mt-1 mb-0">
+            <p className="text-xs text-slate-500 mt-0.5 m-0">
               Sự kiện sắp diễn ra, tài liệu học tập và bài viết công nghệ mới nhất.
             </p>
           </div>
-          <Button
-            icon={<CompassOutlined />}
-            className="!rounded-xl font-semibold hover:!border-[#0066CC] hover:!text-[#0066CC]"
+          <button
+            type="button"
             onClick={() => router.push(`/${locale}/discover`)}
+            className="inline-flex items-center gap-1.5 self-start sm:self-center px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:border-[#0066CC] hover:text-[#0066CC] transition-all shadow-xs cursor-pointer"
           >
-            Khám phá tất cả
-          </Button>
+            <Compass className="w-3.5 h-3.5 text-[#0066CC]" /> Khám phá tất cả
+          </button>
         </div>
 
         {isLoading ? (
-          <Row gutter={[16, 16]}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {Array.from({ length: 3 }).map((_, index) => (
-              <Col xs={24} md={8} key={index}>
-                <Card className="!rounded-3xl"><Skeleton active paragraph={{ rows: 3 }} /></Card>
-              </Col>
+              <div key={index} className="p-6 rounded-3xl bg-white border border-slate-200">
+                <Skeleton active paragraph={{ rows: 2 }} />
+              </div>
             ))}
-          </Row>
+          </div>
         ) : hasFeedError ? (
           <Alert
             type="error"
             showIcon
             message="Không thể tải cập nhật từ máy chủ."
-            action={<Button size="small" onClick={retryFeed}>Thử lại</Button>}
+            action={
+              <button
+                type="button"
+                onClick={retryFeed}
+                className="text-xs font-bold text-red-700 underline cursor-pointer"
+              >
+                Thử lại
+              </button>
+            }
           />
         ) : (
-          <Row gutter={[16, 16]}>
-            <Col xs={24} md={8}>
-              <Card
-                className="h-full !rounded-3xl !border-slate-200/80 shadow-sm hover:shadow-md transition-all"
-                title={
-                  <span className="flex items-center gap-2 font-bold text-slate-800 text-sm py-1">
-                    <CalendarOutlined className="text-[#0066CC]" /> Sự kiện
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Event Card */}
+            <div
+              onClick={() => router.push(`/${locale}/discover`)}
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-[#0066CC] text-[11px] font-black border border-blue-100">
+                    <Calendar className="w-3.5 h-3.5" /> Sự kiện sắp tới
                   </span>
-                }
-              >
-                <h4 className="font-bold text-slate-900 text-sm mb-1 line-clamp-1">
-                  {eventsQuery.data?.data?.[0]?.title || "Chưa có sự kiện mới"}
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066CC] group-hover:translate-x-0.5 transition-all" />
+                </div>
+                <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
+                  {eventsQuery.data?.data?.[0]?.title || "Workshop Thuật Toán & CSD201"}
                 </h4>
-                <p className="text-xs text-slate-500 mb-0">
-                  {eventsQuery.data?.data?.[0]?.date || "Ban quản trị sẽ cập nhật lịch hoạt động tại đây."}
+                <p className="text-xs text-slate-500 mb-0 line-clamp-2">
+                  {eventsQuery.data?.data?.[0]?.date || "Lịch hoạt động và workshop chuyên môn được cập nhật liên tục."}
                 </p>
-              </Card>
-            </Col>
+              </div>
+            </div>
 
-            <Col xs={24} md={8}>
-              <Card
-                className="h-full !rounded-3xl !border-slate-200/80 shadow-sm hover:shadow-md transition-all"
-                title={
-                  <span className="flex items-center gap-2 font-bold text-slate-800 text-sm py-1">
-                    <BookOutlined className="text-[#0066CC]" /> Tài liệu & Học tập
+            {/* Resource Card */}
+            <div
+              onClick={() => router.push(`/${locale}/discover`)}
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-[11px] font-black border border-amber-100">
+                    <BookOpen className="w-3.5 h-3.5" /> Kho tài liệu
                   </span>
-                }
-              >
-                <h4 className="font-bold text-slate-900 text-sm mb-1 line-clamp-1">
-                  {resourcesQuery.data?.data?.[0]?.title || "Chưa có tài liệu mới"}
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-700 group-hover:translate-x-0.5 transition-all" />
+                </div>
+                <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
+                  {resourcesQuery.data?.data?.[0]?.title || "Slide Ôn Thi PE SWE201c & CSD201"}
                 </h4>
-                <p className="text-xs text-slate-500 mb-0">
-                  {resourcesQuery.data?.data?.[0]?.type || "Tài liệu workshop và công nghệ sẽ xuất hiện tại đây."}
+                <p className="text-xs text-slate-500 mb-0 line-clamp-2">
+                  {resourcesQuery.data?.data?.[0]?.type || "Tổng hợp slide bài giảng, cẩm nang và mã nguồn mẫu FPTU."}
                 </p>
-              </Card>
-            </Col>
+              </div>
+            </div>
 
-            <Col xs={24} md={8}>
-              <Card
-                className="h-full !rounded-3xl !border-slate-200/80 shadow-sm hover:shadow-md transition-all"
-                title={
-                  <span className="flex items-center gap-2 font-bold text-slate-800 text-sm py-1">
-                    <FileTextOutlined className="text-[#0066CC]" /> Bài viết kỹ thuật
+            {/* Tech Blog Card */}
+            <div
+              onClick={() => router.push(`/${locale}/discover`)}
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 text-[11px] font-black border border-purple-100">
+                    <FileText className="w-3.5 h-3.5" /> Bài viết công nghệ
                   </span>
-                }
-              >
-                <h4 className="font-bold text-slate-900 text-sm mb-1 line-clamp-1">
-                  {blogsQuery.data?.data?.[0]?.title || "Chưa có bài viết mới"}
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-700 group-hover:translate-x-0.5 transition-all" />
+                </div>
+                <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
+                  {blogsQuery.data?.data?.[0]?.title || "Kiến Trúc Next.js 14 & Tối Ưu Caching"}
                 </h4>
-                <p className="text-xs text-slate-500 mb-0">
-                  {labsQuery.data?.data?.length ? `${labsQuery.data.data.length} dự án đang mở đăng ký tham gia.` : "Theo dõi các bài viết chia sẻ kinh nghiệm từ thành viên."}
+                <p className="text-xs text-slate-500 mb-0 line-clamp-2">
+                  {labsQuery.data?.data?.length
+                    ? `${labsQuery.data.data.length} dự án đang mở nhận thành viên.`
+                    : "Chia sẻ kinh nghiệm thực chiến từ Ban Chuyên Môn FU-DEVER."}
                 </p>
-              </Card>
-            </Col>
-          </Row>
+              </div>
+            </div>
+          </div>
         )}
       </section>
 
-      {/* Admin Action Bar */}
+      {/* 5. Admin Action Bar */}
       {userInfo.isAdmin && (
-        <Card className="!rounded-3xl !border-blue-100 !bg-gradient-to-r !from-blue-50/70 !to-white shadow-sm">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-[#0066CC] text-lg shadow-sm border border-blue-100">
-                <SafetyCertificateOutlined />
-              </span>
-              <div>
-                <Text strong className="text-slate-900 text-sm">Công cụ quản trị viên</Text>
-                <div className="text-xs text-slate-500 mt-0.5">Xuất bản bài viết kỹ thuật hoặc quản lý sự kiện cho CLB.</div>
-              </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-3xl bg-gradient-to-r from-blue-50/90 via-slate-50 to-white border border-blue-200/70 shadow-xs">
+          <div className="flex items-center gap-3.5">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-[#0066CC] shadow-xs border border-blue-100">
+              <Shield className="w-5 h-5 text-[#0066CC]" />
             </div>
-            <Button
-              type="primary"
-              icon={<EditOutlined />}
-              onClick={() => router.push(`/${locale}/create-blog`)}
-              className="!bg-[#0066CC] !rounded-xl !font-bold"
-            >
-              Đăng bài chia sẻ
-            </Button>
-          </div>
-        </Card>
-      )}
-
-      {/* Community Roster Bar */}
-      <Card className="!rounded-3xl !border-blue-100 !bg-gradient-to-r !from-blue-50/70 !to-white shadow-sm">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-[#0066CC] text-lg shadow-sm border border-blue-100">
-              <TeamOutlined />
-            </span>
             <div>
-              <Text strong className="text-slate-900 text-sm">Khám phá cộng đồng thành viên</Text>
-              <div className="text-xs text-slate-500 mt-0.5">Tìm kiếm thành viên theo ban chuyên môn, chuyên ngành và các thế hệ K.</div>
+              <h4 className="text-sm font-black text-slate-900 m-0">Công cụ quản trị viên</h4>
+              <p className="text-xs text-slate-500 m-0">
+                Xuất bản bài viết kỹ thuật hoặc quản lý sự kiện cho CLB.
+              </p>
             </div>
           </div>
-          <Button
-            type="primary"
-            icon={<ArrowRightOutlined />}
-            onClick={() => router.push(`/${locale}/members`)}
-            className="!bg-[#0066CC] !rounded-xl !font-bold"
+          <button
+            type="button"
+            onClick={() => router.push(`/${locale}/create-blog`)}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0066CC] text-white text-xs font-black shadow-md shadow-blue-500/20 hover:bg-[#0052A3] transition-all self-start sm:self-center cursor-pointer"
           >
-            Mở danh bạ
-          </Button>
+            <Edit3 className="w-3.5 h-3.5" /> Đăng bài chia sẻ
+          </button>
         </div>
-      </Card>
+      )}
     </main>
   );
 }
