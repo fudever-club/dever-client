@@ -24,7 +24,7 @@ export const BentoGrid = ({ children, className, ...props }: BentoGridProps) => 
   return (
     <div
       className={cn(
-        "grid w-full auto-rows-[19rem] sm:auto-rows-[20rem] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5",
+        "grid w-full auto-rows-auto sm:auto-rows-[20rem] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5",
         className
       )}
       {...props}
@@ -50,7 +50,7 @@ export const BentoCard = ({
     key={name}
     style={style}
     className={cn(
-      "group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-white p-6 sm:p-7 border border-slate-200/90 transition-all duration-300 block text-left no-underline",
+      "group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-white p-5 sm:p-7 border border-slate-200/90 transition-all duration-300 block text-left no-underline min-h-[16rem] sm:min-h-0",
       "shadow-[0_4px_20px_-2px_rgba(0,102,204,0.04)] hover:shadow-[0_14px_36px_-4px_rgba(0,102,204,0.14)] hover:border-blue-400 hover:-translate-y-1 cursor-pointer",
       className
     )}
