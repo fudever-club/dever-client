@@ -48,6 +48,32 @@ function SignUpModule() {
         <strong>{t("whatToDoTitle")}</strong>
         <span>{t("whatToDoDescription")}</span>
       </S.AccessNotice>
+      <a
+        href="https://forms.gle/hJxSewnuiVFwR1rH8"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "8px",
+          backgroundColor: "#0066CC",
+          color: "#ffffff",
+          fontWeight: 600,
+          fontSize: "14px",
+          padding: "12px 20px",
+          borderRadius: "10px",
+          textAlign: "center",
+          textDecoration: "none",
+          marginTop: "12px",
+          marginBottom: "16px",
+          boxShadow: "0 2px 8px rgba(0, 102, 204, 0.25)",
+          transition: "all 0.2s",
+        }}
+      >
+        <span>Đăng ký tham gia FU-DEVER (Google Form)</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+      </a>
       <S.SignUpPrompt justify="center" gap={4}>
         <span>{t("alreadyHaveAccount")}</span>
         <Link href={`/${locale}/sign-in`}>{t("signIn")}</Link>
