@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { Grid, Typography } from "antd";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 import * as S from "./styles";
 import AvatarChange from "./AvatarChange";
@@ -12,13 +12,14 @@ import AboutMe from "./AboutMe";
 import SkillsChange from "./SkillsChange";
 import FavouritiesChange from "./FavouritesChange";
 import PasswordChange from "./PasswordChange";
+import LeetcodeSubcriber from "./LeetcodeSubcriber";
+import PrivacySettings from "./PrivacySettings";
+import FavoriteTrackChange from "./FavoriteTrackChange";
 
 import { useTranslation } from "@/app/i18n/client";
 import { constants } from "@/settings";
 import { useGetMyProfileQuery } from "@/store/queries/settings";
 import webStorageClient from "@/utils/webStorageClient";
-import LeetcodeSubcriber from "./LeetcodeSubcriber";
-import PrivacySettings from "./PrivacySettings";
 
 function SettingsModules() {
   const params = useParams();
@@ -40,7 +41,7 @@ function SettingsModules() {
   );
 
   useEffect(() => {
-    refetch()
+    refetch();
   }, [refetch]);
 
   return (
@@ -52,6 +53,7 @@ function SettingsModules() {
       </S.Head>
       <S.CustomContent>
         <S.Gallery>
+          {/* Left Gallery Column */}
           <S.LGalleryCol>
             <AvatarChange isProfileFetching={isFetching} userData={result} />
 
@@ -81,15 +83,19 @@ function SettingsModules() {
                 <SkillsChange
                   isUserProfileLoading={isFetching}
                   userData={result}
-                ></SkillsChange>
+                />
                 <FavouritiesChange
                   isUserProfileLoading={isFetching}
                   userData={result}
-                ></FavouritiesChange>
+                />
                 <LeetcodeSubcriber
                   isUserProfileLoading={isFetching}
                   userData={result}
-                ></LeetcodeSubcriber>
+                />
+                <FavoriteTrackChange
+                  isUserProfileLoading={isFetching}
+                  userData={result}
+                />
               </>
             )}
             <PrivacySettings
@@ -98,6 +104,7 @@ function SettingsModules() {
             />
           </S.LGalleryCol>
 
+          {/* Right Gallery Column */}
           <S.RGalleryCol>
             {!screens.lg ? (
               <>
@@ -109,15 +116,19 @@ function SettingsModules() {
                 <SkillsChange
                   isUserProfileLoading={isFetching}
                   userData={result}
-                ></SkillsChange>
+                />
                 <FavouritiesChange
                   isUserProfileLoading={isFetching}
                   userData={result}
-                ></FavouritiesChange>
+                />
                 <LeetcodeSubcriber
                   isUserProfileLoading={isFetching}
                   userData={result}
-                ></LeetcodeSubcriber>
+                />
+                <FavoriteTrackChange
+                  isUserProfileLoading={isFetching}
+                  userData={result}
+                />
                 <PasswordChange
                   isUserProfileLoading={isFetching}
                   userData={result}

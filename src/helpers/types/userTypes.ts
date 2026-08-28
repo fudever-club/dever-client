@@ -33,6 +33,13 @@ export interface UserInfo {
   socials: Social[];
 
   acSubmissionList: Submissoion[];
+  favoriteTrack?: FavoriteTrack;
+}
+
+export interface FavoriteTrack {
+  title?: string;
+  artist?: string;
+  url?: string;
 }
 
 /**

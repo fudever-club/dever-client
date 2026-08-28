@@ -116,5 +116,23 @@
   "privacySave": "Save privacy settings",
   "privacySaving": "Saving…",
   "privacySaveSuccess": "Profile privacy settings have been updated.",
-  "privacySaveError": "Could not update profile privacy settings. Please try again."
+  "privacySaveError": "Could not update profile privacy settings. Please try again.",
+
+  "favoriteTrackTitle": "Coding Soundtrack // Lo-Fi",
+  "favoriteTrackSubtitle": "Customize the background soundtrack played on your public member profile page",
+  "trackSongTitle": "Song Title",
+  "trackSongTitlePlaceholder": "e.g. DEVER Midnight Code Session",
+  "trackArtist": "Artist / Genre",
+  "trackArtistPlaceholder": "e.g. FPTU Lofi Chillout • Beats to Code to",
+  "trackAudioUrl": "Audio Stream / Direct File URL",
+  "trackAudioUrlPlaceholder": "https://.../song.mp3",
+  "trackUploadButton": "Upload Audio File (Cloudflare R2)",
+  "trackPresets": "Preset Lo-Fi Soundtracks:",
+  "trackPreview": "Audio Preview",
+  "trackSave": "Save Soundtrack",
+  "trackSaving": "Saving soundtrack…",
+  "trackSaveSuccess": "Soundtrack updated successfully!",
+  "trackSaveError": "Failed to update soundtrack. Please try again.",
+  "trackUploadSuccess": "Audio file uploaded successfully!",
+  "trackUploadError": "Failed to upload audio file to server."
 }

@@ -117,5 +117,23 @@
   "privacySave": "Lưu quyền riêng tư",
   "privacySaving": "Đang lưu…",
   "privacySaveSuccess": "Đã cập nhật quyền riêng tư hồ sơ.",
-  "privacySaveError": "Chưa thể lưu quyền riêng tư. Vui lòng thử lại."
+  "privacySaveError": "Chưa thể lưu quyền riêng tư. Vui lòng thử lại.",
+
+  "favoriteTrackTitle": "Coding Soundtrack // Lo-Fi",
+  "favoriteTrackSubtitle": "Tùy chỉnh bản nhạc phát trên trang hồ sơ thành viên khi người khác ghé thăm",
+  "trackSongTitle": "Tên bài hát",
+  "trackSongTitlePlaceholder": "Ví dụ: DEVER Midnight Code Session",
+  "trackArtist": "Nghệ sĩ / Thể loại",
+  "trackArtistPlaceholder": "Ví dụ: FPTU Lofi Chillout • Beats to Code to",
+  "trackAudioUrl": "Đường dẫn file Audio hoặc Stream",
+  "trackAudioUrlPlaceholder": "https://.../song.mp3",
+  "trackUploadButton": "Tải lên file âm thanh (Cloudflare R2)",
+  "trackPresets": "Gợi ý nhạc Lo-Fi có sẵn:",
+  "trackPreview": "Nghe thử bản nhạc",
+  "trackSave": "Lưu bài hát",
+  "trackSaving": "Đang lưu bài hát…",
+  "trackSaveSuccess": "Đã lưu bài hát yêu thích thành công!",
+  "trackSaveError": "Chưa thể lưu bài hát. Vui lòng thử lại.",
+  "trackUploadSuccess": "Tải lên file âm thanh thành công!",
+  "trackUploadError": "Lỗi khi tải file âm thanh lên máy chủ."
 }
