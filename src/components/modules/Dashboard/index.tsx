@@ -120,7 +120,7 @@ function Dashboard() {
             href={`/${locale}/create-blog`}
             cta="Soạn Bài Viết Mới"
             background={
-              <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-gradient-to-br from-purple-400/15 to-indigo-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+              <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-gradient-to-br from-blue-500/15 to-cyan-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
             }
           />
 

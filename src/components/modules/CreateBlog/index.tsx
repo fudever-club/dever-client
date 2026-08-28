@@ -374,7 +374,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
             margin: "14px 0",
             padding: "14px 16px",
             borderRadius: "14px",
-            borderLeft: `5px solid ${borderColor}`,
+            border: `1px solid ${borderColor}50`,
             backgroundColor: bgColor,
             color: textColor,
             fontSize: "13px",
@@ -400,15 +400,14 @@ function RichMarkdownRenderer({ content }: { content: string }) {
         <blockquote
           key={index}
           style={{
-            paddingLeft: "16px",
             margin: "6px 0 12px 0",
-            borderLeft: "4px solid #0066CC",
-            color: "#334155",
+            border: "1px solid #E2E8F0",
+            color: "#1E293B",
             fontStyle: "italic",
             fontSize: "13px",
             backgroundColor: "#F8FAFC",
-            borderRadius: "0 8px 8px 0",
-            padding: "8px 12px",
+            borderRadius: "12px",
+            padding: "10px 14px",
           }}
         >
           {line.replace("> ", "")}

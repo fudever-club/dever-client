@@ -52,7 +52,7 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
       centered
       className="rounded-3xl"
     >
-      <div className="mb-4 text-xs text-slate-500 bg-blue-50 p-3 rounded-xl border border-blue-100">
+      <div className="mb-4 text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200">
         <span className="font-semibold text-[#0066CC] flex items-center gap-1 mb-0.5">
           <Sparkles className="h-3.5 w-3.5" /> Phần thưởng đóng góp:
         </span>

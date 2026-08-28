@@ -281,7 +281,7 @@ export default function NotificationBell() {
                   type="button"
                   onClick={(e) => handleDelete(e, item._id)}
                   aria-label="Xóa thông báo"
-                  className="absolute right-2 top-3 rounded-lg p-1 text-slate-400 opacity-0 transition-all hover:bg-rose-50 hover:text-rose-600 group-hover:opacity-100"
+                  className="absolute right-2 top-3 rounded-lg p-1 text-slate-400 opacity-0 transition-all hover:bg-slate-100 hover:text-rose-600 group-hover:opacity-100"
                 >
                   <Trash2 className="h-3 w-3" />
                 </button>
@@ -325,7 +325,7 @@ export default function NotificationBell() {
             shape="circle"
             size="large"
             aria-label="Thông báo"
-            className="flex items-center justify-center text-slate-600 hover:text-[#0066CC] hover:bg-blue-50 transition-all duration-200 active:scale-[0.96]"
+            className="flex items-center justify-center text-slate-700 hover:text-[#0066CC] hover:bg-slate-100 transition-all duration-200 active:scale-[0.96]"
             icon={<Bell className="h-5 w-5" />}
           />
         </Badge>
