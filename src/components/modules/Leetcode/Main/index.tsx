@@ -150,9 +150,9 @@ function LeetcodeModule() {
                   <S.StatsContainer>
                     <S.ACPill>
                       <TrophyOutlined style={{ fontSize: "11px" }} />
-                      {entry.acSubmissionList.length} Bài AC
+                      {entry.acSubmissionList?.length ?? 0} Bài AC
                     </S.ACPill>
-                    <S.PtsPill>{entry.acSubmissionList.length * 10} Pts</S.PtsPill>
+                    <S.PtsPill>{(entry.acSubmissionList?.length ?? 0) * 10} Pts</S.PtsPill>
                   </S.StatsContainer>
                 </S.LeaderboardRow>
               ))}
