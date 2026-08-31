@@ -7,8 +7,8 @@ The authenticated portal for FU-DEVER Club members. Members can manage their pro
 | Service | Repository | Production |
 | --- | --- | --- |
 | Landing page | [fu-dever-landingpage](https://github.com/fudever-club/fu-dever-landingpage) | [Open](https://fu-dever-landingpage-v2.vercel.app) |
-| Member portal | [dever-client](https://github.com/fudever-club/dever-client) | [Open](https://dever-client-taupe.vercel.app/vi/sign-in) |
-| Admin dashboard | [dever-admin](https://github.com/fudever-club/dever-admin) | [Open](https://dever-admin-lac.vercel.app/vi/sign-in) |
+| Member portal | [dever-client](https://github.com/fudever-club/dever-client) | [Open](https://dever-client-sigma.vercel.app/vi/sign-in) |
+| Admin dashboard | [dever-admin](https://github.com/fudever-club/dever-admin) | [Open](https://dever-admin-three.vercel.app/vi/sign-in) |
 | Backend API | [dever-backend](https://github.com/fudever-club/dever-backend) | [Open](https://dever-backend-production.up.railway.app/health) |
 
 ## Key flows
@@ -46,7 +46,7 @@ NEXT_PUBLIC_API_SERVER=http://localhost:5000
 NEXT_PUBLIC_ASSETS_URL=http://localhost:5000/static
 ```
 
-Open [http://localhost:3002/vi/sign-in](http://localhost:3002/vi/sign-in) for local development. This browser address is expected for `next dev`; it does not mean the portal is using a local Backend. For the deployed portal, open [the production Client](https://dever-client-taupe.vercel.app/vi/sign-in).
+Open [http://localhost:3002/vi/sign-in](http://localhost:3002/vi/sign-in) for local development. This browser address is expected for `next dev`; it does not mean the portal is using a local Backend. For the deployed portal, open [the production Client](https://dever-client-sigma.vercel.app/vi/sign-in).
 
 ## Quality checks
 
