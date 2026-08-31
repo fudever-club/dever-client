@@ -5,12 +5,12 @@ const prefixOther: string = "/api/core";
 const prefixApiAuth: string = `/api/core`;
 
 const endpointAuth = {
-  SIGN_IN: `${prefixBase}/auth/login/`,
+  SIGN_IN: `${prefixBase}/auth/login`,
   VERIFY_TOKEN: `${prefixBase}/verifyToken`,
 };
 
 const endpointAllMember = {
-  GET_ALL_MEMBERS: `${prefixBase}/users/`,
+  GET_ALL_MEMBERS: `${prefixBase}/users`,
   GET_ALL_DEPARTMENTS: `${prefixBase}/department`,
   GET_ALL_POSITION: `${prefixBase}/position`,
   GET_ALL_MAJOR: `${prefixBase}/major`,
@@ -32,7 +32,7 @@ const endpointProfile = {
 };
 
 const endpointLeetcode = {
-  GET_LEADERBOARD: `${prefixBase}/leetcode/`,
+  GET_LEADERBOARD: `${prefixBase}/leetcode`,
   SUBCRIBE_LEADERBOARD: `${prefixBase}/leetcode/subcribe`,
   UPDATE: `${prefixBase}/leetcode/update`,
 };
