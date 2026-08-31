@@ -106,6 +106,7 @@ function SignInModule() {
           ]}
         >
           <Input
+            type="email"
             placeholder={t("enterEmail")}
             autoComplete="email"
             inputMode="email"
