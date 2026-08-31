@@ -36,16 +36,25 @@ function SignInModule() {
     try {
       const res: any = await signIn(values).unwrap();
       const token = res?.data?.token;
+      const user = res?.data?.user;
 
       if (token) {
         webStorageClient.setToken(token);
         webStorageClient.set("_access_token", token);
+        if (user) {
+          webStorageClient.set("_user_info", user);
+        }
       }
 
       message.success(t("signInSuccess"));
-      router?.push(`/${locale}/members`);
-    } catch (error) {
-      message.error(t("invalidCredentials"));
+      if (typeof window !== "undefined") {
+        window.location.href = `/${locale}/members`;
+      } else {
+        router?.push(`/${locale}/members`);
+      }
+    } catch (error: any) {
+      const errMsg = error?.data?.message || error?.message || t("invalidCredentials");
+      message.error(errMsg);
     }
   };
 
