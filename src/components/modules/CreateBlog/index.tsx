@@ -785,7 +785,9 @@ export default function CreateBlogModule() {
       excerpt: excerpt || title.substring(0, 120),
       content,
       tags: selectedTags,
-      coverImage: coverUrl || "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+      coverImage:
+        coverUrl ||
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'><defs><linearGradient id='dever-grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23004C99'/><stop offset='50%25' stop-color='%230066CC'/><stop offset='100%25' stop-color='%230098FF'/></linearGradient></defs><rect width='100%25' height='100%25' fill='url(%23dever-grad)'/><g fill='none' stroke='white' stroke-opacity='0.15' stroke-width='2'><path d='M0,150 Q300,50 600,150 T1200,150'/><path d='M0,350 Q300,250 600,350 T1200,350'/><path d='M0,500 Q300,400 600,500 T1200,500'/></g><circle cx='600' cy='260' r='64' fill='white' fill-opacity='0.1'/><text x='600' y='275' font-family='sans-serif' font-size='48' font-weight='900' fill='white' text-anchor='middle'>FU-DEVER</text><text x='600' y='360' font-family='sans-serif' font-size='28' font-weight='700' fill='%23E0F2FE' text-anchor='middle'>TECH BLOG &amp; KNOWLEDGE BASE</text></svg>",
       status: payloadStatus,
       submitForReview: actionType === "submit",
     };

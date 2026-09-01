@@ -1,61 +1,91 @@
-# DEVER Member Portal
+# ⚡ FU-DEVER Member & Client Portal
 
-The authenticated portal for FU-DEVER Club members. Members can manage their profile visibility, explore other public profiles, follow the LeetCode leaderboard, and contribute club content within the permissions granted by administrators.
+<p align="center">
+  <img src="public/icons/layout/fu-dever-logo.png" alt="FU-DEVER Logo" width="96" height="96" />
+</p>
 
-## Related services
+<p align="center">
+  <b>Cổng không gian học thuật & Trung tâm chỉ huy thành viên FU-DEVER</b><br />
+  <i>Đại học FPT Đà Nẵng · "WORK HARD - PLAY HARD"</i>
+</p>
 
-| Service | Repository | Production |
-| --- | --- | --- |
-| Landing page | [fu-dever-landingpage](https://github.com/fudever-club/fu-dever-landingpage) | [Open](https://fu-dever-landingpage-v2.vercel.app) |
-| Member portal | [dever-client](https://github.com/fudever-club/dever-client) | [Open](https://dever-client-sigma.vercel.app/vi/sign-in) |
-| Admin dashboard | [dever-admin](https://github.com/fudever-club/dever-admin) | [Open](https://dever-admin-three.vercel.app/vi/sign-in) |
-| Backend API | [dever-backend](https://github.com/fudever-club/dever-backend) | [Open](https://dever-backend-production.up.railway.app/health) |
+<p align="center">
+  <a href="https://client.fudever.com"><img src="https://img.shields.io/badge/Production-client.fudever.com-0066CC?style=for-the-badge&logo=vercel&logoColor=white" alt="Production Domain" /></a>
+  <a href="https://github.com/fudever-club/dever-client"><img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repo" /></a>
+  <img src="https://img.shields.io/badge/Next.js-14_App_Router-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js 14" />
+  <img src="https://img.shields.io/badge/Redux_Toolkit-RTK_Query-764ABC?style=for-the-badge&logo=redux&logoColor=white" alt="Redux Toolkit" />
+  <img src="https://img.shields.io/badge/Ant_Design-5.0-0170FE?style=for-the-badge&logo=ant-design&logoColor=white" alt="Ant Design" />
+  <img src="https://img.shields.io/badge/Cloudflare_R2-Storage-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" />
+</p>
 
-## Key flows
+---
 
-- Sign in with an account provisioned by an administrator. Public self-registration is intentionally unavailable.
-- Review and update personal information and choose which optional fields are public.
-- Browse members through privacy-safe public profile links.
-- View LeetCode activity and create authorised club blog content.
+## 🌐 Tổng Quan Phân Hệ (Overview)
 
-## Tech stack
+`dever-client` là nền tảng quản lý học thuật và phát triển kỹ năng dành riêng cho các thành viên thuộc Câu lạc bộ Lập trình FU-DEVER:
+- **Đấu trường LeetCode:** Bảng xếp hạng giải thuật realtime, Heatmap đóng góp và thống kê bài tập AC.
+- **DEVER Studio Writer:** Trình soạn thảo bài viết kỹ thuật chuẩn Markdown tích hợp Cloudflare R2 Upload, Live Code Block, Mermaid Diagrams và Khung Callouts.
+- **Trung tâm chỉ huy (Command Center Dashboard):** Bento Grid Magic UI, thanh tiến trình EXP & Leveling, hệ thống huy hiệu 3D.
+- **Hồ sơ & Danh bạ thành viên:** Kết nối mạng lưới sinh viên CNTT các thế hệ Gen 1 đến Gen 9.
 
-Next.js 14 App Router, TypeScript, Ant Design, Redux Toolkit Query, and `next-intl` (Vietnamese and English).
+---
 
-## Run locally
+## ✨ Tính Năng Nổi Bật (Key Features)
 
-Requires Node.js 20+. By default, the local portal uses the production DEVER API on Railway.
+- 🏆 **Gamification Engine:** Hệ thống tích lũy điểm danh vọng EXP, Leveling, chuỗi ngày điểm danh (Streak Counter) và bộ sưu tập Huy hiệu 3D thành tích.
+- 📊 **LeetCode Leaderboard & Activity Heatmap:** Đồng bộ hóa tự động trạng thái nộp bài thuật toán, hiển thị bục Podium Top 3 đảo thứ tự thông minh trên Mobile/Desktop.
+- ✍️ **DEVER Studio Writer v3.0:**
+  - 3 chế độ xem: Split View (Song song), Focus View (Toàn màn hình), Preview View.
+  - Tự động lưu bản nháp (`Auto-Save` sau 2 giây).
+  - Tải ảnh trực tiếp lên **Cloudflare R2** hoặc dán ảnh chụp màn hình từ Clipboard (`Ctrl+V`).
+  - Hộp thoại sinh tự động: Bảng biểu (Table Generator), Mã nguồn đa ngôn ngữ, Khung cảnh báo (Callouts).
+- 🛡️ **Hồ sơ & Bảo mật:** Đánh giá phần trăm hoàn thiện hồ sơ (`% Complete`) mở khóa huy hiệu *Security Sentinel*.
 
+---
+
+## 💻 Cài Đặt & Chạy Cục Bộ (Local Development)
+
+### Yêu cầu:
+- Node.js 20+ và npm / yarn / pnpm
+- Dịch vụ Backend đang chạy trên cổng `5000`
+
+### 1. Cài đặt dependencies:
 ```bash
+git clone https://github.com/fudever-club/dever-client.git
+cd dever-client
 npm ci
-Copy-Item .env.example .env.local
-npm run dev -- -p 3002
 ```
 
-Set the following production API configuration in `.env.local`:
-
-```env
-NEXT_PUBLIC_API_SERVER=https://dever-backend-production.up.railway.app
-NEXT_PUBLIC_ASSETS_URL=https://dever-backend-production.up.railway.app/static
-```
-
-Only when intentionally running the Backend locally, replace those values with:
-
+### 2. Cấu hình biến môi trường:
+Tạo file `.env.local`:
 ```env
 NEXT_PUBLIC_API_SERVER=http://localhost:5000
-NEXT_PUBLIC_ASSETS_URL=http://localhost:5000/static
+NEXT_PUBLIC_LANDING_URL=http://localhost:3000
+NEXT_PUBLIC_CLIENT_URL=http://localhost:3002
+NEXT_PUBLIC_ADMIN_URL=http://localhost:3003
 ```
 
-Open [http://localhost:3002/vi/sign-in](http://localhost:3002/vi/sign-in) for local development. This browser address is expected for `next dev`; it does not mean the portal is using a local Backend. For the deployed portal, open [the production Client](https://dever-client-sigma.vercel.app/vi/sign-in).
+### 3. Khởi chạy ứng dụng:
+```bash
+npm run dev -- -p 3002
+```
+Mở trình duyệt tại: `http://localhost:3002/vi/sign-in`
 
-## Quality checks
+---
+
+## 🧪 Kiểm Thử & Đóng Gói (Quality Checks)
 
 ```bash
-npx tsc --noEmit
+# Kiểm tra linter
 npm run lint
+
+# Đóng gói Production
 npm run build
 ```
 
-## Contributing
+---
 
-Do not expose sensitive member data in client-side routes or static fixtures. Profile links must use the opaque `profileKey` returned by the API, and all API failures should have a visible recovery state.
+## 📄 Bản Quyền & Giấy Phép (License)
+
+Dự án được phát triển và duy trì bởi **Ban Kỹ Thuật Câu lạc bộ Lập trình FU-DEVER** - Đại học FPT Đà Nẵng.  
+Phát hành theo giấy phép [MIT License](LICENSE).

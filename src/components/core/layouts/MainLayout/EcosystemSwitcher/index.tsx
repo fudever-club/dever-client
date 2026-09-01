@@ -5,8 +5,8 @@ interface EcosystemSwitcherProps {
 }
 
 function EcosystemSwitcher({ isAdmin }: EcosystemSwitcherProps) {
-  const landingUrl = process.env.NEXT_PUBLIC_LANDING_URL || "http://localhost:3000";
-  const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:3003";
+  const landingUrl = process.env.NEXT_PUBLIC_LANDING_URL || "https://fudever.com";
+  const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || "https://admin.fudever.com";
 
   return (
     <div className="w-64 space-y-1 p-1">
