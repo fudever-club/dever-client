@@ -38,12 +38,14 @@ const MENTOR_TOPIC_OPTIONS = [
 ];
 
 const GEN_OPTIONS = [
-  { label: "Gen 1 (K14 - K15)", value: "Gen 1" },
-  { label: "Gen 2 (K15 - K16)", value: "Gen 2" },
-  { label: "Gen 3 (K16 - K17)", value: "Gen 3" },
-  { label: "Gen 4 (K17 - K18)", value: "Gen 4" },
-  { label: "Gen 5 (K18 - K19)", value: "Gen 5" },
-  { label: "Gen 6 (K19 - K20)", value: "Gen 6" },
+  { label: "Gen 1", value: "Gen 1" },
+  { label: "Gen 2", value: "Gen 2" },
+  { label: "Gen 3", value: "Gen 3" },
+  { label: "Gen 4", value: "Gen 4" },
+  { label: "Gen 5", value: "Gen 5" },
+  { label: "Gen 6", value: "Gen 6" },
+  { label: "Gen 7", value: "Gen 7" },
+  { label: "Gen 8", value: "Gen 8" },
 ];
 
 interface AlumniAdvisoryModalProps {
@@ -168,8 +170,8 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Form.Item
               name="graduationGen"
-              label={<span className="text-xs font-bold text-slate-700">Thế hệ / Khóa thành viên</span>}
-              rules={[{ required: true, message: "Chọn khóa" }]}
+              label={<span className="text-xs font-bold text-slate-700">Thế hệ (Gen)</span>}
+              rules={[{ required: true, message: "Vui lòng chọn Gen" }]}
             >
               <Select options={GEN_OPTIONS} className="rounded-xl text-xs" />
             </Form.Item>
