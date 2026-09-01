@@ -61,6 +61,17 @@ const endpointNotifications = {
   TEST_TELEGRAM: `${prefixBase}/notifications/test-telegram`,
 };
 
+const endpointFund = {
+  ACTIVE_CAMPAIGN: `${prefixBase}/funds/active-campaign`,
+  MY_PAYMENTS: `${prefixBase}/funds/my-payments`,
+  SUBMIT_PAYMENT: `${prefixBase}/funds/submit-payment`,
+};
+
+const endpointAlumniAdvisory = {
+  INVITATION_STATUS: `${prefixBase}/alumni/advisory-invitation-status`,
+  ACCEPT_INVITATION: `${prefixBase}/alumni/accept-advisory`,
+};
+
 const endpointOther = {};
 
 export {
@@ -73,4 +84,6 @@ export {
   endpointEcosystem,
   endpointGamification,
   endpointNotifications,
+  endpointFund,
+  endpointAlumniAdvisory,
 };

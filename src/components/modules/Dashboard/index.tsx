@@ -20,6 +20,8 @@ import {
   Trophy,
   Users,
   Zap,
+  Wallet,
+  Crown,
 } from "lucide-react";
 import { Progress, Skeleton, Empty, Alert } from "antd";
 import { useLocale } from "next-intl";
@@ -37,6 +39,7 @@ import { useGetLeaderboardQuery } from "@/store/queries/leetcode";
 import LevelProgressCard from "@/components/ui/Gamification/LevelProgressCard";
 import BadgeShowcaseGrid from "@/components/ui/Gamification/BadgeShowcaseGrid";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
+import AlumniAdvisoryModal from "@/components/modules/AlumniAdvisory/AlumniAdvisoryModal";
 
 const profileFields = [
   { key: "avatar", label: "Ảnh đại diện" },
@@ -51,6 +54,7 @@ const profileFields = [
 function Dashboard() {
   const locale = useLocale();
   const router = useRouter();
+  const [advisoryOpen, setAdvisoryOpen] = React.useState<boolean>(false);
   const { userInfo } = useAppSelector((state) => state.auth);
   const profileQuery = useGetMyProfileQuery(userInfo.id || "", { skip: !userInfo.id });
   const eventsQuery = useGetEventsQuery();
@@ -93,6 +97,30 @@ function Dashboard() {
       {/* 1. Command Center Hero Gamification Banner */}
       <LevelProgressCard />
 
+      {/* Alumni Advisory Board Invitation Callout Banner */}
+      <div className="rounded-3xl border border-blue-200/80 bg-gradient-to-r from-[#003B73] via-[#004C99] to-[#0066CC] p-5 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-amber-400/20 border border-amber-300/40 text-amber-300 flex items-center justify-center shrink-0">
+            <Crown className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-300 tracking-wider uppercase mb-0.5">
+              <span>Thư Mời Danh Dự Từ Ban Chủ Nhiệm</span>
+            </div>
+            <h3 className="text-base sm:text-lg font-black text-white">Tham Gia Hội Đồng Cố Vấn &amp; Bảng Vàng Cựu Thành Viên</h3>
+            <p className="text-xs text-blue-100 max-w-2xl">
+              Dành cho các thế hệ Cựu thành viên DEVER (Gen 1 – Gen 6) đồng hành định hướng, mentoring và tiếp lửa cho tân sinh viên.
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => setAdvisoryOpen(true)}
+          className="shrink-0 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs px-5 py-2.5 shadow-md active:scale-[0.98] transition-all"
+        >
+          Nhận Thư Mời &amp; Xuất Bản
+        </button>
+      </div>
+
       {/* 2. Magic UI Bento Grid Feature Showcase */}
       <section aria-label="Bento Command Grid">
         <BentoGrid className="lg:grid-rows-2">
@@ -124,7 +152,21 @@ function Dashboard() {
             }
           />
 
-          {/* Card 3: Hồ Sơ & Bảo Mật (Span 1 col) */}
+          {/* Card 3: Đóng Quỹ CLB (Span 1 col) */}
+          <BentoCard
+            name="Quỹ Hoạt Động CLB"
+            className="lg:col-span-1"
+            badge="VietQR 1-Click"
+            Icon={Wallet}
+            description="Thực hiện nghĩa vụ đóng quỹ thành viên, theo dõi tiến độ giải ngân thiết bị Lab và tài trợ giải đấu."
+            href={`/${locale}/fund`}
+            cta="Đóng Quỹ CLB"
+            background={
+              <div className="absolute -bottom-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-tr from-blue-500/15 to-indigo-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+            }
+          />
+
+          {/* Card 4: Hồ Sơ & Bảo Mật (Span 1 col) */}
           <BentoCard
             name="Hồ Sơ & Bảo Mật"
             className="lg:col-span-1"
@@ -307,6 +349,11 @@ function Dashboard() {
           </button>
         </div>
       )}
+      {/* Alumni Advisory Board Invitation Modal */}
+      <AlumniAdvisoryModal
+        open={advisoryOpen}
+        onClose={() => setAdvisoryOpen(false)}
+      />
     </main>
   );
 }

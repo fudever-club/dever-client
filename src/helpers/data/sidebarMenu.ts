@@ -1,12 +1,24 @@
 import React from "react";
 import { MenuProps } from "antd";
-import { AppstoreOutlined, BookOutlined, CompassOutlined, TeamOutlined, TrophyOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  BookOutlined,
+  CompassOutlined,
+  TeamOutlined,
+  TrophyOutlined,
+  WalletOutlined,
+} from "@ant-design/icons";
 
 export const sidebarMenu: MenuProps["items"] = [
   {
     key: "dashboard",
     icon: React.createElement(AppstoreOutlined),
     label: "dashboard",
+  },
+  {
+    key: "fund",
+    icon: React.createElement(WalletOutlined),
+    label: "Quỹ CLB",
   },
   {
     key: "hall-of-fame",
