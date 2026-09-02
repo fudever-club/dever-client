@@ -28,9 +28,13 @@ function SettingsModules() {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
 
+  const storedUser = webStorageClient.get(constants.USER_INFO);
+  const userId = storedUser?._id || storedUser?.id || (typeof storedUser === "string" ? storedUser : "");
+
   const { result, isFetching, refetch } = useGetMyProfileQuery(
-    webStorageClient.get(constants.USER_INFO),
+    userId,
     {
+      skip: !userId,
       selectFromResult: ({ data, isFetching }) => {
         return {
           result: data?.data ?? {},
@@ -41,8 +45,10 @@ function SettingsModules() {
   );
 
   useEffect(() => {
-    refetch();
-  }, [refetch]);
+    if (userId) {
+      refetch();
+    }
+  }, [userId, refetch]);
 
   return (
     <S.PageWrapper>

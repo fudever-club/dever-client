@@ -63,7 +63,7 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
 
   const onFinish: FormProps<IUpdateValues>["onFinish"] = async (values) => {
     try {
-      await updateUserProfile(values).unwrap();
+      const res = await updateUserProfile(values).unwrap();
       dispatch(
         applyChangeName({
           firstname: values.firstname,
@@ -72,6 +72,16 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
       );
       webStorageClient.set(constants.FN, values.firstname);
       webStorageClient.set(constants.LN, values.lastname);
+      
+      const currentUser = webStorageClient.get(constants.USER_INFO);
+      if (currentUser && typeof currentUser === "object") {
+        webStorageClient.set(constants.USER_INFO, {
+          ...currentUser,
+          ...values,
+          ...(res?.data || {}),
+        });
+      }
+      
       message.success(t("updateSuccess"));
     } catch (error) {
       message.error(t("updateError"));
@@ -106,26 +116,32 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
   });
 
   useEffect(() => {
-    const departmentIds: string[] = userData.departments?.map(
-      (item: UserEnum, _) => {
-        return item._id;
-      }
-    );
+    if (!userData || Object.keys(userData).length === 0) return;
+
+    const departmentIds: string[] = Array.isArray(userData.departments)
+      ? userData.departments
+          .map((item: any) => (typeof item === "object" ? item?._id : item))
+          .filter(Boolean)
+      : [];
+
+    const majorVal = typeof userData.majorId === "object" ? userData.majorId?._id : userData.majorId;
+    const posVal = typeof userData.positionId === "object" ? userData.positionId?._id : userData.positionId;
+
     myForm.setFieldsValue({
-      firstname: userData?.firstname,
-      lastname: userData?.lastname,
-      dob: userData?.dob !== null ? dayjs(userData?.dob) : undefined,
-      gen: userData.gen,
-      MSSV: userData.MSSV,
-      hometown: userData?.hometown,
-      job: userData?.job,
-      majorId: userData?.majorId?._id,
-      positionId: userData?.positionId?._id,
-      departments: departmentIds,
-      school: userData?.school,
-      workplace: userData?.workplace,
+      firstname: userData?.firstname || "",
+      lastname: userData?.lastname || "",
+      dob: userData?.dob ? dayjs(userData.dob) : undefined,
+      gen: userData?.gen || undefined,
+      MSSV: userData?.MSSV || "",
+      hometown: userData?.hometown || "",
+      job: userData?.job || "",
+      majorId: majorVal || undefined,
+      positionId: posVal || undefined,
+      departments: departmentIds.length > 0 ? departmentIds : undefined,
+      school: userData?.school || "",
+      workplace: userData?.workplace || "",
     });
-  }, [userData]);
+  }, [userData, myForm]);
 
   const handleFillGridEntryScreen = () => {
     if (screens.lg) return 12;
@@ -133,6 +149,7 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
     if (screens.sm) return 24;
     if (screens.xs) return 24;
   };
+
   return (
     <S.ContainerWrapper>
       <S.CustomCard>

@@ -8,6 +8,8 @@ import { UserInfo } from "@/helpers/types/userTypes";
 import { useUpdateUserProfileMutation } from "@/store/queries/settings";
 import { useTranslation } from "@/app/i18n/client";
 import { useParams } from "next/navigation";
+import { constants } from "@/settings";
+import webStorageClient from "@/utils/webStorageClient";
 
 interface IProps {
   isUserProfileLoading: boolean;
@@ -29,19 +31,27 @@ function ContactChange({ isUserProfileLoading, userData }: IProps) {
   const onFinish: FormProps<IUpdateData>["onFinish"] = async (values) => {
     try {
       const res: any = await updateUserProfile(values).unwrap();
-      message.success(t("updateSuccess"))
+      const currentUser = webStorageClient.get(constants.USER_INFO);
+      if (currentUser && typeof currentUser === "object") {
+        webStorageClient.set(constants.USER_INFO, {
+          ...currentUser,
+          ...values,
+          ...(res?.data || {}),
+        });
+      }
+      message.success(t("updateSuccess"));
     } catch (error) {
       message.error(t("updateError"));
     }
   };
 
-
   useEffect(() => {
+    if (!userData) return;
     myForm.setFieldsValue({
-      phone: userData?.phone,
-      nickname: userData?.nickname,
+      phone: userData?.phone || "",
+      nickname: userData?.nickname || "",
     });
-  }, [userData]);
+  }, [userData, myForm]);
 
   return (
     <S.ContainerWrapper>
@@ -67,7 +77,7 @@ function ContactChange({ isUserProfileLoading, userData }: IProps) {
               label={t("nickname")}
               name="nickname"
               wrapperCol={{ span: 24 }}
-              rules={[{ required: true, message: t("enterPhoneNumber") }]}
+              rules={[{ required: true, message: t("cantBeEmpty") }]}
             >
               <Input placeholder={t("enterNickname")} />
             </Form.Item>

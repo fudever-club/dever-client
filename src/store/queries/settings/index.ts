@@ -14,7 +14,7 @@ export const authAPI = baseApi.injectEndpoints({
         method: "GET",
         flashError: true,
       }),
-      providesTags: (_result, _error, id) => [{ type: "Profile", id }],
+      providesTags: (_result, _error, id) => [{ type: "Profile", id }, "Profile"],
     }),
 
     updateUserProfile: build.mutation({

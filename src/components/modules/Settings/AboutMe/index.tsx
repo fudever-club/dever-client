@@ -26,7 +26,7 @@ function AboutMe({ isUserProfileFetching, userData }: IProps) {
   const { t } = useTranslation(params?.locale as string, "settings");
 
   useEffect(() => {
-    setTextEditorData(userData.description!);
+    setTextEditorData(userData?.description || "");
   }, [userData]);
 
   const handleSubmitDescription = async () => {
