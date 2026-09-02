@@ -42,13 +42,14 @@ import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import AlumniAdvisoryModal from "@/components/modules/AlumniAdvisory/AlumniAdvisoryModal";
 
 const profileFields = [
-  { key: "avatar", label: "Ảnh đại diện" },
-  { key: "description", label: "Giới thiệu" },
-  { key: "skills", label: "Kỹ năng" },
-  { key: "socials", label: "Liên hệ" },
-  { key: "departments", label: "Ban chuyên môn" },
-  { key: "majorId", label: "Chuyên ngành" },
-  { key: "positionId", label: "Chức vụ" },
+  { key: "avatar", label: "Ảnh đại diện", check: (p: any) => Boolean(p?.avatar) },
+  { key: "description", label: "Giới thiệu bản thân", check: (p: any) => Boolean(p?.description && p.description.trim().length > 0) },
+  { key: "skills", label: "Kỹ năng chuyên môn", check: (p: any) => Array.isArray(p?.skills) && p.skills.length > 0 },
+  { key: "socials", label: "Mạng xã hội", check: (p: any) => Array.isArray(p?.socials) && p.socials.length > 0 },
+  { key: "leetcodeUsername", label: "Đấu trường LeetCode", check: (p: any) => Boolean(p?.leetcodeUsername) },
+  { key: "favoriteTrack", label: "Nhạc nền hồ sơ", check: (p: any) => Boolean(p?.favoriteTrack?.title || p?.favoriteTrack?.url) },
+  { key: "departments", label: "Ban chuyên môn", check: (p: any) => Array.isArray(p?.departments) && p.departments.length > 0 },
+  { key: "contact", label: "Thông tin liên hệ", check: (p: any) => Boolean(p?.phone || p?.email || p?.nickname) },
 ];
 
 function Dashboard() {
@@ -56,18 +57,23 @@ function Dashboard() {
   const router = useRouter();
   const [advisoryOpen, setAdvisoryOpen] = React.useState<boolean>(false);
   const { userInfo } = useAppSelector((state) => state.auth);
-  const profileQuery = useGetMyProfileQuery(userInfo.id || "", { skip: !userInfo.id });
+  
+  const storedUser = typeof window !== "undefined" ? webStorageClient.get(constants.USER_INFO) : null;
+  const currentUserId =
+    userInfo?.id ||
+    storedUser?._id ||
+    storedUser?.id ||
+    (typeof storedUser === "string" ? storedUser : "");
+
+  const profileQuery = useGetMyProfileQuery(currentUserId, { skip: !currentUserId });
   const eventsQuery = useGetEventsQuery();
   const resourcesQuery = useGetResourcesQuery();
   const blogsQuery = useGetBlogsQuery();
   const labsQuery = useGetProjectLabsQuery();
   const leaderboardQuery = useGetLeaderboardQuery(undefined);
 
-  const profile = profileQuery.data?.data ?? userInfo;
-  const filledFields = profileFields.filter((field) => {
-    const val = profile?.[field.key];
-    return Array.isArray(val) ? val.length > 0 : Boolean(val);
-  });
+  const profile = profileQuery.data?.data ?? storedUser ?? userInfo;
+  const filledFields = profileFields.filter((field) => field.check(profile));
   const completeCount = filledFields.length;
   const completion = Math.round((completeCount / profileFields.length) * 100);
   const profileLeetcode = profile?.leetcodeUsername;
