@@ -212,10 +212,9 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
             {/* Presets Selection */}
             <S.PresetsSection>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <Typography.Text strong style={{ fontSize: 12, color: "#475569" }}>
+                <Typography.Text strong style={{ fontSize: 13, color: "#334155" }}>
                   {t("trackPresets")}
                 </Typography.Text>
-                <Tag color="blue">Cloudflare R2 Ready</Tag>
               </div>
               <S.PresetList>
                 {PRESET_TRACKS.map((preset, idx) => {

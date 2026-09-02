@@ -634,11 +634,11 @@ export default function CreateBlogModule() {
     }, 50);
   };
 
-  // Direct Cloudflare R2 Upload Helper
+  // Direct Image Upload Helper
   const handleUploadImageFile = async (file: File, folder: string = "blog-images"): Promise<string | null> => {
     const token = webStorageClient.getToken();
     if (!token) {
-      message.error("Vui lòng đăng nhập để tải ảnh lên Cloudflare R2.");
+      message.error("Vui lòng đăng nhập để tải ảnh lên bài viết.");
       return null;
     }
 
@@ -656,11 +656,11 @@ export default function CreateBlogModule() {
       if (res.ok && data.status === "success") {
         return data.data?.url || null;
       } else {
-        message.error(data.message || "Tải ảnh lên đám mây thất bại");
+        message.error(data.message || "Tải ảnh lên thất bại");
         return null;
       }
     } catch (e) {
-      message.error("Lỗi kết nối khi tải ảnh lên đám mây");
+      message.error("Lỗi kết nối khi tải ảnh lên");
       return null;
     }
   };
@@ -673,7 +673,7 @@ export default function CreateBlogModule() {
     const url = await handleUploadImageFile(file, "blog-covers");
     if (url) {
       setCoverUrl(url);
-      message.success("Tải ảnh bìa lên Cloudflare R2 thành công!");
+      message.success("Đã tải ảnh bìa bài viết thành công!");
     }
     setUploadingCover(false);
   };
@@ -700,13 +700,13 @@ export default function CreateBlogModule() {
         const file = items[i].getAsFile();
         if (file) {
           e.preventDefault();
-          message.loading({ content: "Đang tải ảnh chụp màn hình lên Cloudflare R2...", key: "paste_r2" });
+          message.loading({ content: "Đang tải ảnh chụp màn hình lên...", key: "paste_img" });
           const url = await handleUploadImageFile(file, "blog-images");
           if (url) {
-            message.success({ content: "Đã chèn ảnh chụp màn hình!", key: "paste_r2" });
+            message.success({ content: "Đã chèn ảnh chụp màn hình!", key: "paste_img" });
             insertFormatting(`\n![Screenshot](${url})\n`, "", "");
           } else {
-            message.error({ content: "Tải ảnh thất bại", key: "paste_r2" });
+            message.error({ content: "Tải ảnh thất bại", key: "paste_img" });
           }
           break;
         }
@@ -1204,7 +1204,7 @@ export default function CreateBlogModule() {
                     <ImageIcon size={24} />
                   </div>
                   <p style={{ fontSize: "14px", fontWeight: 700, color: "#1E293B", margin: 0 }}>
-                    {uploadingCover ? "Đang tải ảnh lên Cloudflare R2..." : "Tải ảnh bìa bài viết (Cover Banner)"}
+                    {uploadingCover ? "Đang tải ảnh lên..." : "Tải ảnh bìa bài viết"}
                   </p>
                   <p style={{ fontSize: "12px", color: "#64748B", margin: 0 }}>
                     Kéo thả hoặc bấm để chọn ảnh từ máy tính (JPEG, PNG, WebP)
@@ -1468,7 +1468,7 @@ export default function CreateBlogModule() {
                   Sơ Đồ Kiến Trúc
                 </button>
 
-                {/* 5. Direct Cloudflare R2 Image Upload Button */}
+                {/* 5. Direct Image Upload Button */}
                 <button
                   type="button"
                   onClick={() => contentImgFileRef.current?.click()}
@@ -1490,7 +1490,7 @@ export default function CreateBlogModule() {
                   <div style={{ padding: "4px", borderRadius: "8px", backgroundColor: "#7E22CE", color: "#FFFFFF", display: "flex" }}>
                     <UploadCloud size={14} />
                   </div>
-                  {uploadingContentImg ? "Đang tải..." : "Tải Ảnh R2"}
+                  {uploadingContentImg ? "Đang tải..." : "Tải ảnh lên"}
                 </button>
                 <input
                   ref={contentImgFileRef}
