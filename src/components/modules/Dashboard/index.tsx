@@ -36,6 +36,8 @@ import {
   useGetResourcesQuery,
 } from "@/store/queries/ecosystem";
 import { useGetLeaderboardQuery } from "@/store/queries/leetcode";
+import { constants } from "@/settings";
+import webStorageClient from "@/utils/webStorageClient";
 import LevelProgressCard from "@/components/ui/Gamification/LevelProgressCard";
 import BadgeShowcaseGrid from "@/components/ui/Gamification/BadgeShowcaseGrid";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
