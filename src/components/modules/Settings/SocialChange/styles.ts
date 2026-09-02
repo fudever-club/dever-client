@@ -25,13 +25,7 @@ export const ContentWrapper = styled.div`
 export const SocialListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-`;
-export const PlusButtonCustom = styled(Button)`
-  width: 45px !important;
-  height: 45px !important;
-  border-radius: 50px !important;
-  padding: 0px !important;
+  gap: 12px;
 `;
 
 export const FormItemNotMB = styled(Form.Item)`

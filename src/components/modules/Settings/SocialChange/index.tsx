@@ -126,83 +126,121 @@ function SocialChange({
     <S.ContainerWrapper>
       <S.CustomCard>
         {isUserProfileLoading ? (
-          <Skeleton />
+          <Skeleton active paragraph={{ rows: 3 }} />
         ) : (
           <S.ContentWrapper>
-            <Flex align="center" justify="space-between" style={{ marginBottom: 16 }}>
-              <Typography.Title level={3} style={{ margin: 0 }}>
+            <Flex align="center" justify="space-between" wrap="wrap" gap={12}>
+              <Typography.Title level={3} style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>
                 {t("socials")}
               </Typography.Title>
-              <S.PlusButtonCustom
+              <Button
                 type={isEdit ? "primary" : "default"}
-                title="Thêm mạng xã hội"
-                size="middle"
+                icon={<PlusOutlined />}
                 onClick={() => setIsEdit(!isEdit)}
-                style={{ borderRadius: 8 }}
+                style={{
+                  borderRadius: 8,
+                  height: 36,
+                  fontWeight: 600,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                }}
               >
-                <PlusOutlined /> {isEdit ? "Đóng form" : "Thêm liên kết"}
-              </S.PlusButtonCustom>
+                {isEdit ? "Đóng form" : "Thêm liên kết"}
+              </Button>
             </Flex>
 
             <S.SocialListContainer>
-              <List
-                itemLayout="horizontal"
-                dataSource={socialData}
-                locale={{ emptyText: "Chưa có liên kết mạng xã hội nào được thêm" }}
-                renderItem={(item, index) => (
-                  <List.Item
-                    key={index}
+              {socialData && socialData.length > 0 ? (
+                socialData.map((item, index) => (
+                  <div
+                    key={item._id || index}
                     style={{
-                      padding: "12px 16px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 16,
+                      padding: "12px 18px",
                       borderRadius: 12,
-                      background: "rgba(248, 250, 252, 0.6)",
+                      background: "rgba(248, 250, 252, 0.8)",
                       border: "1px solid #E2E8F0",
-                      marginBottom: 10,
+                      width: "100%",
+                      transition: "all 0.2s ease",
                     }}
+                    className="hover:border-blue-300 hover:shadow-sm"
                   >
-                    <List.Item.Meta
-                      avatar={
-                        <SocialBrandIcon
-                          platform={item.socialId?.constant || item.socialId?.name}
-                          size={42}
-                        />
-                      }
-                      title={
-                        <Typography.Text strong style={{ fontSize: 15, color: "#0F172A" }}>
+                    <Flex align="center" gap={14} style={{ minWidth: 0, flex: 1 }}>
+                      <SocialBrandIcon
+                        platform={item.socialId?.constant || item.socialId?.name}
+                        size={42}
+                      />
+                      <div style={{ minWidth: 0, flex: 1, display: "flex", flexDirection: "column", gap: 3 }}>
+                        <Typography.Text strong style={{ fontSize: 15, color: "#0F172A", lineHeight: 1.2 }}>
                           {item.socialId?.name || "Mạng xã hội"}
                         </Typography.Text>
-                      }
-                      description={
-                        <Typography.Text style={{ maxWidth: 350 }} ellipsis={true}>
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ color: "#0066CC", fontSize: 13 }}
-                          >
-                            <LinkOutlined style={{ marginRight: 4 }} />
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            color: "#0066CC",
+                            fontSize: 13,
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 6,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                            maxWidth: "100%",
+                          }}
+                        >
+                          <LinkOutlined style={{ flexShrink: 0, fontSize: 12 }} />
+                          <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                             {item.url}
-                          </a>
-                        </Typography.Text>
-                      }
-                    />
+                          </span>
+                        </a>
+                      </div>
+                    </Flex>
+
                     <Button
                       type="default"
                       danger
                       icon={<DisconnectOutlined />}
                       onClick={() => handleDisconnect(item._id)}
-                      style={{ borderRadius: 8, fontWeight: 500 }}
+                      style={{
+                        borderRadius: 8,
+                        height: 36,
+                        fontWeight: 500,
+                        flexShrink: 0,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                      }}
                     >
                       {t("disconnect")}
                     </Button>
-                  </List.Item>
-                )}
-              />
+                  </div>
+                ))
+              ) : (
+                <div
+                  style={{
+                    padding: "24px 16px",
+                    textAlign: "center",
+                    borderRadius: 12,
+                    background: "#F8FAFC",
+                    border: "1px dashed #E2E8F0",
+                    color: "#94A3B8",
+                    fontSize: 14,
+                  }}
+                >
+                  Chưa có liên kết mạng xã hội nào được thêm
+                </div>
+              )}
 
               {isEdit && (
                 <div
                   style={{
-                    marginTop: 16,
+                    marginTop: 8,
                     padding: 20,
                     borderRadius: 12,
                     background: "#F1F5F9",
@@ -223,7 +261,7 @@ function SocialChange({
                       <S.SelectCustom
                         size="large"
                         placeholder={t("selectPlatfrorm")}
-                        style={{ borderRadius: 8 }}
+                        style={{ borderRadius: 8, width: "100%" }}
                       >
                         {result.map((item: UserEnum, index: number) => (
                           <Select.Option value={item._id} key={index}>
@@ -253,7 +291,7 @@ function SocialChange({
                         style={{ borderRadius: 8 }}
                       />
                     </Form.Item>
-                    <S.FormItemNotMB>
+                    <div style={{ display: "flex", justifyContent: "flex-end" }}>
                       <Button
                         type="primary"
                         size="large"
@@ -268,7 +306,7 @@ function SocialChange({
                       >
                         {t("update")}
                       </Button>
-                    </S.FormItemNotMB>
+                    </div>
                   </Form>
                 </div>
               )}
