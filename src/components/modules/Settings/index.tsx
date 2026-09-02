@@ -97,6 +97,7 @@ function SettingsModules() {
                 <LeetcodeSubcriber
                   isUserProfileLoading={isFetching}
                   userData={result}
+                  refetchUserData={refetch}
                 />
                 <FavoriteTrackChange
                   isUserProfileLoading={isFetching}
@@ -130,6 +131,7 @@ function SettingsModules() {
                 <LeetcodeSubcriber
                   isUserProfileLoading={isFetching}
                   userData={result}
+                  refetchUserData={refetch}
                 />
                 <FavoriteTrackChange
                   isUserProfileLoading={isFetching}

@@ -11,6 +11,7 @@ export const authAPI = baseApi.injectEndpoints({
         method: "GET",
         flashError: true,
       }),
+      providesTags: ["Leaderboard"],
     }),
     subscribeLeaderboard: build.mutation<any, any>({
       query: (data) => ({
@@ -19,6 +20,7 @@ export const authAPI = baseApi.injectEndpoints({
         body: data,
         flashError: true,
       }),
+      invalidatesTags: ["Leaderboard", "Profile", "Gamification"],
     }),
     updateLeetcode: build.mutation({
       query: () => ({
