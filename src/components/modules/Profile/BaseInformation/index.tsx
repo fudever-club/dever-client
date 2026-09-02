@@ -10,16 +10,12 @@ import { useParams } from "next/navigation";
 import Typography from "@/components/core/common/Typography";
 import { UserInfo } from "@/helpers/types/userTypes";
 import { useTranslation } from "@/app/i18n/client";
+import { SocialBrandIcon } from "@/helpers/socialMediaIcons";
 
 import BriefCaseIcon from "@public/icons/layout/profiles/briefcase.svg";
 import CalendarIcon from "@public/icons/layout/profiles/calendar-month.svg";
 import Cake from "@public/icons/layout/profiles/cake.svg";
 import Gen from "@public/icons/layout/profiles/gen.svg";
-import FacebookIcon from "@public/icons/layout/socials/facebook.png";
-import GithubIcon from "@public/icons/layout/socials/github.png";
-import InstagramIcon from "@public/icons/layout/socials/instagram.png";
-import LeetCodeIcon from "@public/icons/layout/socials/leetcode.png";
-import YoutubeIcon from "@public/icons/layout/socials/youtube.png";
 
 interface IProps {
   userData: UserInfo;
@@ -29,21 +25,6 @@ interface IProps {
 function BaseInformation({ userData, isUserDataFetching }: IProps) {
   const params = useParams();
   const { t } = useTranslation(params?.locale as string, "profile");
-
-  const handleRenderSocialIcon = (key: string) => {
-    switch (key) {
-      case "FACEBOOK":
-        return FacebookIcon;
-      case "YOUTUBE":
-        return YoutubeIcon;
-      case "GITHUB":
-        return GithubIcon;
-      case "INSTAGRAM":
-        return InstagramIcon;
-      case "LEETCODE":
-        return LeetCodeIcon;
-    }
-  };
 
   return (
     <S.ContainerWrapper>
@@ -182,14 +163,24 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                 {t("socials")}
               </Typography.Text>
               {userData?.socials! && userData?.socials.length > 0 ? (
-                <Flex gap={10}>
+                <Flex gap={12} align="center">
                   {userData?.socials!.map((item, index) => (
-                    <Link href={item.url ?? "#"} target="_blank" key={index}>
-                      <Image
-                        src={handleRenderSocialIcon(item.socialId.constant!)!}
-                        alt="icons"
-                        width={24}
-                        height={24}
+                    <Link
+                      href={item.url ?? "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      key={index}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        transition: "transform 0.2s ease",
+                      }}
+                      className="hover:scale-110 active:scale-95"
+                    >
+                      <SocialBrandIcon
+                        platform={item.socialId?.constant || item.socialId?.name}
+                        size={28}
                       />
                     </Link>
                   ))}
