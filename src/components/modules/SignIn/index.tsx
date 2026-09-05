@@ -14,6 +14,8 @@ import themeColors from "@/style/themes/default/colors";
 import { useTranslation } from "@/app/i18n/client";
 import { useSignInMutation } from "@/store/queries/auth";
 import webStorageClient from "@/utils/webStorageClient";
+import LoadingScreen from "@/components/core/common/LoadingScreen";
+import { useState } from "react";
 
 import * as S from "./styles";
 
@@ -31,6 +33,7 @@ function SignInModule() {
   const { t } = useTranslation(params?.locale as string, "signIn");
 
   const [signIn, { isLoading }] = useSignInMutation();
+  const [isNavigatingToPortal, setIsNavigatingToPortal] = useState<boolean>(false);
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     try {
@@ -47,11 +50,14 @@ function SignInModule() {
       }
 
       message.success(t("signInSuccess"));
-      if (typeof window !== "undefined") {
-        window.location.href = `/${locale}/members`;
-      } else {
-        router?.push(`/${locale}/members`);
-      }
+      setIsNavigatingToPortal(true);
+      setTimeout(() => {
+        if (typeof window !== "undefined") {
+          window.location.href = `/${locale}/members`;
+        } else {
+          router?.push(`/${locale}/members`);
+        }
+      }, 450);
     } catch (error: any) {
       const errMsg = error?.data?.message || error?.message || t("invalidCredentials");
       message.error(errMsg);
@@ -64,6 +70,9 @@ function SignInModule() {
 
   return (
     <S.Wrapper>
+      {isNavigatingToPortal && (
+        <LoadingScreen message="Đang kết nối không gian thành viên FU-DEVER..." />
+      )}
       <Flex justify="space-between">
         <Image
           alt="FU-DEVER"

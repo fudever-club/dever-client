@@ -1,28 +1,39 @@
 "use client";
 
-import { Flex, Spin } from "antd";
-
-import Typography from "../Typography";
-
-import themeColors from "@/style/themes/default/colors";
-
-import * as S from "./style";
-import { useTranslation } from "@/app/i18n/client";
+import React from "react";
 import { useParams } from "next/navigation";
+import { useTranslation } from "@/app/i18n/client";
+import * as S from "./style";
 
-function LoadingScreen() {
+interface LoadingScreenProps {
+  message?: string;
+  fadeOut?: boolean;
+}
+
+function LoadingScreen({ message, fadeOut = false }: LoadingScreenProps) {
   const params = useParams();
   const { t } = useTranslation(params?.locale as string, "layout");
 
+  const displayMessage =
+    message || t("account-verifying") || "Đang tải dữ liệu...";
+
   return (
-    <S.wrapper>
-      <Flex vertical gap={20} align="center">
-        <span className="loader" />
-        <Spin size="large"></Spin>
-        <Typography.Title level={3} $color={themeColors?.primary}>
-          {t("account-verifying")}
-        </Typography.Title>
-      </Flex>
+    <S.wrapper role="status" aria-live="polite" $fadeOut={fadeOut}>
+      {/* Central Modern Micro Dual-Ring Spinner */}
+      <S.SpinnerContainer>
+        <S.OuterRing />
+        <S.InnerRing />
+        <S.CenterBadge>&lt;/&gt;</S.CenterBadge>
+      </S.SpinnerContainer>
+
+      {/* Brand & Status Text */}
+      <S.BrandTitle>FU - DEVER</S.BrandTitle>
+      <S.StatusText>{displayMessage}</S.StatusText>
+
+      {/* Modern Shimmer Progress Indicator */}
+      <S.ShimmerBarWrapper>
+        <S.ShimmerBar />
+      </S.ShimmerBarWrapper>
     </S.wrapper>
   );
 }

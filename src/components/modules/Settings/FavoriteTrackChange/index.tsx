@@ -30,6 +30,7 @@ import { UserInfo, FavoriteTrack } from "@/helpers/types/userTypes";
 import { useUpdateUserProfileMutation } from "@/store/queries/settings";
 import { useTranslation } from "@/app/i18n/client";
 import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
 interface IProps {
   isUserProfileLoading: boolean;
@@ -126,11 +127,7 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
     formData.append("folder", "audio");
 
     const token = webStorageClient.getToken();
-    const API_SERVER =
-      process.env.NEXT_PUBLIC_API_SERVER ||
-      (typeof window !== "undefined" && window.location.hostname.includes("localhost")
-        ? "http://localhost:5000"
-        : "https://dever-backend-production.up.railway.app");
+    const API_SERVER = constants.API_SERVER;
 
     setIsUploading(true);
     try {

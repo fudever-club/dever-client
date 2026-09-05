@@ -19,6 +19,7 @@ import DropdownMenu from "./DropdownMenu";
 import EcosystemSwitcher from "./EcosystemSwitcher";
 import SelectLanguage from "./SelectLanguage";
 import NotificationBell from "@/components/ui/NotificationBell";
+import DeverRouteLoader from "@/components/ui/DeverRouteLoader";
 
 import { useTranslation } from "@/app/i18n/client";
 import { sidebarMenu } from "@/helpers/data/sidebarMenu";
@@ -58,12 +59,15 @@ const MainLayout = ({
   const [isShowMenu, setIsShowMenu] = useState<boolean>(false);
   const [isShowSwitcher, setIsShowSwitcher] = useState<boolean>(false);
   const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [loadingVisible, setLoadingVisible] = useState<boolean>(true);
+  const [loadingFadeOut, setLoadingFadeOut] = useState<boolean>(false);
 
   const { userInfo } = useAppSelector((state) => state.auth);
 
   const avatar = webStorageClient.get(constants.AVT);
 
   const handleVerifyToken = useCallback(async () => {
+    const startTime = Date.now();
     try {
       if (!webStorageClient.get("_access_token")) {
         message.error(t("token_not_valid"));
@@ -72,7 +76,19 @@ const MainLayout = ({
       const res: { data: UserInfo } = await verifyToken(
         webStorageClient.get("_access_token") || "??"
       ).unwrap();
+
+      // Guarantee minimum 450ms display time so the user sees the crisp branded LoadingScreen
+      const elapsed = Date.now() - startTime;
+      const minDisplayMs = 450;
+      if (elapsed < minDisplayMs) {
+        await new Promise((resolve) => setTimeout(resolve, minDisplayMs - elapsed));
+      }
+
       setIsAuth(true);
+      setLoadingFadeOut(true);
+      setTimeout(() => {
+        setLoadingVisible(false);
+      }, 350);
 
       dispatch(
         assignUserInfo({
@@ -87,7 +103,15 @@ const MainLayout = ({
         })
       );
     } catch (error) {
+      const elapsed = Date.now() - startTime;
+      if (elapsed < 300) {
+        await new Promise((resolve) => setTimeout(resolve, 300 - elapsed));
+      }
       setIsAuth(false);
+      setLoadingFadeOut(true);
+      setTimeout(() => {
+        setLoadingVisible(false);
+      }, 300);
       webStorageClient.removeAll();
       router.push(`/${localActive}/sign-in`);
     }
@@ -118,9 +142,8 @@ const MainLayout = ({
 
   return (
     <>
-      {!isAuth ? (
-        <LoadingScreen />
-      ) : (
+      {loadingVisible && <LoadingScreen fadeOut={loadingFadeOut} />}
+      {isAuth && (
         <S.ContainerLayoutCustom>
           <AppProgressBar
             height="4px"

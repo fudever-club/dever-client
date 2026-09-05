@@ -24,6 +24,7 @@ import {
   CompassOutlined,
 } from "@ant-design/icons";
 import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
 const { Title, Text, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -60,7 +61,7 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
   const [isJoined, setIsJoined] = useState<boolean>(false);
   const [alumniData, setAlumniData] = useState<any>(null);
 
-  const apiServer = process.env.NEXT_PUBLIC_API_SERVER || "http://localhost:5000";
+  const apiServer = constants.API_SERVER;
 
   // Check current status
   useEffect(() => {

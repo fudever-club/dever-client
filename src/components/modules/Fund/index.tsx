@@ -41,6 +41,7 @@ import {
   ZoomInOutlined,
 } from "@ant-design/icons";
 import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 import dayjs from "dayjs";
 
 const { Title, Text, Paragraph } = Typography;
@@ -107,7 +108,7 @@ export default function FundModule() {
   const [billPreviewModalOpen, setBillPreviewModalOpen] = useState<boolean>(false);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  const apiServer = process.env.NEXT_PUBLIC_API_SERVER || "http://localhost:5000";
+  const apiServer = constants.API_SERVER;
 
   // Escape key listener
   useEffect(() => {
