@@ -117,17 +117,18 @@ function Dashboard() {
             <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-300 tracking-wider uppercase mb-0.5">
               <span>Thư Mời Danh Dự Từ Ban Chủ Nhiệm</span>
             </div>
-            <h3 className="text-base sm:text-lg font-black text-white">Tham Gia Hội Đồng Cố Vấn &amp; Bảng Vàng Cựu Thành Viên</h3>
+            <h3 className="text-base sm:text-lg font-black text-white">Tham Gia Hội Đồng Cố Vấn &amp; Mạng Lưới Cựu Thành Viên</h3>
             <p className="text-xs text-blue-100 max-w-2xl">
-              Dành cho các thế hệ Cựu thành viên DEVER (Gen 1 – Gen 6) đồng hành định hướng, mentoring và tiếp lửa cho tân sinh viên.
+              Trân trọng kính mời các thế hệ Cựu thành viên DEVER cùng đồng hành định hướng, chia sẻ kinh nghiệm và tiếp lửa cho thế hệ đàn em.
             </p>
           </div>
         </div>
         <button
+          type="button"
           onClick={() => setAdvisoryOpen(true)}
-          className="shrink-0 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs px-5 py-2.5 shadow-md active:scale-[0.98] transition-all"
+          className="shrink-0 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs px-5 py-2.5 shadow-md active:scale-[0.98] transition-all cursor-pointer"
         >
-          Nhận Thư Mời &amp; Xuất Bản
+          Nhận Thư Mời &amp; Đồng Hành
         </button>
       </div>
 

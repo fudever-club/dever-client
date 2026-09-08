@@ -7,26 +7,18 @@ import {
   Form,
   Input,
   Select,
-  Tag,
   Typography,
   message,
-  Card,
-  Space,
 } from "antd";
 import {
   CrownOutlined,
-  HeartFilled,
-  LinkedinOutlined,
-  CheckCircleOutlined,
   BankOutlined,
   IdcardOutlined,
-  MessageOutlined,
-  CompassOutlined,
+  LinkOutlined,
 } from "@ant-design/icons";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 
-const { Title, Text, Paragraph } = Typography;
 const { TextArea } = Input;
 
 const MENTOR_TOPIC_OPTIONS = [
@@ -47,6 +39,8 @@ const GEN_OPTIONS = [
   { label: "Gen 6", value: "Gen 6" },
   { label: "Gen 7", value: "Gen 7" },
   { label: "Gen 8", value: "Gen 8" },
+  { label: "Gen 9", value: "Gen 9" },
+  { label: "Gen 10", value: "Gen 10" },
 ];
 
 interface AlumniAdvisoryModalProps {
@@ -108,7 +102,7 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
       });
 
       if (res.ok) {
-        message.success("Trân trọng cảm ơn Anh/Chị! Hồ sơ Cố vấn đã được xuất bản lên Mạng lưới Cựu Thành Viên DEVER.");
+        message.success("Trân trọng cảm ơn Anh/Chị! Sự đồng hành của Anh/Chị là niềm vinh dự và nguồn cảm hứng to lớn cho các thế hệ đàn em DEVER.");
         setIsJoined(true);
         if (onSuccess) onSuccess();
         setTimeout(() => onClose(), 1500);
@@ -129,12 +123,13 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
       onCancel={onClose}
       footer={null}
       width={680}
+      centered
       className="rounded-3xl overflow-hidden"
     >
       <div className="pt-2 pb-4 space-y-6">
         {/* Crown & Royal Invitation Banner */}
         <div className="relative rounded-3xl bg-gradient-to-br from-[#003B73] via-[#004C99] to-[#0066CC] p-6 text-white text-center shadow-xl overflow-hidden">
-          <div className="absolute top-0 right-0 transform translate-x-4 -translate-y-4 opacity-10">
+          <div className="absolute top-0 right-0 transform translate-x-4 -translate-y-4 opacity-10 pointer-events-none">
             <CrownOutlined style={{ fontSize: "160px" }} />
           </div>
 
@@ -145,11 +140,11 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
             </div>
 
             <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white mt-2">
-              Hội Đồng Cố Vấn &amp; Bảng Vàng Cựu Thành Viên
+              Hội Đồng Cố Vấn &amp; Mạng Lưới Cựu Thành Viên
             </h2>
 
-            <p className="text-xs sm:text-sm text-blue-100 max-w-lg mx-auto leading-relaxed pt-1">
-              Kính mời Anh/Chị Cựu Thành Viên (Gen 1 – Gen 6) đồng hành cùng thế hệ đàn em &amp; tân sinh viên FU-DEVER qua các buổi định hướng nghề nghiệp, mentoring thuật toán và chia sẻ tri thức.
+            <p className="text-xs sm:text-sm text-blue-100 max-w-xl mx-auto leading-relaxed pt-1 font-normal">
+              Thân gửi Anh/Chị Cựu Thành Viên FU-DEVER, Ban Chủ nhiệm trân trọng kính mời Anh/Chị cùng tham gia mạng lưới Cố vấn Danh dự — nơi kết nối các thế hệ lập trình viên DEVER, cùng chia sẻ kinh nghiệm thực chiến, tiếp lửa tri thức và định hướng tương lai cho các thế hệ đàn em tiếp nối.
             </p>
           </div>
         </div>
@@ -172,7 +167,7 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
             <Form.Item
               name="graduationGen"
               label={<span className="text-xs font-bold text-slate-700">Thế hệ (Gen)</span>}
-              rules={[{ required: true, message: "Vui lòng chọn Gen" }]}
+              rules={[{ required: true, message: "Vui lòng chọn thế hệ Gen của Anh/Chị" }]}
             >
               <Select options={GEN_OPTIONS} className="rounded-xl text-xs" />
             </Form.Item>
@@ -180,9 +175,9 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
             <Form.Item
               name="workplace"
               label={<span className="text-xs font-bold text-slate-700">Nơi công tác / Doanh nghiệp hiện tại</span>}
-              rules={[{ required: true, message: "Nhập nơi công tác" }]}
+              rules={[{ required: true, message: "Nhập nơi công tác hiện tại" }]}
             >
-              <Input prefix={<BankOutlined className="text-slate-400" />} placeholder="VNG, FPT Software, Grab, Viettel..." className="rounded-xl text-xs" />
+              <Input prefix={<BankOutlined className="text-slate-400" />} placeholder="Ví dụ: Google, VNG, FPT Software, Grab, Viettel..." className="rounded-xl text-xs" />
             </Form.Item>
           </div>
 
@@ -190,55 +185,56 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
             <Form.Item
               name="headline"
               label={<span className="text-xs font-bold text-slate-700">Chức danh / Vị trí chuyên môn</span>}
-              rules={[{ required: true, message: "Nhập chức danh" }]}
+              rules={[{ required: true, message: "Nhập chức danh chuyên môn" }]}
             >
-              <Input prefix={<IdcardOutlined className="text-slate-400" />} placeholder="Senior Engineer, Tech Lead, AI Engineer..." className="rounded-xl text-xs" />
+              <Input prefix={<IdcardOutlined className="text-slate-400" />} placeholder="Ví dụ: Senior Software Engineer, Tech Lead, AI Engineer..." className="rounded-xl text-xs" />
             </Form.Item>
 
             <Form.Item
               name="profileUrl"
-              label={<span className="text-xs font-bold text-slate-700">Liên kết LinkedIn / GitHub</span>}
+              label={<span className="text-xs font-bold text-slate-700">Đường dẫn liên kết cá nhân</span>}
+              tooltip="Bất kỳ đường link nào để kết nối cùng Anh/Chị (Website, Portfolio, LinkedIn, GitHub, Facebook...)"
             >
-              <Input prefix={<LinkedinOutlined className="text-[#0066CC]" />} placeholder="https://linkedin.com/in/..." className="rounded-xl text-xs" />
+              <Input prefix={<LinkOutlined className="text-[#0066CC]" />} placeholder="https://... (Website, Portfolio, Mạng xã hội)" className="rounded-xl text-xs" />
             </Form.Item>
           </div>
 
           <Form.Item
             name="mentoringTopics"
-            label={<span className="text-xs font-bold text-slate-700">Lĩnh vực sẵn sàng Cố vấn / Chia sẻ</span>}
+            label={<span className="text-xs font-bold text-slate-700">Lĩnh vực sẵn sàng Cố vấn / Chia sẻ kinh nghiệm</span>}
             rules={[{ required: true, message: "Chọn ít nhất 1 chủ đề" }]}
           >
             <Select
               mode="multiple"
               options={MENTOR_TOPIC_OPTIONS}
-              placeholder="Chọn các lĩnh vực thế mạnh của Anh/Chị..."
+              placeholder="Chọn các lĩnh vực thế mạnh Anh/Chị sẵn sàng chia sẻ..."
               className="rounded-xl text-xs"
             />
           </Form.Item>
 
           <Form.Item
             name="quote"
-            label={<span className="text-xs font-bold text-slate-700">Lời nhắn nhủ / Châm ngôn truyền cảm hứng</span>}
+            label={<span className="text-xs font-bold text-slate-700">Lời nhắn nhủ gửi thế hệ tiếp nối</span>}
           >
             <TextArea
               rows={3}
-              placeholder="Chia sẻ một lời khuyên chân thành hoặc lời chúc tới các tân sinh viên và đàn em..."
+              placeholder="Chia sẻ một lời khuyên chân thành, kinh nghiệm thực chiến hoặc lời chúc gửi tới thế hệ đàn em..."
               className="rounded-xl text-xs"
             />
           </Form.Item>
 
           {/* CTA Buttons */}
           <div className="pt-2 flex items-center justify-end gap-3">
-            <Button onClick={onClose} className="rounded-xl text-xs font-semibold">
+            <Button onClick={onClose} className="rounded-xl text-xs font-semibold px-4 cursor-pointer">
               Để Tôi Suy Nghĩ Thêm
             </Button>
             <Button
               type="primary"
               htmlType="submit"
               loading={submitting}
-              className="bg-[#0066CC] hover:bg-[#004C99] rounded-xl font-bold text-xs shadow-md h-10 px-6 active:scale-[0.98] transition-all"
+              className="bg-[#0066CC] hover:bg-[#004C99] rounded-xl font-bold text-xs shadow-md h-10 px-6 active:scale-[0.98] transition-all cursor-pointer"
             >
-              {isJoined ? "Cập Nhật Hồ Sơ Cố Vấn" : "Trân Trọng Nhận Lời & Xuất Bản"}
+              {isJoined ? "Cập Nhật Hồ Sơ Cố Vấn" : "Trân Trọng Nhận Lời & Đồng Hành"}
             </Button>
           </div>
         </Form>
