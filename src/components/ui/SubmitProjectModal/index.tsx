@@ -131,16 +131,22 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
           </Form.Item>
         </div>
 
-        <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
-          <Button onClick={onClose} className="rounded-xl text-xs">
+        <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+          <Button
+            type="default"
+            onClick={onClose}
+            disabled={isLoading}
+            className="rounded-xl text-xs font-semibold px-4 transition-all duration-200 active:scale-[0.98]"
+          >
             Hủy
           </Button>
           <Button
             type="primary"
             htmlType="submit"
             loading={isLoading}
+            disabled={isLoading}
             icon={<Send className="h-3.5 w-3.5" />}
-            className="rounded-xl bg-[#0066CC] hover:!bg-[#004C99] text-xs font-bold"
+            className="rounded-xl bg-[#0066CC] hover:!bg-[#004C99] text-xs font-bold px-5 transition-all duration-200 active:scale-[0.98] shadow-xs"
           >
             Gửi Duyệt Dự Án
           </Button>

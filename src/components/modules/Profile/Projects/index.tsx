@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Flex, Tag, Skeleton, Button, Empty, Space } from "antd";
+import { Skeleton } from "antd";
 import { Code2, ExternalLink, Plus, Sparkles, Clock, CheckCircle2 } from "lucide-react";
 import { GithubOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import Typography from "@/components/core/common/Typography";
 import SubmitProjectModal from "@/components/ui/SubmitProjectModal";
-import { useGetMySubmittedProjectsQuery } from "@/store/queries/ecosystem";
+import { useGetMySubmittedProjectsQuery, useGetOpenSourceProjectsQuery } from "@/store/queries/ecosystem";
 import { useAppSelector } from "@/hooks/redux-toolkit";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
@@ -30,6 +29,13 @@ const ProjectCardWrapper = styled.div`
   }
 `;
 
+const formatExternalUrl = (url?: string): string => {
+  if (!url) return "";
+  const trimmed = url.trim();
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+};
+
 interface IProps {
   userData: any;
   isUserDataFetching: boolean;
@@ -40,10 +46,11 @@ export default function ProfileProjects({ userData, isUserDataFetching }: IProps
   const { userInfo } = useAppSelector((state) => state.auth);
   const storedUser = typeof window !== "undefined" ? webStorageClient.get(constants.USER_INFO) : null;
   const currentUserId = userInfo?.id || storedUser?._id || storedUser?.id || "";
+  const targetUserId = userData?._id || userData?.id || "";
 
   const isOwnProfile = Boolean(
     currentUserId &&
-    (userData?._id === currentUserId || userData?.id === currentUserId || userData?.profileKey)
+    (targetUserId === currentUserId || userData?.profileKey)
   );
 
   const { data: myProjectsData, isLoading: isMyProjectsLoading } = useGetMySubmittedProjectsQuery(
@@ -51,11 +58,16 @@ export default function ProfileProjects({ userData, isUserDataFetching }: IProps
     { skip: !isOwnProfile }
   );
 
+  const { data: publicProjectsData, isLoading: isPublicProjectsLoading } = useGetOpenSourceProjectsQuery(
+    targetUserId ? { authorId: targetUserId } : undefined,
+    { skip: isOwnProfile || !targetUserId }
+  );
+
   const projects = isOwnProfile
     ? (myProjectsData?.data || [])
-    : (Array.isArray(userData?.projects) ? userData.projects : []);
+    : (publicProjectsData?.data || (Array.isArray(userData?.projects) ? userData.projects : []));
 
-  const isLoading = isUserDataFetching || (isOwnProfile && isMyProjectsLoading);
+  const isLoading = isUserDataFetching || (isOwnProfile ? isMyProjectsLoading : isPublicProjectsLoading);
 
   return (
     <ContainerWrapper>
@@ -78,8 +90,9 @@ export default function ProfileProjects({ userData, isUserDataFetching }: IProps
           {isOwnProfile && (
             <button
               type="button"
+              aria-label="Thêm dự án mới"
               onClick={() => setModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#0066CC] hover:bg-[#004C99] text-white text-xs font-bold shadow-xs active:scale-95 transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#0066CC] hover:bg-[#004C99] text-white text-xs font-bold shadow-xs active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" /> Thêm dự án mới
             </button>
@@ -97,16 +110,21 @@ export default function ProfileProjects({ userData, isUserDataFetching }: IProps
               <Code2 className="w-6 h-6 text-slate-400" />
             </div>
             <div className="space-y-1">
-              <h4 className="text-sm font-bold text-slate-800 m-0">Chưa có dự án nào được đóng góp</h4>
+              <h4 className="text-sm font-bold text-slate-800 m-0">
+                {isOwnProfile ? "Chưa có dự án nào được đóng góp" : "Thành viên chưa xuất bản dự án công khai nào"}
+              </h4>
               <p className="text-xs text-slate-500 max-w-sm mx-auto m-0">
-                Chia sẻ dự án mã nguồn mở hoặc sản phẩm cá nhân để nhận ngay <strong>+150 EXP</strong> và huy hiệu <strong>Core Contributor</strong> trên Bảng Vàng CLB.
+                {isOwnProfile
+                  ? "Chia sẻ dự án mã nguồn mở hoặc sản phẩm cá nhân để nhận ngay +150 EXP và huy hiệu Core Contributor trên Bảng Vàng CLB."
+                  : "Các dự án sau khi được Ban Quản Trị phê duyệt sẽ hiển thị tại đây."}
               </p>
             </div>
             {isOwnProfile && (
               <button
                 type="button"
+                aria-label="Đóng góp dự án đầu tiên"
                 onClick={() => setModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-50 border border-blue-200 text-[#0066CC] hover:bg-blue-100 text-xs font-bold active:scale-95 transition-all cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-50 border border-blue-200 text-[#0066CC] hover:bg-blue-100 text-xs font-bold active:scale-[0.98] transition-all duration-200 cursor-pointer"
               >
                 <Sparkles className="w-3.5 h-3.5" /> Đóng Góp Dự Án Đầu Tiên (+150 EXP)
               </button>
@@ -154,20 +172,20 @@ export default function ProfileProjects({ userData, isUserDataFetching }: IProps
                 <div className="flex items-center gap-2 pt-4 border-t border-slate-100 mt-4">
                   {proj.githubUrl && (
                     <a
-                      href={proj.githubUrl}
+                      href={formatExternalUrl(proj.githubUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition-all active:scale-95"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition-all duration-200 active:scale-[0.98]"
                     >
                       <GithubOutlined className="text-xs" /> GitHub
                     </a>
                   )}
                   {proj.demoUrl && (
                     <a
-                      href={proj.demoUrl}
+                      href={formatExternalUrl(proj.demoUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#0066CC] text-xs font-semibold transition-all active:scale-95"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#0066CC] text-xs font-semibold transition-all duration-200 active:scale-[0.98]"
                     >
                       <ExternalLink className="w-3.5 h-3.5" /> Demo Live
                     </a>
