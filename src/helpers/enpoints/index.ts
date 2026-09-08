@@ -45,6 +45,7 @@ const endpointEcosystem = {
   BLOGS: `${prefixBase}/blogs`,
   PROJECT_LAB: `${prefixBase}/project-lab`,
   OPEN_SOURCE_SUBMIT: `${prefixBase}/opensource-projects/submit`,
+  OPEN_SOURCE_MY_PROJECTS: `${prefixBase}/opensource-projects/my-projects`,
 };
 
 const endpointGamification = {

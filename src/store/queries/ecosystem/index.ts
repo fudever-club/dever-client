@@ -35,7 +35,15 @@ export const ecosystemApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["Gamification"],
+      invalidatesTags: ["Gamification", "Notifications"],
+    }),
+    getMySubmittedProjects: build.query<any, void>({
+      query: () => ({
+        url: endpointEcosystem.OPEN_SOURCE_MY_PROJECTS,
+        method: "GET",
+        flashError: true,
+      }),
+      providesTags: ["Notifications"],
     }),
   }),
 });
@@ -48,4 +56,5 @@ export const {
   useGetBlogsQuery,
   useGetProjectLabsQuery,
   useSubmitOpenSourceProjectMutation,
+  useGetMySubmittedProjectsQuery,
 } = ecosystemApi;

@@ -42,6 +42,7 @@ import LevelProgressCard from "@/components/ui/Gamification/LevelProgressCard";
 import BadgeShowcaseGrid from "@/components/ui/Gamification/BadgeShowcaseGrid";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import AlumniAdvisoryModal from "@/components/modules/AlumniAdvisory/AlumniAdvisoryModal";
+import SubmitProjectModal from "@/components/ui/SubmitProjectModal";
 
 const profileFields = [
   { key: "avatar", label: "Ảnh đại diện", check: (p: any) => Boolean(p?.avatar) },
@@ -58,6 +59,7 @@ function Dashboard() {
   const locale = useLocale();
   const router = useRouter();
   const [advisoryOpen, setAdvisoryOpen] = React.useState<boolean>(false);
+  const [submitProjectOpen, setSubmitProjectOpen] = React.useState<boolean>(false);
   const { userInfo } = useAppSelector((state) => state.auth);
   
   const storedUser = typeof window !== "undefined" ? webStorageClient.get(constants.USER_INFO) : null;
@@ -126,6 +128,35 @@ function Dashboard() {
           className="shrink-0 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs px-5 py-2.5 shadow-md active:scale-[0.98] transition-all"
         >
           Nhận Thư Mời &amp; Xuất Bản
+        </button>
+      </div>
+
+      {/* Open Source Project Contribution Banner */}
+      <div className="rounded-3xl border border-slate-200/90 bg-white p-5 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 transition-all hover:border-[#0066CC]/50 hover:shadow-md">
+        <div className="flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-blue-50 border border-blue-100 text-[#0066CC] flex items-center justify-center shrink-0">
+            <Code2 className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#0066CC] tracking-wider uppercase mb-0.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Cộng Đồng DEVER Open Source (+150 EXP)</span>
+            </div>
+            <h3 className="text-base sm:text-lg font-black text-slate-900 m-0">
+              Đóng Góp Dự Án Cá Nhân &amp; Mã Nguồn Mở
+            </h3>
+            <p className="text-xs text-slate-500 max-w-2xl m-0 mt-0.5">
+              Chia sẻ các sản phẩm web, extension, công cụ CLI hoặc thư viện của bạn lên hệ sinh thái FU-DEVER để nhận điểm danh vọng và mở khóa huy hiệu Core Contributor.
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => setSubmitProjectOpen(true)}
+          className="shrink-0 rounded-xl bg-[#0066CC] hover:bg-[#004C99] text-white font-extrabold text-xs px-5 py-2.5 shadow-md shadow-blue-500/20 active:scale-[0.98] transition-all cursor-pointer flex items-center gap-1.5"
+        >
+          <Code2 className="w-4 h-4" />
+          + Đóng Góp Dự Án
         </button>
       </div>
 
@@ -361,6 +392,11 @@ function Dashboard() {
       <AlumniAdvisoryModal
         open={advisoryOpen}
         onClose={() => setAdvisoryOpen(false)}
+      />
+      {/* Open Source Project Submission Modal */}
+      <SubmitProjectModal
+        open={submitProjectOpen}
+        onClose={() => setSubmitProjectOpen(false)}
       />
     </main>
   );
