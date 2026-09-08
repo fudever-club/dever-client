@@ -38,7 +38,11 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
               />
             ) : (
               <S.PreviewGroupCustom>
-                <S.AvatarCustom alt="avatar" src={userData?.avatar!} />
+                <S.AvatarCustom
+                  alt="avatar"
+                  src={userData?.avatar || "/images/avatar/avatar.jpg"}
+                  fallback="/images/avatar/avatar.jpg"
+                />
               </S.PreviewGroupCustom>
             )}
             <S.RSideContent>

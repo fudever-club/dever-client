@@ -244,7 +244,7 @@ const MainLayout = ({
                     size={40}
                     src={
                       <Image
-                        src={userInfo.avatar!}
+                        src={userInfo?.avatar || avatar || "/images/avatar/avatar.jpg"}
                         alt="avatar"
                         width={64}
                         height={64}

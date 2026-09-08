@@ -274,7 +274,7 @@ export default function HallOfFameClientPage() {
                 }}
               >
                 <div style={{ position: "relative", width: "72px", height: "72px" }}>
-                  <Avatar size={72} src={podium.second.avatar} style={{ border: "3px solid #CBD5E1" }} />
+                  <Avatar size={72} src={podium.second.avatar || "/images/avatar/avatar.jpg"} style={{ border: "3px solid #CBD5E1" }} />
                   <span
                     style={{
                       position: "absolute",
@@ -364,7 +364,7 @@ export default function HallOfFameClientPage() {
               </div>
 
               <div style={{ position: "relative", width: "88px", height: "88px" }}>
-                <Avatar size={88} src={podium.first.avatar} style={{ border: "4px solid #F59E0B", boxShadow: "0 6px 16px rgba(245, 158, 11, 0.3)" }} />
+                <Avatar size={88} src={podium.first.avatar || "/images/avatar/avatar.jpg"} style={{ border: "4px solid #F59E0B", boxShadow: "0 6px 16px rgba(245, 158, 11, 0.3)" }} />
                 <span
                   style={{
                     position: "absolute",
@@ -436,7 +436,7 @@ export default function HallOfFameClientPage() {
                 }}
               >
                 <div style={{ position: "relative", width: "72px", height: "72px" }}>
-                  <Avatar size={72} src={podium.third.avatar} style={{ border: "3px solid #FED7AA" }} />
+                  <Avatar size={72} src={podium.third.avatar || "/images/avatar/avatar.jpg"} style={{ border: "3px solid #FED7AA" }} />
                   <span
                     style={{
                       position: "absolute",
