@@ -33,6 +33,7 @@ interface IProps {
 function AvatarChange({ isProfileFetching, userData }: IProps) {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [imgError, setImgError] = useState<boolean>(false);
   const [updateUserProfile] = useUpdateUserProfileMutation();
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -47,41 +48,51 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
     onProgress,
   }: any) => {
     const fmData = new FormData();
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-      onUploadProgress: (event: any) => {
-        onProgress({ percent: (event.loaded / event.total) * 100 });
-        setIsUploading(true);
-      },
-    };
+    fmData.append("file", file);
+    fmData.append("folder", "avatar");
 
-    fmData.append("image", file);
+    const token = webStorageClient.getToken();
+    const API_SERVER = constants.API_SERVER;
+
+    setIsUploading(true);
     try {
-      const res = await axios.post(
-        "https://api.imgbb.com/1/upload?expiration=600&key=918aada6b01cafd0f2376e075c429457",
-        fmData,
-        config
-      );
+      const res = await axios.post(`${API_SERVER}/api/v1/upload/image`, fmData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        onUploadProgress: (event: any) => {
+          if (event.total) {
+            onProgress({ percent: (event.loaded / event.total) * 100 });
+          }
+        },
+      });
 
-      setImageUrl(res?.data?.data?.url);
+      const uploadedUrl = res?.data?.data?.url;
+      if (!uploadedUrl) {
+        throw new Error(res?.data?.message || "Tải ảnh lên thất bại");
+      }
+
+      setImageUrl(uploadedUrl);
+      setImgError(false);
 
       const updateData = {
-        avatar: res?.data?.data?.url,
+        avatar: uploadedUrl,
       };
 
       await updateUserProfile(updateData).unwrap();
 
-      webStorageClient.set(constants.AVT, res?.data?.data?.url);
+      webStorageClient.set(constants.AVT, uploadedUrl);
 
-      dispatch(applyChangeAvatar(res?.data?.data?.url));
+      dispatch(applyChangeAvatar(uploadedUrl));
 
       onSuccess("ok");
       setIsUploading(false);
       message.success(t("updateSuccess"));
-    } catch (err) {
+    } catch (err: any) {
       onError({ err });
       setIsUploading(false);
-      message.error(t("updateError"));
+      message.error(err?.response?.data?.message || t("updateError"));
     }
   };
 
@@ -90,6 +101,11 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
     userData?.nickname ||
     [userInfo?.firstname, userInfo?.lastname].filter(Boolean).join(" ") ||
     "Thành viên DEVER";
+
+  const effectiveAvatar: string =
+    !imgError && (imageUrl || userInfo?.avatar)
+      ? (imageUrl || userInfo?.avatar || "/images/avatar/avatar.jpg")
+      : "/images/avatar/avatar.jpg";
 
   return (
     <S.ContentWrapper>
@@ -105,10 +121,11 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
               />
             ) : (
               <Image
-                src={imageUrl || userInfo.avatar || "/images/avatar/avatar.jpg"}
+                src={effectiveAvatar}
                 width={500}
                 height={500}
                 alt="avatar"
+                onError={() => setImgError(true)}
                 style={{
                   objectFit: "cover",
                   width: 125,
@@ -146,15 +163,11 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
 
             <Upload
               name="file"
-              action={
-                "https://api.imgbb.com/1/upload?expiration=600&key=918aada6b01cafd0f2376e075c429457"
-              }
-              headers={{
-                authorization: "authorization-text",
-              }}
               customRequest={handleUpload}
               multiple={false}
               fileList={[]}
+              showUploadList={false}
+              accept="image/*"
             >
               <Button
                 type="primary"
