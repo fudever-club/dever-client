@@ -52,6 +52,7 @@ import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useAppSelector } from "@/hooks/redux-toolkit";
 import webStorageClient from "@/utils/webStorageClient";
+import { compressImage } from "@/utils/imageCompressor";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -642,11 +643,18 @@ export default function CreateBlogModule() {
       return null;
     }
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("folder", folder);
-
     try {
+      // Compress blog images client-side before upload to optimize R2 storage and network speed
+      const compressedFile = await compressImage(file, {
+        maxSizeMB: 1.0,
+        maxWidthOrHeight: folder === "blog-covers" ? 1920 : 1600,
+        quality: 0.82,
+      });
+
+      const formData = new FormData();
+      formData.append("file", compressedFile);
+      formData.append("folder", folder);
+
       const res = await fetch(`${API_SERVER}/api/v1/upload/image`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },

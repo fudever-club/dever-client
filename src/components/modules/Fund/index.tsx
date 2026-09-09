@@ -41,6 +41,7 @@ import {
   ZoomInOutlined,
 } from "@ant-design/icons";
 import webStorageClient from "@/utils/webStorageClient";
+import { compressImage } from "@/utils/imageCompressor";
 import { constants } from "@/settings";
 import dayjs from "dayjs";
 
@@ -162,38 +163,39 @@ export default function FundModule() {
   const handleUploadFile = async (file: File) => {
     setUploadingImage(true);
     try {
+      // Compress receipt image client-side before upload to prevent high bandwidth and payload limits
+      const compressedFile = await compressImage(file, {
+        maxSizeMB: 1.0,
+        maxWidthOrHeight: 1600,
+        quality: 0.82,
+      });
+
       const token = webStorageClient.getToken();
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", compressedFile);
+      formData.append("folder", "fund-proofs");
 
-      const res = await fetch(`${apiServer}/api/v1/upload`, {
+      const res = await fetch(`${apiServer}/api/v1/upload/image`, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
         body: formData,
       });
 
       if (res.ok) {
         const json = await res.json();
-        const imageUrl = json.url || json.data?.url || json.secure_url;
-        setProofImageUrl(imageUrl);
-        message.success("Tải ảnh biên lai lên thành công!");
-      } else {
-        const reader = new FileReader();
-        reader.onload = () => {
-          setProofImageUrl(reader.result as string);
-          message.success("Đã chọn ảnh biên lai!");
-        };
-        reader.readAsDataURL(file);
+        const imageUrl = json.data?.url || json.url || json.secure_url;
+        if (imageUrl) {
+          setProofImageUrl(imageUrl);
+          message.success("Tải ảnh biên lai lên hệ thống lưu trữ thành công!");
+          return false;
+        }
       }
-    } catch {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setProofImageUrl(reader.result as string);
-        message.success("Đã chọn ảnh biên lai!");
-      };
-      reader.readAsDataURL(file);
+
+      const errJson = await res.json().catch(() => null);
+      throw new Error(errJson?.message || "Tải ảnh biên lai lên thất bại");
+    } catch (err: any) {
+      console.error("Fund proof upload error:", err);
+      message.error(err?.message || "Không thể tải ảnh biên lai lên máy chủ. Vui lòng thử lại!");
     } finally {
       setUploadingImage(false);
     }

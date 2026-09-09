@@ -20,6 +20,7 @@ import { CloudUploadOutlined } from "@ant-design/icons";
 import { UserInfo } from "@/helpers/types/userTypes";
 import { useUpdateUserProfileMutation } from "@/store/queries/settings";
 import webStorageClient from "@/utils/webStorageClient";
+import { compressImage } from "@/utils/imageCompressor";
 import { constants } from "@/settings";
 import { applyChangeAvatar } from "@/store/slices/auth";
 import { useTranslation } from "@/app/i18n/client";
@@ -47,15 +48,21 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
     file,
     onProgress,
   }: any) => {
-    const fmData = new FormData();
-    fmData.append("file", file);
-    fmData.append("folder", "avatar");
-
     const token = webStorageClient.getToken();
     const API_SERVER = constants.API_SERVER;
 
     setIsUploading(true);
     try {
+      const compressedFile = await compressImage(file, {
+        maxSizeMB: 0.5,
+        maxWidthOrHeight: 600,
+        quality: 0.85,
+      });
+
+      const fmData = new FormData();
+      fmData.append("file", compressedFile);
+      fmData.append("folder", "avatar");
+
       const res = await axios.post(`${API_SERVER}/api/v1/upload/image`, fmData, {
         headers: {
           "Content-Type": "multipart/form-data",
