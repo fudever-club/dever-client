@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Avatar, Flex } from "antd";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -20,7 +21,16 @@ function DropdownMenu() {
   const params = useParams();
   const router = useRouter();
   const locale = useLocale();
-  const {userInfo} = useSelector((state: RootState) => state.auth)
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const [avatarError, setAvatarError] = useState(false);
+
+  useEffect(() => {
+    setAvatarError(false);
+  }, [userInfo?.avatar]);
+
+  const safeMenuAvatar = !avatarError && userInfo?.avatar
+    ? userInfo.avatar
+    : "/images/avatar/avatar.jpg";
 
   const { t } = useTranslation(params?.locale as string, "layout");
 
@@ -36,10 +46,10 @@ function DropdownMenu() {
         router.push(`/${locale}/profile/${userInfo.id}`);
         break;
       case "settings":
-        router.push(`/${locale}/settings`)
+        router.push(`/${locale}/settings`);
         break;
       case "logout":
-        webStorageClient.removeAll()
+        webStorageClient.removeAll();
         router.push(`/${locale}/sign-in`);
         break;
       default:
@@ -54,16 +64,21 @@ function DropdownMenu() {
           size={28}
           src={
             <Image
-              src={userInfo.avatar != null ? userInfo.avatar : "/images/avatar/avatar.jpg"}
+              src={safeMenuAvatar}
               alt="avatar"
               width={28}
               height={28}
+              unoptimized={safeMenuAvatar.endsWith('.svg') || safeMenuAvatar.startsWith('data:')}
+              onError={() => setAvatarError(true)}
+              style={{ objectFit: "cover", width: 28, height: 28, borderRadius: "50%" }}
             />
           }
         />
         <Flex vertical>
           <p>{userInfo.firstname! ?? ""} {userInfo.lastname! ?? ""}</p>
-          <Typography.Text $width="150px" $color={themeColors.primary} ellipsis={true} >@{userInfo.email}</Typography.Text >
+          <Typography.Text $width="150px" $color={themeColors.primary} ellipsis={true}>
+            @{userInfo.email}
+          </Typography.Text>
         </Flex>
       </Flex>
       <Divider $margin={8} />

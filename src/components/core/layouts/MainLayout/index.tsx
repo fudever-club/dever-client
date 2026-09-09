@@ -66,6 +66,15 @@ const MainLayout = ({
   const { userInfo } = useAppSelector((state) => state.auth);
 
   const avatar = webStorageClient.get(constants.AVT);
+  const [headerAvatarError, setHeaderAvatarError] = useState<boolean>(false);
+
+  useEffect(() => {
+    setHeaderAvatarError(false);
+  }, [userInfo?.avatar]);
+
+  const safeHeaderAvatar = !headerAvatarError && (userInfo?.avatar || avatar)
+    ? (userInfo?.avatar || avatar)
+    : "/images/avatar/avatar.jpg";
 
   const handleVerifyToken = useCallback(async () => {
     const startTime = Date.now();
@@ -245,10 +254,13 @@ const MainLayout = ({
                     size={40}
                     src={
                       <Image
-                        src={userInfo?.avatar || avatar || "/images/avatar/avatar.jpg"}
+                        src={safeHeaderAvatar}
                         alt="avatar"
-                        width={64}
-                        height={64}
+                        width={40}
+                        height={40}
+                        unoptimized={safeHeaderAvatar.endsWith('.svg') || safeHeaderAvatar.startsWith('data:')}
+                        onError={() => setHeaderAvatarError(true)}
+                        style={{ objectFit: "cover", width: 40, height: 40, borderRadius: "50%" }}
                       />
                     }
                   />
