@@ -56,17 +56,21 @@ function ProfileModule({ userInfo }: IProps) {
           >
             {params?.locale === "vi" ? (
               <>
-                <span style={{ color: "#000" }}>{t("profile")}</span>
-                {profileData?.firstname && profileData?.lastname
-                  ? `${profileData?.firstname} ${profileData?.lastname}`
-                  : profileData?.email}
+                <span style={{ color: "#0f172a" }}>{t("profile")} </span>
+                <span style={{ wordBreak: "break-word" }}>
+                  {profileData?.firstname && profileData?.lastname
+                    ? `${profileData?.firstname} ${profileData?.lastname}`
+                    : profileData?.email}
+                </span>
               </>
             ) : (
               <>
-                {profileData?.firstname && profileData?.lastname
-                  ? `${profileData?.firstname} ${profileData?.lastname}'s `
-                  : profileData?.email}
-                <span style={{ color: "#000" }}>{t("profile")}</span>
+                <span style={{ wordBreak: "break-word" }}>
+                  {profileData?.firstname && profileData?.lastname
+                    ? `${profileData?.firstname} ${profileData?.lastname}'s `
+                    : `${profileData?.email}'s `}
+                </span>
+                <span style={{ color: "#0f172a" }}>{t("profile")}</span>
               </>
             )}
           </Typography.Title>

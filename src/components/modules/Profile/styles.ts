@@ -16,73 +16,84 @@ export const Head = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+
+  .ant-typography {
+    margin: 0 !important;
+    font-size: 1.5rem !important;
+    @media ${(props) => props.theme.breakpoints.smMax} {
+      font-size: 1.25rem !important;
+    }
+  }
 `;
 
 export const CustomContent = styled(Content)`
-  background: white;
+  background: transparent;
   border-radius: 16px;
 
   display: flex;
   flex-direction: row;
   gap: 20px;
+
+  @media ${(props) => props.theme.breakpoints.xlMax} {
+    flex-direction: column;
+    gap: 16px;
+  }
 `;
 
 export const Gallery = styled.div`
   width: 100%;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  padding: 0 0px;
-  overflow: auto;
-  overflow-x: hidden;
+  padding: 0;
+  overflow: visible;
 
-  @media ${(props) => props.theme.breakpoints.smMax} {
-    gap: 16px;
-  }
+  gap: 16px;
 
-  @media ${(props) => props.theme.breakpoints.lgMax} {
+  @media ${(props) => props.theme.breakpoints.xlMax} {
     gap: 16px;
   }
 `;
 
 export const LGalleryCol = styled.div`
-  -ms-flex: 40%;
   flex: 40%;
   max-width: 40%;
-  padding: 0 0px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
-  @media ${(props) => props.theme.breakpoints.smMax} {
-    -ms-flex: 100%;
-  flex: 100%;
-  max-width: 100%;
+  @media ${(props) => props.theme.breakpoints.xlMax} {
+    flex: 100%;
+    max-width: 100%;
   }
 
   @media ${(props) => props.theme.breakpoints.lgMax} {
-    -ms-flex: 100%;
-  flex: 100%;
-  max-width: 100%;
+    flex: 100%;
+    max-width: 100%;
   }
 `;
 
 export const RGalleryCol = styled.div`
-  -ms-flex: 60%;
   flex: 60%;
   max-width: 60%;
   padding-left: 16px;
-  @media ${(props) => props.theme.breakpoints.smMax} {
-    -ms-flex: 100%;
-  flex: 100%;
-  max-width: 100%;
-  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media ${(props) => props.theme.breakpoints.xlMax} {
+    flex: 100%;
+    max-width: 100%;
+    padding-left: 0;
   }
 
   @media ${(props) => props.theme.breakpoints.lgMax} {
-    -ms-flex: 100%;
-  flex: 100%;
-  max-width: 100%;
-  padding: 0px;
-  
+    flex: 100%;
+    max-width: 100%;
+    padding-left: 0;
   }
 `;
 

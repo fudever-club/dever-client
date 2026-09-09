@@ -116,6 +116,10 @@ export const HeaderCustom = styled(Header)`
   box-shadow: #0098ff33 0px 1px 10px;
 
   user-select: none;
+
+  @media ${(props) => props.theme.breakpoints.smMax} {
+    padding: 0px 10px !important;
+  }
 `;
 
 export const ContentCustom = styled(Layout.Content)`
@@ -123,11 +127,15 @@ export const ContentCustom = styled(Layout.Content)`
   margin: 0;
   border-radius: 12px;
 
-  min-height: 200;
+  min-height: 200px;
 
-  background-color: #fff;
+  background-color: transparent;
 
   overflow: auto;
+
+  @media ${(props) => props.theme.breakpoints.smMax} {
+    padding: 12px 8px;
+  }
 `;
 
 export const FooterCustom = styled(Layout.Footer)`
@@ -140,15 +148,31 @@ export const FooterCustom = styled(Layout.Footer)`
 `;
 
 export const AvatarCustom = styled(Avatar)`
-  border: 1px solid ${(props) => props?.theme?.colors?.primaryLight} !important;
+  border: 1.5px solid ${(props) => props?.theme?.colors?.primaryLight} !important;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:active {
+    transform: scale(0.95);
+  }
 `;
 
 export const MenuIcon = styled.div`
-  height: inherit;
+  min-width: 40px;
+  min-height: 40px;
   display: flex;
   align-items: center;
-
+  justify-content: center;
+  border-radius: 10px;
   cursor: pointer;
-
   color: ${(props) => props.theme.colors.primary};
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 102, 204, 0.08);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 `;

@@ -12,7 +12,8 @@ import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 
 const ContainerWrapper = styled.div`
-  padding-top: 16px;
+  width: 100%;
+  padding-top: 0px;
 `;
 
 const ProjectCardWrapper = styled.div`
