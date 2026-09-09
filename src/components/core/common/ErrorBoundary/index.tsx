@@ -3,6 +3,7 @@
 import React, { Component, ErrorInfo, ReactNode } from "react";
 import { Button } from "antd";
 import { ReloadOutlined, HomeOutlined, WarningOutlined } from "@ant-design/icons";
+import { constants } from "@/settings";
 
 interface Props {
   children: ReactNode;
@@ -30,6 +31,29 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("[DEVER ErrorBoundary caught an error]:", error, errorInfo);
+
+    if (typeof window !== "undefined") {
+      try {
+        const payload = JSON.stringify({
+          message: error?.message || "Client Component Crash",
+          stack: error?.stack,
+          componentStack: errorInfo?.componentStack,
+          url: window.location.href,
+        });
+
+        const targetUrl = `${constants.API_SERVER}/api/v1/telemetry/report-error`;
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(targetUrl, new Blob([payload], { type: "application/json" }));
+        } else {
+          fetch(targetUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: payload,
+            keepalive: true,
+          }).catch(() => {});
+        }
+      } catch (e) {}
+    }
   }
 
   private handleReset = () => {
