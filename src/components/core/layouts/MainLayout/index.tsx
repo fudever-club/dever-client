@@ -20,6 +20,7 @@ import EcosystemSwitcher from "./EcosystemSwitcher";
 import SelectLanguage from "./SelectLanguage";
 import NotificationBell from "@/components/ui/NotificationBell";
 import DeverRouteLoader from "@/components/ui/DeverRouteLoader";
+import ErrorBoundary from "../../common/ErrorBoundary";
 
 import { useTranslation } from "@/app/i18n/client";
 import { sidebarMenu } from "@/helpers/data/sidebarMenu";
@@ -283,7 +284,9 @@ const MainLayout = ({
               />
             </S.SiderCustom>
             <S.LayoutCustom>
-              <S.ContentCustom>{children}</S.ContentCustom>
+              <S.ContentCustom>
+                <ErrorBoundary scope="page">{children}</ErrorBoundary>
+              </S.ContentCustom>
             </S.LayoutCustom>
           </Layout>
         </S.ContainerLayoutCustom>
