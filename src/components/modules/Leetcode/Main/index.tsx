@@ -11,6 +11,7 @@ import { LeetcodeLeaderboardEntry } from "@/helpers/types/leetcodeTypes";
 import { useGetLeaderboardQuery } from "@/store/queries/leetcode";
 
 import Card from "../Card";
+import ErrorBoundary from "@/components/core/common/ErrorBoundary";
 import * as S from "./styles";
 
 const getName = (entry: LeetcodeLeaderboardEntry) =>
@@ -80,7 +81,9 @@ function LeetcodeModule() {
       {!isLoading && !isError && leaderboard.length > 0 && (
         <>
           {/* Heatmap Section */}
-          <LeetcodeHeatmap submissions={submissions} />
+          <ErrorBoundary scope="component" title="Không thể hiển thị biểu đồ nhiệt LeetCode">
+            <LeetcodeHeatmap submissions={submissions} />
+          </ErrorBoundary>
 
           {/* Top 3 Podium with dynamic responsive order */}
           {leaderboard.length >= 3 && (
