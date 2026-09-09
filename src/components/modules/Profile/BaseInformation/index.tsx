@@ -28,13 +28,40 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
   const params = useParams();
   const { t } = useTranslation(params?.locale as string, "profile");
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const fallbackCopyText = (text: string) => {
+    try {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      setCopiedEmail(true);
+      message.success("Đã sao chép email!");
+      setTimeout(() => setCopiedEmail(false), 2000);
+    } catch {
+      // Ignore fallback errors
+    }
+  };
 
   const handleCopyEmail = (email?: string) => {
     if (!email) return;
-    navigator.clipboard.writeText(email);
-    setCopiedEmail(true);
-    message.success("Đã sao chép email!");
-    setTimeout(() => setCopiedEmail(false), 2000);
+    if (typeof navigator !== "undefined" && navigator?.clipboard?.writeText) {
+      navigator.clipboard
+        .writeText(email)
+        .then(() => {
+          setCopiedEmail(true);
+          message.success("Đã sao chép email!");
+          setTimeout(() => setCopiedEmail(false), 2000);
+        })
+        .catch(() => {
+          fallbackCopyText(email);
+        });
+    } else {
+      fallbackCopyText(email);
+    }
   };
 
   return (

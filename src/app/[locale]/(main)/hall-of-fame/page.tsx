@@ -79,7 +79,7 @@ export default function HallOfFameClientPage() {
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <Avatar
             size={42}
-            src={record.avatar || "/icons/layout/logo.png"}
+            src={record.avatar || "/images/avatar/avatar.jpg"}
             style={{ border: "2px solid #E0F2FE", flexShrink: 0 }}
           />
           <div>

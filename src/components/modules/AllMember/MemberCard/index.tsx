@@ -44,7 +44,7 @@ function MemberCard({ dataSource }: IProps) {
   };
 
   const avatarSrc = imgError || !dataSource.avatar
-    ? "/icons/layout/logo.png"
+    ? "/images/avatar/avatar.jpg"
     : dataSource.avatar;
 
   return (

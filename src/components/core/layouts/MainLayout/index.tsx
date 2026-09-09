@@ -252,6 +252,8 @@ const MainLayout = ({
                 <Flex>
                   <S.AvatarCustom
                     size={40}
+                    data-testid="header-user-avatar"
+                    aria-label="Menu cá nhân"
                     src={
                       <Image
                         src={safeHeaderAvatar}
