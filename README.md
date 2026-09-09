@@ -40,6 +40,9 @@
   - Tải ảnh trực tiếp lên **Cloudflare R2** hoặc dán ảnh chụp màn hình từ Clipboard (`Ctrl+V`).
   - Hộp thoại sinh tự động: Bảng biểu (Table Generator), Mã nguồn đa ngôn ngữ, Khung cảnh báo (Callouts).
 - 🛡️ **Hồ sơ & Bảo mật:** Đánh giá phần trăm hoàn thiện hồ sơ (`% Complete`) mở khóa huy hiệu *Security Sentinel*.
+- 🖼️ **Nén ảnh phía Trình duyệt (Client-First Compression):** Tự động nén ảnh WebP/Canvas giảm 85% dung lượng cho Biên lai quỹ, Ảnh bài viết và Avatar trước khi tải lên.
+- 🛡️ **Lưới An Toàn Đa Tầng (Resilient ErrorBoundary):** Bọc độc lập vùng Content và Module Leetcode; khi có lỗi vỡ giao diện, Sidebar và Header vẫn hoạt động bình thường, đồng thời tự động báo cáo crash về Telegram Bot.
+- 🔄 **Resilient API Client (`apiClient.ts`):** Tự động gán Bearer Token, timeout an toàn 15 giây chống nghẽn mạng, và tự động xử lý lỗi 401 khôi phục phiên đăng nhập.
 
 ---
 
