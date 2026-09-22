@@ -175,7 +175,8 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
               minWidth: "900px",
               padding: "4px 2px",
             }}
-            aria-label="Biểu đồ hoạt động LeetCode 52 tuần"
+            role="img"
+            aria-label={`Biểu đồ hoạt động LeetCode 52 tuần: tổng ${totalAC} bài AC, chuỗi ${streakDays} ngày liên tiếp`}
           >
             {weeks.map((week, weekIndex) => (
               <div

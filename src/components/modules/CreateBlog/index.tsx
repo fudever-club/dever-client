@@ -1815,7 +1815,7 @@ export default function CreateBlogModule() {
         onCancel={() => setIsCodeModalOpen(false)}
         okText="Chèn Khối Code Vào Bài Viết"
         cancelText="Hủy"
-        width={680}
+        width="min(680px, 95vw)"
         okButtonProps={{ style: { backgroundColor: "#4F46E5", borderRadius: "12px", fontWeight: 700 } }}
         cancelButtonProps={{ style: { borderRadius: "12px" } }}
       >
@@ -1937,7 +1937,7 @@ export default function CreateBlogModule() {
         open={isMermaidModalOpen}
         onCancel={() => setIsMermaidModalOpen(false)}
         footer={null}
-        width={680}
+        width="min(680px, 95vw)"
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "14px", padding: "12px 0" }}>
           <p style={{ fontSize: "13px", color: "#64748B", margin: 0 }}>

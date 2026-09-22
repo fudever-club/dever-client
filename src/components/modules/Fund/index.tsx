@@ -506,7 +506,7 @@ export default function FundModule() {
                           size="small"
                           icon={copiedKey === "acc" ? <CheckOutlined className="text-emerald-600 font-bold" /> : <CopyOutlined />}
                           onClick={() => handleCopy(qrAccNumber, "acc")}
-                          className="h-8 px-2.5 rounded-lg font-bold text-xs border-blue-200 bg-white shadow-sm"
+                          className="h-11 min-h-[44px] px-2.5 rounded-lg font-bold text-xs border-blue-200 bg-white shadow-sm"
                         >
                           {copiedKey === "acc" ? "Đã chép" : "Chép"}
                         </Button>
@@ -534,7 +534,7 @@ export default function FundModule() {
                           size="small"
                           icon={copiedKey === "amount" ? <CheckOutlined className="text-emerald-600 font-bold" /> : <CopyOutlined />}
                           onClick={() => handleCopy(String(qrAmount), "amount")}
-                          className="h-8 px-2.5 rounded-lg font-bold text-xs border-blue-200 bg-white shadow-sm"
+                          className="h-11 min-h-[44px] px-2.5 rounded-lg font-bold text-xs border-blue-200 bg-white shadow-sm"
                         >
                           {copiedKey === "amount" ? "Đã chép" : "Chép"}
                         </Button>
@@ -554,7 +554,7 @@ export default function FundModule() {
                           size="small"
                           icon={copiedKey === "syntax" ? <CheckOutlined className="text-emerald-600 font-bold" /> : <CopyOutlined />}
                           onClick={() => handleCopy(qrSyntax, "syntax")}
-                          className="h-8 px-2.5 rounded-lg font-bold text-xs border-amber-300 bg-white text-amber-900 shadow-sm"
+                          className="h-11 min-h-[44px] px-2.5 rounded-lg font-bold text-xs border-amber-300 bg-white text-amber-900 shadow-sm"
                         >
                           {copiedKey === "syntax" ? "Đã chép" : "Chép"}
                         </Button>
