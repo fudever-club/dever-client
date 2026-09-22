@@ -49,5 +49,9 @@
   "SECURITY": "Information security ",
   "AI": "Artificial intelligence",
   "DESIGN": "Digital graphic design",
-  "DMARKETING": "Digital marketing"
+  "DMARKETING": "Digital marketing",
+  "loadError": "Unable to load profile",
+  "notFound": "Profile not found",
+  "retry": "Retry",
+  "hiddenByPrivacy": "Hidden by privacy settings"
 }

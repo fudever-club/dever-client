@@ -11,6 +11,7 @@ import { Copy, Check } from "lucide-react";
 
 import Typography from "@/components/core/common/Typography";
 import { UserInfo } from "@/helpers/types/userTypes";
+import { canSeeProfileField, useProfileOwner } from "@/helpers/profileVisibility";
 import { useTranslation } from "@/app/i18n/client";
 import { SocialBrandIcon } from "@/helpers/socialMediaIcons";
 
@@ -28,6 +29,10 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
   const params = useParams();
   const { t } = useTranslation(params?.locale as string, "profile");
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const { isOwn, isAdmin } = useProfileOwner(userData);
+  const access = { isOwn, isAdmin };
+  const visibility = (userData as any)?.profileVisibility;
+  const canSee = (field: string) => canSeeProfileField(field, visibility, access);
   const fallbackCopyText = (text: string) => {
     try {
       const textarea = document.createElement("textarea");
@@ -103,7 +108,7 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                 >
                   {userData?.firstname && userData?.lastname
                     ? `${userData?.firstname} ${userData?.lastname}`
-                    : userData?.email}
+                    : (userData?.nickname || userData?.email || t("notSetYet"))}
                 </Typography.Title>
               )}
 
@@ -125,7 +130,9 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                     $fontSize="14px"
                     style={{ wordBreak: "break-word" }}
                   >
-                    {userData?.job ? userData?.job : t("notSetYet")}
+                    {canSee("job")
+                      ? (userData?.job ? userData?.job : t("notSetYet"))
+                      : t("hiddenByPrivacy")}
                   </Typography.Text>
                 </Flex>
               )}
@@ -142,9 +149,11 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                     $fontSize="14px"
                     style={{ whiteSpace: "nowrap" }}
                   >
-                    {userData?.dob
-                      ? moment(userData?.dob).format("DD/MM/YYYY")
-                      : t("notSetYet")}
+                    {canSee("dob")
+                      ? (userData?.dob
+                        ? moment(userData?.dob).format("DD/MM/YYYY")
+                        : t("notSetYet"))
+                      : t("hiddenByPrivacy")}
                   </Typography.Text>
                 </Flex>
               )}
@@ -162,7 +171,9 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                     $fontWeight={600}
                     style={{ whiteSpace: "nowrap" }}
                   >
-                    {userData?.MSSV ? userData?.MSSV : t("notSetYet")}
+                    {canSee("MSSV")
+                      ? (userData?.MSSV ? userData?.MSSV : t("notSetYet"))
+                      : t("hiddenByPrivacy")}
                   </Typography.Text>
                 </Flex>
               )}
@@ -185,9 +196,11 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                   className="font-medium text-sm text-slate-800 select-all min-w-0"
                   style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
                 >
-                  {userData?.email ?? t("notSetYet")}
+                  {canSee("email")
+                    ? (userData?.email ?? t("notSetYet"))
+                    : t("hiddenByPrivacy")}
                 </span>
-                {userData?.email && (
+                {canSee("email") && userData?.email && (
                   <button
                     type="button"
                     onClick={() => handleCopyEmail(userData?.email)}
@@ -222,7 +235,9 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                 $fontWeight={600}
                 style={{ wordBreak: "break-word" }}
               >
-                {userData?.hometown ?? t("notSetYet")}
+                {canSee("hometown")
+                  ? (userData?.hometown ?? t("notSetYet"))
+                  : t("hiddenByPrivacy")}
               </Typography.Text>
             </Flex>
           )}
@@ -238,7 +253,8 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
               <Typography.Text $fontSize="13px" $color="#64748b" $fontWeight={600}>
                 {t("socials")}
               </Typography.Text>
-              {userData?.socials! && userData?.socials.length > 0 ? (
+              {canSee("socials") ? (
+                userData?.socials! && userData?.socials.length > 0 ? (
                 <Flex gap={8} align="center" wrap="wrap">
                   {userData?.socials!.map((item, index) => (
                     <Link
@@ -266,6 +282,11 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
               ) : (
                 <Typography.Text $fontSize="14px" italic>
                   {t("notSetYet")}
+                </Typography.Text>
+              )
+              ) : (
+                <Typography.Text $fontSize="14px" italic>
+                  {t("hiddenByPrivacy")}
                 </Typography.Text>
               )}
             </Flex>

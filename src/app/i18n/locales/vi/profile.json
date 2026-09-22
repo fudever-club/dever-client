@@ -49,5 +49,9 @@
   "SECURITY": "An toàn thông tin ",
   "AI": "Trí tuệ nhân tạo",
   "DESIGN": "Thiết kế đồ họa",
-  "DMARKETING": "Digital marketing"
+  "DMARKETING": "Digital marketing",
+  "loadError": "Không thể tải hồ sơ",
+  "notFound": "Không tìm thấy hồ sơ",
+  "retry": "Thử lại",
+  "hiddenByPrivacy": "Đã ẩn theo cài đặt riêng tư"
 }

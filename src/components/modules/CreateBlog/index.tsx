@@ -425,8 +425,12 @@ function RichMarkdownRenderer({ content }: { content: string }) {
     const imgMatch = mdImgMatch || htmlImgMatch || directUrlMatch;
     if (imgMatch) {
       const altText = mdImgMatch ? mdImgMatch[1] : "Hình ảnh minh họa";
-      const imgSrc = mdImgMatch ? mdImgMatch[2] : htmlImgMatch ? htmlImgMatch[1] : line.trim();
+      const rawSrc = mdImgMatch ? mdImgMatch[2] : htmlImgMatch ? htmlImgMatch[1] : line.trim();
+      const imgSrc = (rawSrc || "").trim();
 
+      // Only http(s) URLs render as images — javascript:/data: payloads fall
+      // through to plain text instead of reaching the DOM.
+      if (/^https?:\/\//i.test(imgSrc)) {
       elements.push(
         <div
           key={index}
@@ -448,6 +452,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
         </div>
       );
       return;
+      }
     }
 
     // Bullet lists

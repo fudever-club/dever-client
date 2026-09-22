@@ -7,7 +7,9 @@ import * as S from "./styles";
 
 import { useTranslation } from "@/app/i18n/client";
 import { UserInfo } from "@/helpers/types/userTypes";
+import { canSeeProfileField, useProfileOwner } from "@/helpers/profileVisibility";
 import Typography from "@/components/core/common/Typography";
+import SafeHtml from "@/components/core/common/SafeHtml";
 
 interface IProps {
   userData: UserInfo;
@@ -20,6 +22,10 @@ function GeneralInformation({ userData, isUserDataFetching }: IProps) {
 
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
+  const { isOwn, isAdmin } = useProfileOwner(userData);
+  const access = { isOwn, isAdmin };
+  const visibility = (userData as any)?.profileVisibility;
+  const canSee = (field: string) => canSeeProfileField(field, visibility, access);
 
   return (
     <S.ContainerWrapper>
@@ -48,10 +54,12 @@ function GeneralInformation({ userData, isUserDataFetching }: IProps) {
               />
             ) : (
               <S.TextWrapper>
-                {userData?.description ? (
-                  <S.TextRender
-                    dangerouslySetInnerHTML={{ __html: userData?.description }}
-                  ></S.TextRender>
+                {!canSee("description") ? (
+                  <Typography.Text $fontSize="16px" italic>
+                    {t("hiddenByPrivacy")}
+                  </Typography.Text>
+                ) : userData?.description ? (
+                  <S.TextRender><SafeHtml html={userData.description} /></S.TextRender>
                 ) : (
                   <Typography.Text $fontSize="16px" italic>
                     {t("noContent")}
@@ -68,7 +76,9 @@ function GeneralInformation({ userData, isUserDataFetching }: IProps) {
                 <Flex vertical>
                   <Typography.Text $fontSize="16px">{t("job")}</Typography.Text>
                   <Typography.Text $fontSize="16px" $fontWeight={700}>
-                    {userData?.job ? userData?.job : t("notSetYet")}
+                    {canSee("job")
+                      ? (userData?.job ? userData?.job : t("notSetYet"))
+                      : t("hiddenByPrivacy")}
                   </Typography.Text>
                 </Flex>
               )}
@@ -119,9 +129,11 @@ function GeneralInformation({ userData, isUserDataFetching }: IProps) {
                     {t("workplace")}
                   </Typography.Text>
                   <Typography.Text $fontSize="16px" $fontWeight={700}>
-                    {userData?.workplace!
-                      ? userData?.workplace
-                      : t("notSetYet")}
+                    {canSee("workplace")
+                      ? (userData?.workplace!
+                        ? userData?.workplace
+                        : t("notSetYet"))
+                      : t("hiddenByPrivacy")}
                   </Typography.Text>
                 </Flex>
               )}
@@ -133,7 +145,9 @@ function GeneralInformation({ userData, isUserDataFetching }: IProps) {
                     {t("education")}
                   </Typography.Text>
                   <Typography.Text $fontSize="16px" $fontWeight={700}>
-                    {userData?.school! ? userData?.school : t("notSetYet")}
+                    {canSee("school")
+                      ? (userData?.school! ? userData?.school : t("notSetYet"))
+                      : t("hiddenByPrivacy")}
                   </Typography.Text>
                 </Flex>
               )}

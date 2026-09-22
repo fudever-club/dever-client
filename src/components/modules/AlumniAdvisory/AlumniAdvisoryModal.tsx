@@ -122,7 +122,7 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
       open={open}
       onCancel={onClose}
       footer={null}
-      width={680}
+      width="min(680px, 95vw)"
       centered
       className="rounded-3xl overflow-hidden"
     >

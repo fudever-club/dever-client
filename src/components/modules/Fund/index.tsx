@@ -111,6 +111,21 @@ export default function FundModule() {
 
   const apiServer = constants.API_SERVER;
 
+  // Mirror the global 401 handling in store/queries/base.ts so raw fetches
+  // clear the session and bounce to sign-in instead of failing silently.
+  const redirectToSignIn = () => {
+    webStorageClient.removeAll();
+    if (
+      typeof window !== "undefined" &&
+      !window.location.pathname.includes("/sign-in") &&
+      !window.location.pathname.includes("/sign-up")
+    ) {
+      const currentPath = window.location.pathname;
+      const locale = currentPath.split("/")[1] || "vi";
+      window.location.href = `/${locale}/sign-in?redirect=${encodeURIComponent(currentPath)}`;
+    }
+  };
+
   // Escape key listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -132,6 +147,11 @@ export default function FundModule() {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      if (res.status === 401) {
+        redirectToSignIn();
+        return;
+      }
 
       if (res.ok) {
         const json = await res.json();
@@ -181,6 +201,11 @@ export default function FundModule() {
         body: formData,
       });
 
+      if (res.status === 401) {
+        redirectToSignIn();
+        return false;
+      }
+
       if (res.ok) {
         const json = await res.json();
         const imageUrl = json.data?.url || json.url || json.secure_url;
@@ -224,9 +249,14 @@ export default function FundModule() {
           proofImageUrl,
           transactionCode,
           note: memberNote,
-          amount: activeCampaign.amount || 100000,
+          // No amount: the server always charges the campaign's amount.
         }),
       });
+
+      if (res.status === 401) {
+        redirectToSignIn();
+        return;
+      }
 
       if (res.ok) {
         message.success("Đã gửi minh chứng đóng quỹ thành công! Ban Quản Trị sẽ đối soát sớm.");
@@ -425,12 +455,14 @@ export default function FundModule() {
                       </div>
                     )}
                     
-                    <div
+                    <button
+                      type="button"
                       onClick={() => setQrZoomModalOpen(true)}
-                      className="absolute inset-0 bg-slate-900/40 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-sm cursor-pointer backdrop-blur-[2px]"
+                      aria-label="Phóng to mã QR"
+                      className="absolute inset-0 bg-slate-900/40 rounded-2xl opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-sm cursor-pointer backdrop-blur-[2px]"
                     >
                       <ZoomInOutlined style={{ fontSize: 20 }} /> Nhấp để phóng to toàn màn hình
-                    </div>
+                    </button>
                   </div>
 
                   {/* Actions under QR */}
@@ -447,7 +479,7 @@ export default function FundModule() {
                       href={currentDisplayQr}
                       download={`QR_ThuQuy_DEVER_${activeCampaign.semester}.png`}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                     >
                       <Button icon={<DownloadOutlined />} className="rounded-xl text-xs font-bold h-9">
                         Tải Ảnh QR
@@ -656,6 +688,7 @@ export default function FundModule() {
           dataSource={history}
           rowKey="_id"
           pagination={false}
+          scroll={{ x: 640 }}
           columns={[
             {
               title: "Kỳ thu quỹ",
@@ -711,7 +744,8 @@ export default function FundModule() {
         open={qrZoomModalOpen}
         onCancel={() => setQrZoomModalOpen(false)}
         footer={null}
-        width={680}
+        width="min(680px, 95vw)"
+        centered
         title={
           <div className="flex items-center justify-between pr-6">
             <span className="font-extrabold text-base text-slate-900">Mã QR Chuyển Khoản Thủ Quỹ (TPBank)</span>

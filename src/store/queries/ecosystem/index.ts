@@ -45,7 +45,7 @@ export const ecosystemApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Notifications"],
     }),
-    getOpenSourceProjects: build.query<any, { authorId?: string } | void>({
+    getOpenSourceProjects: build.query<any, { authorId?: string; authorKey?: string } | void>({
       query: (params) => ({
         url: endpointEcosystem.OPEN_SOURCE_LIST,
         method: "GET",

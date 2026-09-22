@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Checkbox, Col, Flex, Form, FormProps, Input, message } from "antd";
 import { useRouter } from "next-nprogress-bar";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 
 import Button from "@/components/core/common/Button";
@@ -14,6 +14,7 @@ import themeColors from "@/style/themes/default/colors";
 import { useTranslation } from "@/app/i18n/client";
 import { useSignInMutation } from "@/store/queries/auth";
 import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 import LoadingScreen from "@/components/core/common/LoadingScreen";
 import { useState } from "react";
 
@@ -29,6 +30,7 @@ function SignInModule() {
   const router = useRouter();
   const params = useParams();
   const locale = useLocale();
+  const searchParams = useSearchParams();
 
   const { t } = useTranslation(params?.locale as string, "signIn");
 
@@ -43,19 +45,28 @@ function SignInModule() {
 
       if (token) {
         webStorageClient.setToken(token);
-        webStorageClient.set("_access_token", token);
-        if (user) {
-          webStorageClient.set("_user_info", user);
-        }
+        // Store only the id — the full user object duplicates sensitive fields
+        // across cookie + localStorage for no benefit (auth slice keeps memory copy).
+        webStorageClient.set(constants.USER_INFO, user?._id || user);
       }
 
       message.success(t("signInSuccess"));
       setIsNavigatingToPortal(true);
+      // Honor the ?redirect= target set by auth guards; accept same-origin
+      // /{locale}/... paths only to block open-redirect phishing.
+      const redirectParam = searchParams?.get("redirect");
+      const safeRedirect =
+        redirectParam &&
+        /^\/[a-z]{2}\/.+/.test(redirectParam) &&
+        !redirectParam.startsWith("//")
+          ? redirectParam
+          : null;
+      const destination = safeRedirect || `/${locale}/members`;
       setTimeout(() => {
         if (typeof window !== "undefined") {
-          window.location.href = `/${locale}/members`;
+          window.location.href = destination;
         } else {
-          router?.push(`/${locale}/members`);
+          router?.push(destination);
         }
       }, 450);
     } catch (error: any) {

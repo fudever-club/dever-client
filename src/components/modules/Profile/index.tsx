@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
-import { Grid, Skeleton } from "antd";
+import React from "react";
+import { Button, Grid, Result, Skeleton } from "antd";
 import { useParams } from "next/navigation";
 
 import BaseInformation from "./BaseInformation";
@@ -27,18 +27,20 @@ function ProfileModule({ userInfo }: IProps) {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
 
-  const { profileData, isFetching, refetch } = useGetProfileQuery(userInfo, {
-    selectFromResult: ({ data, isFetching }) => {
+  const { profileData, isFetching, isError, refetch } = useGetProfileQuery(userInfo, {
+    selectFromResult: ({ currentData, isFetching, isError }) => {
       return {
-        profileData: data?.data ?? {},
+        profileData: currentData?.data,
         isFetching,
+        isError,
       };
     },
   });
 
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  if (!isFetching && (isError || !profileData)) {
+    return <Result status={isError ? "error" : "404"} title={t(isError ? "loadError" : "notFound")}
+      extra={<Button onClick={() => refetch()}>{t("retry")}</Button>} />;
+  }
   return (
     <S.PageWrapper>
       <S.Head>
@@ -60,7 +62,7 @@ function ProfileModule({ userInfo }: IProps) {
                 <span style={{ wordBreak: "break-word" }}>
                   {profileData?.firstname && profileData?.lastname
                     ? `${profileData?.firstname} ${profileData?.lastname}`
-                    : profileData?.email}
+                    : (profileData?.nickname || profileData?.email || t("notSetYet"))}
                 </span>
               </>
             ) : (
@@ -68,7 +70,7 @@ function ProfileModule({ userInfo }: IProps) {
                 <span style={{ wordBreak: "break-word" }}>
                   {profileData?.firstname && profileData?.lastname
                     ? `${profileData?.firstname} ${profileData?.lastname}'s `
-                    : `${profileData?.email}'s `}
+                    : `${profileData?.nickname || profileData?.email || t("notSetYet")}'s `}
                 </span>
                 <span style={{ color: "#0f172a" }}>{t("profile")}</span>
               </>

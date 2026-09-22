@@ -46,12 +46,16 @@ export default function ProfileProjects({ userData, isUserDataFetching }: IProps
   const [modalOpen, setModalOpen] = useState(false);
   const { userInfo } = useAppSelector((state) => state.auth);
   const storedUser = typeof window !== "undefined" ? webStorageClient.get(constants.USER_INFO) : null;
-  const currentUserId = userInfo?.id || storedUser?._id || storedUser?.id || "";
+  const storedId =
+    typeof storedUser === "string" ? storedUser : storedUser?._id || storedUser?.id || "";
+  const currentUserId = (userInfo as any)?.id || (userInfo as any)?._id || storedId || "";
   const targetUserId = userData?._id || userData?.id || "";
+  const targetUserKey = userData?.profileKey || "";
 
+  // Strict identity match only — a public profileKey must never imply ownership,
+  // otherwise a visitor would fetch their own drafts on someone else's profile.
   const isOwnProfile = Boolean(
-    currentUserId &&
-    (targetUserId === currentUserId || userData?.profileKey)
+    currentUserId && targetUserId && currentUserId === targetUserId
   );
 
   const { data: myProjectsData, isLoading: isMyProjectsLoading } = useGetMySubmittedProjectsQuery(
@@ -60,8 +64,8 @@ export default function ProfileProjects({ userData, isUserDataFetching }: IProps
   );
 
   const { data: publicProjectsData, isLoading: isPublicProjectsLoading } = useGetOpenSourceProjectsQuery(
-    targetUserId ? { authorId: targetUserId } : undefined,
-    { skip: isOwnProfile || !targetUserId }
+    targetUserKey ? { authorKey: targetUserKey } : undefined,
+    { skip: isOwnProfile || !targetUserKey }
   );
 
   const projects = isOwnProfile

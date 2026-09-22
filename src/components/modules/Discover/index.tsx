@@ -168,7 +168,7 @@ function Discover() {
 
               <div>
                 {item.registerUrl ? (
-                  <a href={item.registerUrl} target="_blank" rel="noreferrer">
+                  <a href={item.registerUrl} target="_blank" rel="noopener noreferrer">
                     <Button type="primary" icon={<ExportOutlined />} style={{ borderRadius: "10px", fontWeight: 700, width: "100%" }}>
                       Mở Google Form
                     </Button>
@@ -221,7 +221,7 @@ function Discover() {
 
               <div>
                 {item.fileUrl ? (
-                  <a href={item.fileUrl} target="_blank" rel="noreferrer">
+                  <a href={item.fileUrl} target="_blank" rel="noopener noreferrer">
                     <Button icon={<ExportOutlined />} style={{ borderRadius: "10px", fontWeight: 700, width: "100%" }}>
                       Mở tài liệu
                     </Button>
@@ -318,7 +318,7 @@ function Discover() {
 
               <div>
                 {item.contactUrl ? (
-                  <a href={item.contactUrl} target="_blank" rel="noreferrer">
+                  <a href={item.contactUrl} target="_blank" rel="noopener noreferrer">
                     <Button type="primary" icon={<ExportOutlined />} style={{ borderRadius: "10px", fontWeight: 700, width: "100%" }}>
                       Liên hệ tham gia
                     </Button>

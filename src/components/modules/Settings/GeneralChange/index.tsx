@@ -63,7 +63,15 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
 
   const onFinish: FormProps<IUpdateValues>["onFinish"] = async (values) => {
     try {
-      const res = await updateUserProfile(values).unwrap();
+      // Strip admin-managed fields that render disabled: the server ignores them,
+      // and submitting them invites devtools tampering confusion.
+      const { positionId: _disabledPosition, departments: _disabledDepartments, ...editableValues } = values as IUpdateValues & {
+        positionId?: unknown;
+        departments?: unknown;
+      };
+      void _disabledPosition;
+      void _disabledDepartments;
+      const res = await updateUserProfile(editableValues).unwrap();
       dispatch(
         applyChangeName({
           firstname: values.firstname,
