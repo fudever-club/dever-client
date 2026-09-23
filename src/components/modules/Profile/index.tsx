@@ -1,7 +1,7 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Grid, Result, Skeleton } from "antd";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import BaseInformation from "./BaseInformation";
 import GeneralInformation from "./GeneralInformation";
@@ -22,6 +22,7 @@ interface IProps {
 
 function ProfileModule({ userInfo }: IProps) {
   const params = useParams();
+  const router = useRouter();
   const { t } = useTranslation(params?.locale as string, "profile");
 
   const { useBreakpoint } = Grid;
@@ -36,6 +37,14 @@ function ProfileModule({ userInfo }: IProps) {
       };
     },
   });
+
+  // Canonicalize legacy identifiers (_id/nickname) to the opaque profileKey URL.
+  useEffect(() => {
+    const canonical = (profileData as any)?.profileKey;
+    if (!isFetching && !isError && canonical && canonical !== userInfo) {
+      router.replace(`/${params?.locale || "vi"}/profile/${canonical}`);
+    }
+  }, [isFetching, isError, profileData, userInfo, router, params]);
 
   if (!isFetching && (isError || !profileData)) {
     return <Result status={isError ? "error" : "404"} title={t(isError ? "loadError" : "notFound")}
