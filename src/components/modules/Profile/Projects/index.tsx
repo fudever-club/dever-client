@@ -58,12 +58,12 @@ export default function ProfileProjects({ userData, isUserDataFetching }: IProps
     currentUserId && targetUserId && currentUserId === targetUserId
   );
 
-  const { data: myProjectsData, isLoading: isMyProjectsLoading } = useGetMySubmittedProjectsQuery(
+  const { data: myProjectsData, isLoading: isMyProjectsLoading, isError: isMyProjectsError, refetch: refetchMyProjects } = useGetMySubmittedProjectsQuery(
     undefined,
     { skip: !isOwnProfile }
   );
 
-  const { data: publicProjectsData, isLoading: isPublicProjectsLoading } = useGetOpenSourceProjectsQuery(
+  const { data: publicProjectsData, isLoading: isPublicProjectsLoading, isError: isPublicProjectsError, refetch: refetchPublicProjects } = useGetOpenSourceProjectsQuery(
     targetUserKey ? { authorKey: targetUserKey } : undefined,
     { skip: isOwnProfile || !targetUserKey }
   );
@@ -73,6 +73,8 @@ export default function ProfileProjects({ userData, isUserDataFetching }: IProps
     : (publicProjectsData?.data || (Array.isArray(userData?.projects) ? userData.projects : []));
 
   const isLoading = isUserDataFetching || (isOwnProfile ? isMyProjectsLoading : isPublicProjectsLoading);
+  const isError = isOwnProfile ? isMyProjectsError : isPublicProjectsError;
+  const refetchProjects = isOwnProfile ? refetchMyProjects : refetchPublicProjects;
 
   return (
     <ContainerWrapper>
@@ -108,6 +110,17 @@ export default function ProfileProjects({ userData, isUserDataFetching }: IProps
           <div className="space-y-3 py-2">
             <Skeleton active paragraph={{ rows: 2 }} />
             <Skeleton active paragraph={{ rows: 2 }} />
+          </div>
+        ) : isError ? (
+          <div role="alert" className="text-center py-8 px-4 rounded-xl border border-dashed border-rose-200 bg-rose-50/50 space-y-3">
+            <p className="text-sm font-bold text-rose-600">Không thể tải danh sách dự án.</p>
+            <button
+              type="button"
+              onClick={() => refetchProjects()}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0066CC] hover:bg-[#004C99] text-white text-xs font-bold active:scale-[0.98] transition-all duration-200 cursor-pointer"
+            >
+              Thử lại
+            </button>
           </div>
         ) : projects.length === 0 ? (
           <div className="text-center py-8 px-4 rounded-xl border border-dashed border-slate-200 bg-slate-50/50 space-y-3">

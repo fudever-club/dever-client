@@ -90,6 +90,7 @@ interface FundPayment {
 
 export default function FundModule() {
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadError, setLoadError] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [activeCampaign, setActiveCampaign] = useState<FundCampaign | null>(null);
   const [activePayment, setActivePayment] = useState<FundPayment | null>(null);
@@ -140,6 +141,7 @@ export default function FundModule() {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
+    setLoadError(false);
     try {
       const token = webStorageClient.getToken();
       const res = await fetch(`${apiServer}/api/v1/funds/my-payments`, {
@@ -159,8 +161,11 @@ export default function FundModule() {
         setActiveCampaign(camp);
         setActivePayment(json.data?.activePayment || null);
         setHistory(json.data?.history || []);
+      } else {
+        setLoadError(true);
       }
     } catch {
+      setLoadError(true);
       message.error("Không thể tải thông tin quỹ CLB.");
     } finally {
       setLoading(false);
@@ -294,6 +299,24 @@ export default function FundModule() {
     );
   }
 
+  if (loadError) {
+    return (
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto">
+        <Alert
+          type="error"
+          showIcon
+          message="Không thể tải thông tin quỹ CLB"
+          description="Vui lòng kiểm tra kết nối và thử lại."
+          action={
+            <Button size="small" danger onClick={fetchData}>
+              Thử lại
+            </Button>
+          }
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-8">
       {/* Header Section */}
@@ -389,6 +412,12 @@ export default function FundModule() {
       )}
 
       {/* Main Unified 2-Column Payment Grid */}
+      {!activeCampaign && (
+        <div className="rounded-3xl border border-dashed border-slate-200 bg-white p-10 text-center space-y-2 shadow-xs">
+          <p className="text-sm font-bold text-slate-700">Hiện chưa có kỳ thu quỹ nào đang mở.</p>
+          <p className="text-xs text-slate-500">Ban Chủ Nhiệm sẽ thông báo khi có đợt đóng quỹ mới.</p>
+        </div>
+      )}
       {(!activePayment || activePayment.status === "rejected" || activePayment.status === "pending") && activeCampaign && (
         <Row gutter={[32, 32]}>
           {/* Column 1: Unified Payment Hub (Massive QR Code + Bank Details) */}

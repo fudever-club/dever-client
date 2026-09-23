@@ -529,6 +529,7 @@ export default function CreateBlogModule() {
   // My Blogs list state
   const [myBlogs, setMyBlogs] = useState<any[]>([]);
   const [loadingMyBlogs, setLoadingMyBlogs] = useState(false);
+  const [myBlogsError, setMyBlogsError] = useState(false);
 
   const router = useRouter();
   const locale = useLocale();
@@ -596,6 +597,7 @@ export default function CreateBlogModule() {
     if (!token) return;
 
     setLoadingMyBlogs(true);
+    setMyBlogsError(false);
     try {
       const res = await fetch(`${API_SERVER}/api/v1/blogs/me`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -603,9 +605,11 @@ export default function CreateBlogModule() {
       const data = await res.json();
       if (res.ok && data.status === "success") {
         setMyBlogs(data.data || []);
+      } else {
+        setMyBlogsError(true);
       }
     } catch (e) {
-      // Quiet fail
+      setMyBlogsError(true);
     } finally {
       setLoadingMyBlogs(false);
     }
@@ -1661,6 +1665,18 @@ export default function CreateBlogModule() {
             <div style={{ padding: "60px 20px", textAlign: "center", color: "#64748B" }}>
               <RefreshCw size={24} color="#0066CC" className="animate-spin" style={{ margin: "0 auto 10px auto" }} />
               <p style={{ fontSize: "13px", fontWeight: 600 }}>Đang tải danh sách bài viết...</p>
+            </div>
+          ) : myBlogsError ? (
+            <div role="alert" style={{ padding: "60px 20px", textAlign: "center" }}>
+              <p style={{ fontSize: "14px", fontWeight: 700, color: "#DC2626", margin: "0 0 6px 0" }}>
+                Không thể tải danh sách bài viết
+              </p>
+              <p style={{ fontSize: "13px", color: "#64748B", margin: "0 0 12px 0" }}>
+                Vui lòng kiểm tra kết nối và thử lại.
+              </p>
+              <Button type="primary" onClick={() => fetchMyBlogs()}>
+                Thử lại
+              </Button>
             </div>
           ) : myBlogs.length === 0 ? (
             <div style={{ padding: "80px 20px", textAlign: "center" }}>

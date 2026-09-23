@@ -311,10 +311,10 @@ function Dashboard() {
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066CC] group-hover:translate-x-0.5 transition-all" />
                 </div>
                 <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
-                  {eventsQuery.data?.data?.[0]?.title || "Workshop Thuật Toán & CSD201"}
+                  {eventsQuery.data?.data?.[0]?.title || "Chưa có sự kiện nào"}
                 </h4>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
-                  {eventsQuery.data?.data?.[0]?.date || "Lịch hoạt động và workshop chuyên môn được cập nhật liên tục."}
+                  {eventsQuery.data?.data?.[0]?.date || "Danh sách sự kiện sẽ hiển thị tại đây khi có dữ liệu."}
                 </p>
               </div>
             </div>
@@ -332,10 +332,10 @@ function Dashboard() {
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-700 group-hover:translate-x-0.5 transition-all" />
                 </div>
                 <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
-                  {resourcesQuery.data?.data?.[0]?.title || "Slide Ôn Thi PE SWE201c & CSD201"}
+                  {resourcesQuery.data?.data?.[0]?.title || "Chưa có tài liệu nào"}
                 </h4>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
-                  {resourcesQuery.data?.data?.[0]?.type || "Tổng hợp slide bài giảng, cẩm nang và mã nguồn mẫu FPTU."}
+                  {resourcesQuery.data?.data?.[0]?.type || "Kho tài liệu sẽ hiển thị tại đây khi có dữ liệu."}
                 </p>
               </div>
             </div>
@@ -353,12 +353,12 @@ function Dashboard() {
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-700 group-hover:translate-x-0.5 transition-all" />
                 </div>
                 <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
-                  {blogsQuery.data?.data?.[0]?.title || "Kiến Trúc Next.js 14 & Tối Ưu Caching"}
+                  {blogsQuery.data?.data?.[0]?.title || "Chưa có bài viết nào"}
                 </h4>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
                   {labsQuery.data?.data?.length
                     ? `${labsQuery.data.data.length} dự án đang mở nhận thành viên.`
-                    : "Chia sẻ kinh nghiệm thực chiến từ Ban Chuyên Môn FU-DEVER."}
+                    : "Bài viết mới sẽ hiển thị tại đây khi có dữ liệu."}
                 </p>
               </div>
             </div>
