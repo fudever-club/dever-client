@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 
 import { UserInfo } from "@/helpers/types/userTypes";
 import CustomEditor from "@/components/core/common/CustomEditor";
+import SafeHtml from "@/components/core/common/SafeHtml";
 import { useUpdateUserProfileMutation } from "@/store/queries/settings";
 import { EditOutlined } from "@ant-design/icons";
 import { useTranslation } from "@/app/i18n/client";
@@ -57,15 +58,9 @@ function AboutMe({ isUserProfileFetching, userData }: IProps) {
               <Typography.Title level={3}>{t("aboutMe")}</Typography.Title>
 
               <Typography.Text>
-                <S.HtmlRenderWrapper
-                  dangerouslySetInnerHTML={{
-                    __html: `${
-                      isUpdateSuccess
-                        ? idleText
-                        : userData?.description ?? t("noContent")
-                    }`,
-                  }}
-                ></S.HtmlRenderWrapper>
+                <S.HtmlRenderWrapper>
+                  <SafeHtml html={isUpdateSuccess ? idleText : userData?.description ?? t("noContent")} />
+                </S.HtmlRenderWrapper>
               </Typography.Text>
 
               <Button

@@ -21,5 +21,7 @@
   "token_not_valid": "You are not authorized to access this resource",
   "checkedAccess": "Successful access check",
 
-  "featureNotAvailable": "This feature is coming soon!"
+  "featureNotAvailable": "This feature is coming soon!",
+  "verificationError": "Unable to verify your session. Please try again.",
+  "retry": "Retry"
 }

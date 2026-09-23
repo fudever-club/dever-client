@@ -21,5 +21,7 @@
   "token_not_valid": "Bạn không có quyền truy cập trang này",
   "checkedAccess": "Kiểm tra truy cập thành công",
 
-  "featureNotAvailable": "Tính năng đang được phát triển"
+  "featureNotAvailable": "Tính năng đang được phát triển",
+  "verificationError": "Không thể xác thực phiên đăng nhập. Vui lòng thử lại.",
+  "retry": "Thử lại"
 }

@@ -28,7 +28,7 @@ function SelectLanguage() {
 
   const handleClick: MenuProps["onClick"] = (e) => {
     startTransition(() => {
-      router.replace(`/${e?.key}/${getPathname(pathname)}`);
+      router.replace(`/${e.key}/${getPathname(pathname)}${window.location.search}${window.location.hash}`);
     });
   };
 

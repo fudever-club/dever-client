@@ -43,5 +43,11 @@
   "DMARKETING": "Digital marketing",
   "anonymousMember": "FU-DEVER member",
   "profileNotPublic": "Profile is not public",
-  "openPublicProfile": "Open {{name}}'s public profile"
+  "openPublicProfile": "Open {{name}}'s public profile",
+  "loadError": "Unable to load members",
+  "loadErrorHelp": "Check your connection and try again.",
+  "retry": "Retry",
+  "emptyTitle": "No matching members",
+  "emptyHelp": "Try another search or clear the filters to see the directory.",
+  "resetFilters": "Clear filters"
 }

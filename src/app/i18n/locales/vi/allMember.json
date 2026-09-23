@@ -43,5 +43,11 @@
   "DMARKETING": "Digital marketing",
   "anonymousMember": "Thành viên FU-DEVER",
   "profileNotPublic": "Hồ sơ chưa công khai",
-  "openPublicProfile": "Mở hồ sơ công khai của {{name}}"
+  "openPublicProfile": "Mở hồ sơ công khai của {{name}}",
+  "loadError": "Không thể tải danh sách thành viên",
+  "loadErrorHelp": "Vui lòng kiểm tra kết nối và thử lại.",
+  "retry": "Thử lại",
+  "emptyTitle": "Không tìm thấy thành viên phù hợp",
+  "emptyHelp": "Hãy đổi từ khoá hoặc xoá bớt bộ lọc để xem lại danh bạ.",
+  "resetFilters": "Xoá bộ lọc"
 }

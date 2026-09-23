@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MemberCard from "./MemberCard";
 import * as S from "./styles";
 
@@ -53,8 +53,10 @@ function AllMemberModule() {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
 
-  const page = Number(searchParams.get("page")) || 1;
+  const requestedPage = Number(searchParams.get("page"));
+  const page = Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
   const search = searchParams.get("search") || "";
+  const [searchInput, setSearchInput] = useState(search);
 
   const positionId = searchParams.get("positionId") || "";
   const majorId = searchParams.get("majorId") || "";
@@ -130,24 +132,24 @@ function AllMemberModule() {
     },
   });
 
-  const handleSearch = _.debounce((e: React.ChangeEvent<HTMLInputElement>) => {
-    router.push(createQueryString("search", `${e?.target?.value}`));
-  }, 300);
+  const updateSearch = useMemo(() => _.debounce((value: string) => {
+    router.push(createQueryString("search", value, true));
+  }, 300), [router]);
 
-  const handleFilterPosition = _.debounce((e: string) => {
-    router.push(createQueryString("positionId", `${e ?? ""}`));
-  }, 300);
+  useEffect(() => () => updateSearch.cancel(), [updateSearch]);
+  useEffect(() => {
+    setSearchInput(search);
+  }, [search]);
 
-  const handleFilterMajor = _.debounce((e: string) => {
-    router.push(createQueryString("majorId", `${e ?? ""}`));
-  }, 300);
-  const handleFilterK = _.debounce((e: string) => {
-    router.push(createQueryString("kGeneration", `${e ?? ""}`));
-  }, 300);
-
-  const handleFilterDepartment = _.debounce((e) => {
-    router.push(createQueryString("departments", `${e ?? ""}`));
-  }, 300);
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    updateSearch(e.target.value);
+  };
+  const updateFilter = (name: string, value: string) => {
+    updateSearch.cancel();
+    setSearchInput(search);
+    router.push(createQueryString(name, value, true));
+  };
   const handlePageChange = (nextPage: number) => {
     router.push(createQueryString("page", `${nextPage}`));
   };
@@ -164,7 +166,7 @@ function AllMemberModule() {
               placeholder={t("search")}
               size="large"
               onChange={handleSearch}
-              defaultValue={search}
+              value={searchInput}
               prefix={<SearchOutlined />}
             />
             {screens.xs && (
@@ -194,8 +196,8 @@ function AllMemberModule() {
                   placeholder={t("enterPosition")}
                   allowClear
                   style={{ width: "100%" }}
-                  onChange={handleFilterPosition}
-                  defaultValue={positionId || undefined}
+                  onChange={(value) => updateFilter("positionId", value ?? "")}
+                  value={positionId || undefined}
                 >
                   {positionData?.result?.map((item, index) => (
                     <Select.Option key={index} value={item.value}>
@@ -210,9 +212,9 @@ function AllMemberModule() {
                   placeholder={t("enterDepartment")}
                   allowClear
                   style={{ width: "100%" }}
-                  onChange={handleFilterDepartment}
-                  defaultValue={
-                    departments?.length ? departments?.split(",") : null
+                  onChange={(value: string[]) => updateFilter("departments", value.join(","))}
+                  value={
+                    departments?.length ? departments?.split(",") : []
                   }
                   mode="multiple"
                 >
@@ -229,8 +231,8 @@ function AllMemberModule() {
                   placeholder={t("enterMajor")}
                   allowClear
                   style={{ width: "100%" }}
-                  onChange={handleFilterMajor}
-                  defaultValue={majorId || undefined}
+                  onChange={(value) => updateFilter("majorId", value ?? "")}
+                  value={majorId || undefined}
                 >
                   {majorData?.result?.map((item, index) => (
                     <Select.Option key={index} value={item.value}>
@@ -245,8 +247,8 @@ function AllMemberModule() {
                   placeholder={t("enterGeneration")}
                   allowClear
                   style={{ width: "100%" }}
-                  onChange={handleFilterK}
-                  defaultValue={kGeneration || undefined}
+                  onChange={(value) => updateFilter("kGeneration", value == null ? "" : String(value))}
+                  value={kGeneration ? Number(kGeneration) : undefined}
                   options={[
                     {
                       label: " K21 (Gen 9)",
@@ -313,9 +315,9 @@ function AllMemberModule() {
             ) : isError ? (
             <Result
               status="error"
-              title="Không thể tải danh sách thành viên"
-              subTitle="Vui lòng kiểm tra kết nối và thử lại."
-              extra={<Button type="primary" onClick={() => refetch()}>Thử lại</Button>}
+              title={t("loadError")}
+              subTitle={t("loadErrorHelp")}
+              extra={<Button type="primary" onClick={() => refetch()}>{t("retry")}</Button>}
             />
             ) : (
             <Row gutter={16}>
@@ -328,7 +330,11 @@ function AllMemberModule() {
               })}
               {result.length === 0 && (
                 <Col span={24}>
-                  <EmptyState onReset={() => router.push("?")} />
+                  <EmptyState onReset={() => {
+                    updateSearch.cancel();
+                    setSearchInput("");
+                    router.push("?");
+                  }} />
                 </Col>
               )}
             </Row>
@@ -346,11 +352,13 @@ function AllMemberModule() {
 }
 
 function EmptyState({ onReset }: { onReset: () => void }) {
+  const params = useParams();
+  const { t } = useTranslation(params?.locale as string, "allMember");
   return (
     <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-10 text-center">
-      <Typography.Title level={4}>Không tìm thấy thành viên phù hợp</Typography.Title>
-      <Typography.Paragraph type="secondary">Hãy đổi từ khoá hoặc xoá bớt bộ lọc để xem lại danh bạ.</Typography.Paragraph>
-      <Button onClick={onReset}>Xoá bộ lọc</Button>
+      <Typography.Title level={4}>{t("emptyTitle")}</Typography.Title>
+      <Typography.Paragraph type="secondary">{t("emptyHelp")}</Typography.Paragraph>
+      <Button onClick={onReset}>{t("resetFilters")}</Button>
     </div>
   );
 }

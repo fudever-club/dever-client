@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "node --test tests/*.test.cjs"
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
@@ -17,6 +18,7 @@
     "axios": "^1.6.8",
     "cookies-next": "^4.1.1",
     "dayjs": "^1.11.11",
+    "dompurify": "3.4.15",
     "froala-editor": "^4.2.0",
     "i18next": "^23.11.4",
     "i18next-browser-languagedetector": "^7.2.1",

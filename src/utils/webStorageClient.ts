@@ -14,7 +14,6 @@ const webStorageClient = {
   set(key: string, rawValue: any, option?: any) {
     const value = _.isString(rawValue) ? rawValue : JSON?.stringify(rawValue);
     setCookie(key, value, { ...COOKIE_DEFAULT_OPTIONS, ...option });
-    Cookies.set(key, value, { path: "/" });
     if (typeof window !== "undefined") {
       try {
         localStorage.setItem(key, value);
@@ -47,15 +46,11 @@ const webStorageClient = {
   },
 
   removeAll() {
-    Object.keys(Cookies.get()).forEach((cookieName) => {
-      Cookies.remove(cookieName, { path: "/" });
-      deleteCookie(cookieName, { path: "/" });
-    });
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.clear();
-      } catch {}
-    }
+    // Session cleanup must not erase unsent drafts or locale preferences.
+    [constants.ACCESS_TOKEN, constants.REFRESH_TOKEN, constants.USER_INFO,
+      constants.AVT, constants.MAIL, constants.FN, constants.LN,
+      constants.IS_AUTH, constants.NICK_NANE, constants.SUB_ACCOUNT_ID,
+      constants.SUB_ACCOUNT_INFO].forEach((key) => this.remove(key));
   },
 
   setToken(value: string, option?: any) {
