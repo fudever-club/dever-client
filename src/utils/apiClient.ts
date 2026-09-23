@@ -1,9 +1,12 @@
 import { constants } from "@/settings";
 import webStorageClient from "./webStorageClient";
+import { isAuthEndpoint, refreshSession } from "./sessionRefresh";
 
 export interface ApiRequestOptions extends RequestInit {
   timeoutMs?: number;
   skipAuth?: boolean;
+  /** Internal: set on the single silent retry to prevent refresh loops. */
+  retried?: boolean;
 }
 
 const DEFAULT_TIMEOUT_MS = 15000;
@@ -12,7 +15,7 @@ export async function apiFetch<T = any>(
   url: string,
   options: ApiRequestOptions = {}
 ): Promise<{ data: T | null; status: number; ok: boolean; error?: string }> {
-  const { timeoutMs = DEFAULT_TIMEOUT_MS, skipAuth = false, headers = {}, ...restOptions } = options;
+  const { timeoutMs = DEFAULT_TIMEOUT_MS, skipAuth = false, headers = {}, signal, ...restOptions } = options;
 
   // Resolve target URL
   let fullUrl = url;
@@ -26,28 +29,43 @@ export async function apiFetch<T = any>(
 
   // Setup abort controller for timeout
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-  // Setup headers with Authorization
-  const requestHeaders = new Headers(headers);
-  if (!skipAuth) {
-    const token = webStorageClient.getToken();
-    if (token && !requestHeaders.has("Authorization")) {
-      requestHeaders.set("Authorization", `Bearer ${token}`);
-    }
-  }
+  let timedOut = false;
+  const timeoutId = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, timeoutMs);
+  const abortFromCaller = () => controller.abort(signal?.reason);
+  if (signal?.aborted) abortFromCaller();
+  else signal?.addEventListener("abort", abortFromCaller, { once: true });
 
   try {
+    // Setup headers with Authorization
+    const requestHeaders = new Headers(headers);
+    if (!skipAuth) {
+      const token = webStorageClient.getToken();
+      if (token && !requestHeaders.has("Authorization")) {
+        requestHeaders.set("Authorization", `Bearer ${token}`);
+      }
+    }
+
     const response = await fetch(fullUrl, {
       ...restOptions,
       headers: requestHeaders,
       signal: controller.signal,
+      // Send httpOnly session cookies (omitted for explicitly public calls).
+      credentials: skipAuth ? "omit" : "include",
     });
 
-    clearTimeout(timeoutId);
+    // One silent refresh attempt before treating 401 as logged-out.
+    if (response.status === 401 && !skipAuth && !isAuthEndpoint(fullUrl) && !options.retried) {
+      if (await refreshSession()) {
+        clearTimeout(timeoutId);
+        return apiFetch<T>(url, { ...options, retried: true });
+      }
+    }
 
     // Handle 401 Unauthorized globally
-    if (response.status === 401) {
+    if (response.status === 401 && !skipAuth) {
       webStorageClient.removeAll();
       if (
         typeof window !== "undefined" &&
@@ -63,9 +81,9 @@ export async function apiFetch<T = any>(
     const contentType = response.headers.get("content-type") || "";
     let data: any = null;
     if (contentType.includes("application/json")) {
-      data = await response.json().catch(() => null);
+      data = await response.json();
     } else {
-      data = await response.text().catch(() => null);
+      data = await response.text();
     }
 
     return {
@@ -75,19 +93,21 @@ export async function apiFetch<T = any>(
       error: !response.ok ? (data?.message || `Request failed with status ${response.status}`) : undefined,
     };
   } catch (err: any) {
-    clearTimeout(timeoutId);
-    const isTimeout = err.name === "AbortError";
+    const isTimeout = timedOut;
     const errorMessage = isTimeout
       ? `Yêu cầu mạng bị quá thời gian (${timeoutMs / 1000}s). Vui lòng thử lại.`
-      : (err.message || "Lỗi kết nối máy chủ");
+      : (signal?.aborted ? "Request cancelled" : err.message || "Lỗi kết nối máy chủ");
 
     console.warn("[apiClient Error]:", fullUrl, errorMessage);
     return {
       data: null,
-      status: isTimeout ? 408 : 500,
+      status: isTimeout ? 408 : signal?.aborted ? 499 : 500,
       ok: false,
       error: errorMessage,
     };
+  } finally {
+    clearTimeout(timeoutId);
+    signal?.removeEventListener("abort", abortFromCaller);
   }
 }
 
