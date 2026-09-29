@@ -52,6 +52,7 @@ import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useAppSelector } from "@/hooks/redux-toolkit";
 import webStorageClient from "@/utils/webStorageClient";
+import { apiClient } from "@/utils/apiClient";
 import { compressImage } from "@/utils/imageCompressor";
 
 const { TextArea } = Input;
@@ -539,10 +540,6 @@ export default function CreateBlogModule() {
   const coverFileRef = useRef<HTMLInputElement>(null);
   const contentImgFileRef = useRef<HTMLInputElement>(null);
 
-  const API_SERVER =
-    process.env.NEXT_PUBLIC_API_SERVER ||
-    "https://dever-backend-production.up.railway.app";
-
   // Realtime Metrics
   const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
   const charCount = content.length;
@@ -599,10 +596,8 @@ export default function CreateBlogModule() {
     setLoadingMyBlogs(true);
     setMyBlogsError(false);
     try {
-      const res = await fetch(`${API_SERVER}/api/v1/blogs/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
+      const res = await apiClient.get("/api/v1/blogs/me");
+      const data = (res.data as any) || {};
       if (res.ok && data.status === "success") {
         setMyBlogs(data.data || []);
       } else {
@@ -613,7 +608,7 @@ export default function CreateBlogModule() {
     } finally {
       setLoadingMyBlogs(false);
     }
-  }, [API_SERVER]);
+  }, []);
 
   useEffect(() => {
     if (activeTab === "my-blogs") {
@@ -664,12 +659,8 @@ export default function CreateBlogModule() {
       formData.append("file", compressedFile);
       formData.append("folder", folder);
 
-      const res = await fetch(`${API_SERVER}/api/v1/upload/image`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
-      const data = await res.json();
+      const res = await apiClient.post("/api/v1/upload/image", formData);
+      const data = (res.data as any) || {};
       if (res.ok && data.status === "success") {
         return data.data?.url || null;
       } else {
@@ -811,19 +802,13 @@ export default function CreateBlogModule() {
 
     setLoading(true);
     try {
-      const url = editingBlogId ? `${API_SERVER}/api/v1/blogs/${editingBlogId}` : `${API_SERVER}/api/v1/blogs`;
-      const method = editingBlogId ? "PUT" : "POST";
+      const url = editingBlogId ? `/api/v1/blogs/${editingBlogId}` : `/api/v1/blogs`;
 
-      const res = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      });
+      const res = editingBlogId
+        ? await apiClient.put(url, body)
+        : await apiClient.post(url, body);
 
-      const json = await res.json();
+      const json = (res.data as any) || {};
       if (res.ok && json.status === "success") {
         if (actionType === "submit") {
           message.success("🎉 Bài viết đã được gửi tới Ban Chuyên Môn xét duyệt!");
@@ -859,12 +844,8 @@ export default function CreateBlogModule() {
   };
 
   const handleDeletePost = async (blogId: string) => {
-    const token = webStorageClient.getToken();
     try {
-      const res = await fetch(`${API_SERVER}/api/v1/blogs/${blogId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiClient.delete(`/api/v1/blogs/${blogId}`);
       if (res.ok) {
         message.success("Đã xóa bài viết.");
         fetchMyBlogs();

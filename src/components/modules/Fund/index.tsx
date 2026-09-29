@@ -40,9 +40,9 @@ import {
   FileImageOutlined,
   ZoomInOutlined,
 } from "@ant-design/icons";
-import webStorageClient from "@/utils/webStorageClient";
 import { compressImage } from "@/utils/imageCompressor";
-import { constants } from "@/settings";
+import { apiClient } from "@/utils/apiClient";
+import { endpointFund } from "@/helpers/enpoints";
 import dayjs from "dayjs";
 
 const { Title, Text, Paragraph } = Typography;
@@ -110,23 +110,6 @@ export default function FundModule() {
   const [billPreviewModalOpen, setBillPreviewModalOpen] = useState<boolean>(false);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  const apiServer = constants.API_SERVER;
-
-  // Mirror the global 401 handling in store/queries/base.ts so raw fetches
-  // clear the session and bounce to sign-in instead of failing silently.
-  const redirectToSignIn = () => {
-    webStorageClient.removeAll();
-    if (
-      typeof window !== "undefined" &&
-      !window.location.pathname.includes("/sign-in") &&
-      !window.location.pathname.includes("/sign-up")
-    ) {
-      const currentPath = window.location.pathname;
-      const locale = currentPath.split("/")[1] || "vi";
-      window.location.href = `/${locale}/sign-in?redirect=${encodeURIComponent(currentPath)}`;
-    }
-  };
-
   // Escape key listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -143,20 +126,16 @@ export default function FundModule() {
     setLoading(true);
     setLoadError(false);
     try {
-      const token = webStorageClient.getToken();
-      const res = await fetch(`${apiServer}/api/v1/funds/my-payments`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // Single-flight refresh + credentials:include live in apiClient;
+      // a 401 there already retried once and redirected if still unauthorized.
+      const res = await apiClient.get(endpointFund.MY_PAYMENTS);
 
       if (res.status === 401) {
-        redirectToSignIn();
         return;
       }
 
       if (res.ok) {
-        const json = await res.json();
+        const json = (res.data as any) || {};
         const camp = json.data?.activeCampaign || null;
         setActiveCampaign(camp);
         setActivePayment(json.data?.activePayment || null);
@@ -170,7 +149,7 @@ export default function FundModule() {
     } finally {
       setLoading(false);
     }
-  }, [apiServer]);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -195,24 +174,18 @@ export default function FundModule() {
         quality: 0.82,
       });
 
-      const token = webStorageClient.getToken();
       const formData = new FormData();
       formData.append("file", compressedFile);
       formData.append("folder", "fund-proofs");
 
-      const res = await fetch(`${apiServer}/api/v1/upload/image`, {
-        method: "POST",
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        body: formData,
-      });
+      const res = await apiClient.post("/api/v1/upload/image", formData);
 
       if (res.status === 401) {
-        redirectToSignIn();
         return false;
       }
 
       if (res.ok) {
-        const json = await res.json();
+        const json = (res.data as any) || {};
         const imageUrl = json.data?.url || json.url || json.secure_url;
         if (imageUrl) {
           setProofImageUrl(imageUrl);
@@ -221,7 +194,7 @@ export default function FundModule() {
         }
       }
 
-      const errJson = await res.json().catch(() => null);
+      const errJson = (res.data as any) || null;
       throw new Error(errJson?.message || "Tải ảnh biên lai lên thất bại");
     } catch (err: any) {
       console.error("Fund proof upload error:", err);
@@ -242,24 +215,15 @@ export default function FundModule() {
 
     setSubmitting(true);
     try {
-      const token = webStorageClient.getToken();
-      const res = await fetch(`${apiServer}/api/v1/funds/submit-payment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          campaignId: activeCampaign._id,
-          proofImageUrl,
-          transactionCode,
-          note: memberNote,
-          // No amount: the server always charges the campaign's amount.
-        }),
+      const res = await apiClient.post(endpointFund.SUBMIT_PAYMENT, {
+        campaignId: activeCampaign._id,
+        proofImageUrl,
+        transactionCode,
+        note: memberNote,
+        // No amount: the server always charges the campaign's amount.
       });
 
       if (res.status === 401) {
-        redirectToSignIn();
         return;
       }
 
@@ -267,7 +231,7 @@ export default function FundModule() {
         message.success("Đã gửi minh chứng đóng quỹ thành công! Ban Quản Trị sẽ đối soát sớm.");
         fetchData();
       } else {
-        const err = await res.json();
+        const err = (res.data as any) || {};
         message.error(err.message || "Gửi thất bại.");
       }
     } catch {

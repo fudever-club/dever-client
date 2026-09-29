@@ -16,8 +16,8 @@ import {
   IdcardOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
-import webStorageClient from "@/utils/webStorageClient";
-import { constants } from "@/settings";
+import { apiClient } from "@/utils/apiClient";
+import { endpointAlumniAdvisory } from "@/helpers/enpoints";
 
 const { TextArea } = Input;
 
@@ -55,21 +55,14 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
   const [isJoined, setIsJoined] = useState<boolean>(false);
   const [alumniData, setAlumniData] = useState<any>(null);
 
-  const apiServer = constants.API_SERVER;
-
   // Check current status
   useEffect(() => {
     if (!open) return;
     const fetchStatus = async () => {
       try {
-        const token = webStorageClient.getToken();
-        const res = await fetch(`${apiServer}/api/v1/alumni/advisory-invitation-status`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await apiClient.get(endpointAlumniAdvisory.INVITATION_STATUS);
         if (res.ok) {
-          const json = await res.json();
+          const json = (res.data as any) || {};
           if (json.data?.isJoined) {
             setIsJoined(true);
             setAlumniData(json.data?.alumni);
@@ -86,20 +79,12 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
       } catch {}
     };
     fetchStatus();
-  }, [open, apiServer, form]);
+  }, [open, form]);
 
   const handleSubmit = async (values: any) => {
     setSubmitting(true);
     try {
-      const token = webStorageClient.getToken();
-      const res = await fetch(`${apiServer}/api/v1/alumni/accept-advisory`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(values),
-      });
+      const res = await apiClient.post(endpointAlumniAdvisory.ACCEPT_INVITATION, values);
 
       if (res.ok) {
         message.success("Trân trọng cảm ơn Anh/Chị! Sự đồng hành của Anh/Chị là niềm vinh dự và nguồn cảm hứng to lớn cho các thế hệ đàn em DEVER.");
@@ -107,7 +92,7 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
         if (onSuccess) onSuccess();
         setTimeout(() => onClose(), 1500);
       } else {
-        const err = await res.json();
+        const err = (res.data as any) || {};
         message.error(err.message || "Xử lý thất bại.");
       }
     } catch {

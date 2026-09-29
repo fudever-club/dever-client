@@ -5,6 +5,7 @@ import * as S from "./styles";
 
 import { UserInfo } from "@/helpers/types/userTypes";
 import Typography from "@/components/core/common/Typography";
+import { canSeeProfileField, useProfileOwner } from "@/helpers/profileVisibility";
 import { TweenOneGroup } from "rc-tween-one";
 import { useParams } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
@@ -17,6 +18,12 @@ interface IProps {
 function Favourites({ userData, isUserDataFetching }: IProps) {
   const params = useParams();
   const { t } = useTranslation(params?.locale as string, "profile");
+  const { isOwn, isAdmin } = useProfileOwner(userData);
+  const access = { isOwn, isAdmin };
+  const visibility = (userData as any)?.profileVisibility;
+  const canSee = (field: string) =>
+    canSeeProfileField(field, visibility, access);
+  const isHidden = !canSee("favourites");
 
   return (
     <S.ContainerWrapper>
@@ -29,7 +36,7 @@ function Favourites({ userData, isUserDataFetching }: IProps) {
               <Typography.Title level={3} $fontWeight={700}>
                 {t("favourites")}
               </Typography.Title>
-              {userData?.favourites && userData?.favourites.length > 0 && (
+              {userData?.favourites && userData?.favourites.length > 0 && !isHidden && (
                 <Typography.Text $fontSize="16px">
                   {t("favouritesDescriptions")}
                 </Typography.Text>
@@ -46,7 +53,11 @@ function Favourites({ userData, isUserDataFetching }: IProps) {
             <S.TagsWrapper>
               <S.TagsList>
                 <TweenOneGroup appear={false}>
-                  {userData.favourites! && userData?.favourites.length > 0 ? (
+                  {isHidden ? (
+                    <Typography.Text $fontSize="16px" italic>
+                      {t("hiddenByPrivacy")}
+                    </Typography.Text>
+                  ) : userData.favourites! && userData?.favourites.length > 0 ? (
                     <div>
                       {userData?.favourites.map((item, _) => (
                         <span key={_} style={{ display: "inline-block" }}>

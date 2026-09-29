@@ -1,18 +1,20 @@
 "use client";
 
 import React from "react";
-import { Badge, Button, Empty, Flex, Skeleton, Tag, Typography } from "antd";
+import { Button, Flex, Skeleton, Tag, Typography } from "antd";
 import {
-  CodeOutlined,
   CheckCircleFilled,
   ExportOutlined,
   ThunderboltFilled,
   CalendarOutlined,
 } from "@ant-design/icons";
-import moment from "moment";
+import dayjs from "dayjs";
+import { useParams } from "next/navigation";
 
 import { UserInfo } from "@/helpers/types/userTypes";
 import { SocialBrandIcon } from "@/helpers/socialMediaIcons";
+import { canSeeProfileField, useProfileOwner } from "@/helpers/profileVisibility";
+import { useTranslation } from "@/app/i18n/client";
 import * as S from "./styles";
 
 interface IProps {
@@ -21,6 +23,13 @@ interface IProps {
 }
 
 function LeetCode({ userData, isUserDataFetching }: IProps) {
+  const params = useParams();
+  const { t } = useTranslation(params?.locale as string, "profile");
+  const { isOwn, isAdmin } = useProfileOwner(userData);
+  const access = { isOwn, isAdmin };
+  const visibility = (userData as any)?.profileVisibility;
+  const canSee = (field: string) =>
+    canSeeProfileField(field, visibility, access);
   const leetcodeUsername = userData?.leetcodeUsername || "";
   const submissions = userData?.acSubmissionList || [];
 
@@ -29,6 +38,36 @@ function LeetCode({ userData, isUserDataFetching }: IProps) {
       <S.ContainerWrapper>
         <S.CustomCard>
           <Skeleton active paragraph={{ rows: 4 }} />
+        </S.CustomCard>
+      </S.ContainerWrapper>
+    );
+  }
+
+  if (!canSee("leetcode")) {
+    return (
+      <S.ContainerWrapper>
+        <S.CustomCard>
+          <Flex align="center" justify="space-between" style={{ marginBottom: 14 }}>
+            <Flex align="center" gap={8}>
+              <SocialBrandIcon platform="LEETCODE" size={24} />
+              <Typography.Title level={3} style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>
+                Thành Tích LeetCode
+              </Typography.Title>
+            </Flex>
+          </Flex>
+          <div
+            style={{
+              padding: "24px 16px",
+              textAlign: "center",
+              borderRadius: 12,
+              background: "#F8FAFC",
+              border: "1px dashed #E2E8F0",
+            }}
+          >
+            <Typography.Text type="secondary" style={{ fontSize: 14, display: "block" }} italic>
+              {t("hiddenByPrivacy")}
+            </Typography.Text>
+          </div>
         </S.CustomCard>
       </S.ContainerWrapper>
     );
@@ -114,7 +153,7 @@ function LeetCode({ userData, isUserDataFetching }: IProps) {
                   ? `https://leetcode.com/problems/${item.titleSlug}/`
                   : `https://leetcode.com/u/${leetcodeUsername}`;
                 const formattedDate = item.date
-                  ? moment(item.date).format("DD/MM/YYYY")
+                  ? dayjs(item.date).format("DD/MM/YYYY")
                   : "";
 
                 return (

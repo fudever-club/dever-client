@@ -12,7 +12,6 @@ import {
   Upload,
 } from "antd";
 import Image from "next/image";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useParams } from "next/navigation";
 
@@ -20,6 +19,7 @@ import { CloudUploadOutlined } from "@ant-design/icons";
 import { UserInfo } from "@/helpers/types/userTypes";
 import { useUpdateUserProfileMutation } from "@/store/queries/settings";
 import webStorageClient from "@/utils/webStorageClient";
+import { apiClient } from "@/utils/apiClient";
 import { compressImage } from "@/utils/imageCompressor";
 import { constants } from "@/settings";
 import { applyChangeAvatar } from "@/store/slices/auth";
@@ -48,9 +48,6 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
     file,
     onProgress,
   }: any) => {
-    const token = webStorageClient.getToken();
-    const API_SERVER = constants.API_SERVER;
-
     setIsUploading(true);
     try {
       const compressedFile = await compressImage(file, {
@@ -63,21 +60,11 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
       fmData.append("file", compressedFile);
       fmData.append("folder", "avatar");
 
-      const res = await axios.post(`${API_SERVER}/api/v1/upload/image`, fmData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        onUploadProgress: (event: any) => {
-          if (event.total) {
-            onProgress({ percent: (event.loaded / event.total) * 100 });
-          }
-        },
-      });
+      const res = await apiClient.post("/api/v1/upload/image", fmData);
 
-      const uploadedUrl = res?.data?.data?.url;
-      if (!uploadedUrl) {
-        throw new Error(res?.data?.message || "Tải ảnh lên thất bại");
+      const uploadedUrl = (res.data as any)?.data?.url;
+      if (!res.ok || !uploadedUrl) {
+        throw new Error((res.data as any)?.message || "Tải ảnh lên thất bại");
       }
 
       setImageUrl(uploadedUrl);
@@ -93,13 +80,14 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
 
       dispatch(applyChangeAvatar(uploadedUrl));
 
+      onProgress?.({ percent: 100 });
       onSuccess("ok");
       setIsUploading(false);
       message.success(t("updateSuccess"));
     } catch (err: any) {
       onError({ err });
       setIsUploading(false);
-      message.error(err?.response?.data?.message || t("updateError"));
+      message.error(err?.message || t("updateError"));
     }
   };
 
