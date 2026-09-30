@@ -127,6 +127,9 @@ function InviteAcceptModule() {
           webStorageClient.setToken(sessionToken);
           // Store only the id - same convention as SignIn (auth slice keeps the memory copy).
           webStorageClient.set(constants.USER_INFO, user?._id || user);
+          // The member just set their own password, so no temporary-password
+          // flag may linger from a previous login on a shared device.
+          webStorageClient.remove(constants.MUST_CHANGE_PASSWORD);
         }
         setStatus("accepted");
         setIsNavigating(true);

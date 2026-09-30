@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Flex, Grid, Layout, Popover, Result } from "antd";
+import { Alert, Button, Flex, Grid, Layout, Popover, Result } from "antd";
 import { useLocale } from "next-intl";
 import { AppProgressBar, useRouter } from "next-nprogress-bar";
 import Image from "next/image";
@@ -61,6 +61,9 @@ const MainLayout = ({
   const [loadingFadeOut, setLoadingFadeOut] = useState<boolean>(false);
   const [verificationFailed, setVerificationFailed] = useState(false);
   const [verificationAttempt, setVerificationAttempt] = useState(0);
+  // True only for temporary-password accounts (flag persisted at login).
+  // Old members (false/absent) never see the banner.
+  const [mustChangePassword, setMustChangePassword] = useState<boolean>(false);
 
   const { userInfo } = useAppSelector((state) => state.auth);
 
@@ -123,6 +126,24 @@ const MainLayout = ({
       clearTimeout(fadeTimer);
     };
   }, [dispatch, localActive, router, verifyToken, verificationAttempt]);
+
+  useEffect(() => {
+    const readFlag = () => {
+      try {
+        setMustChangePassword(webStorageClient.get(constants.MUST_CHANGE_PASSWORD) === true);
+      } catch {
+        setMustChangePassword(false);
+      }
+    };
+    // Re-read on navigation so a flag cleared in Settings hides the banner
+    // even when the user navigates back instead of relying on the event below.
+    readFlag();
+    const handleCleared = () => setMustChangePassword(false);
+    window.addEventListener("dever:must-change-password-cleared", handleCleared);
+    return () => {
+      window.removeEventListener("dever:must-change-password-cleared", handleCleared);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     function handleClickOutside(event: any) {
@@ -293,6 +314,26 @@ const MainLayout = ({
             </S.SiderCustom>
             <S.LayoutCustom>
               <S.ContentCustom>
+                {mustChangePassword && (
+                  <Alert
+                    type="warning"
+                    showIcon
+                    closable={false}
+                    message="Bạn đang dùng mật khẩu tạm thời"
+                    description="Tài khoản của bạn được quản trị viên cấp mật khẩu tạm. Vui lòng đổi mật khẩu để bảo vệ tài khoản."
+                    action={
+                      <Button
+                        type="primary"
+                        size="small"
+                        onClick={() => router?.push(`/${localActive}/settings`)}
+                      >
+                        Đến Cài đặt đổi mật khẩu
+                      </Button>
+                    }
+                    style={{ marginBottom: 16 }}
+                    data-testid="temp-password-banner"
+                  />
+                )}
                 <ErrorBoundary scope="page">{children}</ErrorBoundary>
               </S.ContentCustom>
             </S.LayoutCustom>

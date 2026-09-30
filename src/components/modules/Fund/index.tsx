@@ -17,6 +17,8 @@ import {
   Skeleton,
   Table,
   Tooltip,
+  Progress,
+  Empty,
 } from "antd";
 import {
   WalletOutlined,
@@ -88,6 +90,17 @@ interface FundPayment {
   createdAt: string;
 }
 
+interface FundPublicStats {
+  title: string;
+  amount: number;
+  deadline: string;
+  semester: string;
+  paidCount: number;
+  totalMembers: number;
+  percent: number;
+  totalMoneyCollected: number;
+}
+
 export default function FundModule() {
   const [loading, setLoading] = useState<boolean>(true);
   const [loadError, setLoadError] = useState<boolean>(false);
@@ -95,6 +108,13 @@ export default function FundModule() {
   const [activeCampaign, setActiveCampaign] = useState<FundCampaign | null>(null);
   const [activePayment, setActivePayment] = useState<FundPayment | null>(null);
   const [history, setHistory] = useState<FundPayment[]>([]);
+
+  // Public campaign stats header (GET /api/v1/funds/public-stats, no auth).
+  // 404 with { data: null } means no collection period is open yet.
+  const [stats, setStats] = useState<FundPublicStats | null>(null);
+  const [statsLoading, setStatsLoading] = useState<boolean>(true);
+  const [statsError, setStatsError] = useState<boolean>(false);
+  const [statsMissing, setStatsMissing] = useState<boolean>(false);
 
   // QR Display Mode: 'vietqr' (Default HD Napas247) | 'custom' (Original Treasurer Screenshot)
   const [qrMode, setQrMode] = useState<"vietqr" | "custom">("vietqr");
@@ -154,6 +174,41 @@ export default function FundModule() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const fetchPublicStats = useCallback(async () => {
+    setStatsLoading(true);
+    setStatsError(false);
+    setStatsMissing(false);
+    try {
+      // Public endpoint: skipAuth omits the Bearer header/session cookies so
+      // logged-out visitors don't trigger the global 401 redirect in apiClient.
+      const res = await apiClient.get(endpointFund.PUBLIC_STATS, { skipAuth: true });
+
+      if (res.status === 404) {
+        setStatsMissing(true);
+        return;
+      }
+
+      if (res.ok) {
+        const payload = (res.data as any)?.data ?? null;
+        if (payload) {
+          setStats(payload as FundPublicStats);
+        } else {
+          setStatsMissing(true);
+        }
+      } else {
+        setStatsError(true);
+      }
+    } catch {
+      setStatsError(true);
+    } finally {
+      setStatsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPublicStats();
+  }, [fetchPublicStats]);
 
   // Copy helper with animated checkmark
   const handleCopy = (text: string, key: string) => {
@@ -299,12 +354,73 @@ export default function FundModule() {
         </div>
         <Button
           icon={<ReloadOutlined />}
-          onClick={fetchData}
+          onClick={() => {
+            fetchData();
+            fetchPublicStats();
+          }}
           className="rounded-xl text-xs font-bold self-start sm:self-auto h-10 px-4 shadow-sm border-slate-200 hover:border-[#0066CC]"
         >
           Làm mới
         </Button>
       </div>
+
+      {/* Public stats header — progress percent is rendered exactly as the server returns it */}
+      {statsLoading && (
+        <div className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-md" aria-busy="true" aria-live="polite">
+          <Skeleton active title={{ width: "40%" }} paragraph={{ rows: 3 }} />
+        </div>
+      )}
+      {!statsLoading && statsError && (
+        <Alert
+          type="error"
+          showIcon
+          message="Không thể tải thống kê quỹ CLB"
+          description="Vui lòng kiểm tra kết nối và thử lại."
+          action={
+            <Button size="small" danger onClick={fetchPublicStats}>
+              Thử lại
+            </Button>
+          }
+        />
+      )}
+      {!statsLoading && !statsError && statsMissing && (
+        <div className="rounded-3xl border border-dashed border-slate-200 bg-white p-8 text-center shadow-xs">
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description="Chưa có kỳ thu quỹ"
+          />
+        </div>
+      )}
+      {!statsLoading && !statsError && !statsMissing && stats && (
+        <div className="rounded-3xl border border-blue-100 bg-gradient-to-r from-blue-50 via-white to-white p-6 shadow-md">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <Title level={4} className="!mb-0 text-slate-900 font-extrabold">
+                {stats.title}
+              </Title>
+              {stats.semester && (
+                <Tag color="blue" className="font-bold text-xs">
+                  {stats.semester}
+                </Tag>
+              )}
+            </div>
+            <Text type="secondary" className="text-xs">
+              Đã đóng <b className="text-slate-800">{stats.paidCount}/{stats.totalMembers}</b> thành viên
+              {" • "}Mức thu <b className="text-[#0066CC]">{(stats.amount ?? 0).toLocaleString("vi-VN")} đ</b>
+              {" • "}Đã thu <b className="text-slate-800">{(stats.totalMoneyCollected ?? 0).toLocaleString("vi-VN")} đ</b>
+              {stats.deadline && (
+                <>{" • "}Hạn chót <b className="text-slate-800">{dayjs(stats.deadline).format("DD/MM/YYYY")}</b></>
+              )}
+            </Text>
+            <Progress
+              percent={typeof stats.percent === "number" ? stats.percent : 0}
+              status="active"
+              strokeColor={{ from: "#0066CC", to: "#0080FF" }}
+              aria-label={`Tiến độ đóng quỹ ${typeof stats.percent === "number" ? stats.percent : 0}%`}
+            />
+          </div>
+        </div>
+      )}
 
       {/* 3-Way Status Notification Card */}
       {activePayment?.status === "approved" && (

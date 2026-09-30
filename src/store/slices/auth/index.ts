@@ -62,6 +62,13 @@ export const authSlice = createSlice({
       (state, action) => {
         webStorageClient.setToken(action?.payload?.data?.token);
         webStorageClient.set(constants.USER_INFO, action?.payload?.data?.user?._id)
+        // Mirror the SignIn module: persist the temporary-password flag so the
+        // MainLayout banner survives a full-page navigation after login.
+        if (action?.payload?.data?.user?.mustChangePassword === true) {
+          webStorageClient.set(constants.MUST_CHANGE_PASSWORD, true);
+        } else {
+          webStorageClient.remove(constants.MUST_CHANGE_PASSWORD);
+        }
         
         state.userInfo = action?.payload?.data?.user;
         state.access_token = action?.payload?.data?.token;

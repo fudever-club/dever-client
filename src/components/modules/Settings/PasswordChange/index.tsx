@@ -9,6 +9,8 @@ import Typography from "@/components/core/common/Typography";
 import { useTranslation } from "@/app/i18n/client";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useChangePasswordMutation } from "@/store/queries/settings";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
 interface IProps {
   isUserProfileLoading: boolean;
@@ -33,6 +35,13 @@ function PasswordChange({ isUserProfileLoading, userData }: IProps) {
       };
 
       await changePassword(data).unwrap();
+      // Temporary-password accounts are now compliant: clear the persisted
+      // flag so the MainLayout banner hides immediately (event) and stays
+      // hidden on later navigations (storage re-read).
+      webStorageClient.remove(constants.MUST_CHANGE_PASSWORD);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("dever:must-change-password-cleared"));
+      }
       message.success(t("changePasswordSuccess"));
     } catch (error) {
       message.error(t("changePasswordError"));

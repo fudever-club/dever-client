@@ -48,6 +48,7 @@ const webStorageClient = {
   removeAll() {
     // Session cleanup must not erase unsent drafts or locale preferences.
     [constants.ACCESS_TOKEN, constants.REFRESH_TOKEN, constants.USER_INFO,
+      constants.MUST_CHANGE_PASSWORD,
       constants.AVT, constants.MAIL, constants.FN, constants.LN,
       constants.IS_AUTH, constants.NICK_NANE, constants.SUB_ACCOUNT_ID,
       constants.SUB_ACCOUNT_INFO].forEach((key) => this.remove(key));

@@ -67,6 +67,7 @@ const endpointFund = {
   ACTIVE_CAMPAIGN: `${prefixBase}/funds/active-campaign`,
   MY_PAYMENTS: `${prefixBase}/funds/my-payments`,
   SUBMIT_PAYMENT: `${prefixBase}/funds/submit-payment`,
+  PUBLIC_STATS: `${prefixBase}/funds/public-stats`,
 };
 
 const endpointAlumniAdvisory = {

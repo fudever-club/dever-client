@@ -18,6 +18,7 @@ const ASSETS_URL =
 const SITE_URL = "/";
 
 const USER_INFO = '_user_info';
+const MUST_CHANGE_PASSWORD = '_must_change_password';
 const AVT = '_avt';
 const MAIL = "_credential"
 const FN = "_fname";
@@ -40,6 +41,7 @@ const constants = {
   ASSETS_URL,
   SITE_URL,
   USER_INFO,
+  MUST_CHANGE_PASSWORD,
   ACCESS_TOKEN,
   REFRESH_TOKEN,
   IS_AUTH,

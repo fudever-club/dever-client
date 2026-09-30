@@ -48,6 +48,15 @@ function SignInModule() {
         // Store only the id — the full user object duplicates sensitive fields
         // across cookie + localStorage for no benefit (auth slice keeps memory copy).
         webStorageClient.set(constants.USER_INFO, user?._id || user);
+        // Backend flags temporary-password accounts via data.user.mustChangePassword.
+        // Persist only the `true` case; old members (false/absent) keep no flag
+        // so the global banner in MainLayout stays hidden. Removal also clears
+        // a stale flag from a previous login on a shared device.
+        if (user?.mustChangePassword === true) {
+          webStorageClient.set(constants.MUST_CHANGE_PASSWORD, true);
+        } else {
+          webStorageClient.remove(constants.MUST_CHANGE_PASSWORD);
+        }
       }
 
       message.success(t("signInSuccess"));
