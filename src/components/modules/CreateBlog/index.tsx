@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
   Form,
   Input,
@@ -54,6 +54,12 @@ import { useAppSelector } from "@/hooks/redux-toolkit";
 import webStorageClient from "@/utils/webStorageClient";
 import { apiClient } from "@/utils/apiClient";
 import { compressImage } from "@/utils/imageCompressor";
+import {
+  evaluateBlogReadiness,
+  TITLE_MIN_LENGTH,
+  CONTENT_MIN_WORDS,
+} from "@/utils/blogReadiness";
+import type { BlogReadinessItem } from "@/utils/blogReadiness";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -166,6 +172,21 @@ const MERMAID_PRESETS = [
     code: "```mermaid\ngraph LR\n  Main[main branch] --- Staging[staging branch]\n  Staging --- Dev[develop branch]\n  Dev --> Feat1[feature/blog-editor]\n  Dev --> Feat2[feature/r2-storage]\n```\n",
   },
 ];
+
+// TODO(i18n): checklist "Sẵn sàng gửi duyệt" hardcode VI; chuyển sang next-intl khi có key dịch vụ.
+const READINESS_LABELS: Record<BlogReadinessItem["id"], string> = {
+  title: `Tiêu đề ≥ ${TITLE_MIN_LENGTH} ký tự`,
+  content: `Nội dung ≥ ${CONTENT_MIN_WORDS} từ`,
+  category: "Đã chọn chuyên mục",
+  tags: "Ít nhất 1 tag",
+};
+
+const READINESS_MISSING_HINTS: Record<BlogReadinessItem["id"], string> = {
+  title: `tiêu đề ≥ ${TITLE_MIN_LENGTH} ký tự`,
+  content: `nội dung ≥ ${CONTENT_MIN_WORDS} từ`,
+  category: "chọn chuyên mục",
+  tags: "chọn ít nhất 1 tag",
+};
 
 // Helper to render code snippet in preview with 1-click copy
 function CodeBlockWithCopy({ code, language }: { code: string; language: string }) {
@@ -544,6 +565,35 @@ export default function CreateBlogModule() {
   const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
   const charCount = content.length;
   const readTimeEstimate = `${Math.max(1, Math.ceil(wordCount / 200))} phút đọc`;
+
+  // Checklist "Sẵn sàng gửi duyệt": live, client-side only.
+  // Không đổi API submit/review (handleSaveOrPublish giữ nguyên validation + payload).
+  const readiness = useMemo(
+    () =>
+      evaluateBlogReadiness({
+        title,
+        content,
+        category,
+        tags: selectedTags,
+      }),
+    [title, content, category, selectedTags]
+  );
+  const readinessDetail = (id: BlogReadinessItem["id"]): string => {
+    switch (id) {
+      case "title":
+        return `${readiness.titleLength}/${TITLE_MIN_LENGTH} ký tự`;
+      case "content":
+        return `${readiness.wordCount}/${CONTENT_MIN_WORDS} từ`;
+      case "category":
+        return category.trim() || "chưa chọn";
+      case "tags":
+        return `${readiness.tagCount}/1 tag`;
+    }
+  };
+  const missingHints = readiness.items
+    .filter((item) => !item.met)
+    .map((item) => READINESS_MISSING_HINTS[item.id])
+    .join("; ");
 
   // Auto-Save Draft to LocalStorage
   useEffect(() => {
@@ -1044,6 +1094,92 @@ export default function CreateBlogModule() {
               </span>
             </div>
 
+            {/* Checklist "Sẵn sàng gửi duyệt": hiện trước/kèm nút Gửi duyệt, tự đánh dấu live. */}
+            <div
+              style={{
+                flexBasis: "100%",
+                backgroundColor: "#F8FAFC",
+                border: "1px solid #E2E8F0",
+                borderRadius: "16px",
+                padding: "12px 16px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  fontSize: "13px",
+                  fontWeight: 800,
+                  color: "#0F172A",
+                }}
+              >
+                <CheckCircle2 size={16} color={readiness.isReady ? "#059669" : "#94A3B8"} />
+                Sẵn sàng gửi duyệt
+                <span
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    color: readiness.isReady ? "#059669" : "#64748B",
+                  }}
+                >
+                  ({readiness.items.filter((item) => item.met).length}/{readiness.items.length})
+                </span>
+              </div>
+              <ul
+                aria-live="polite"
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "8px 20px",
+                  margin: 0,
+                  padding: 0,
+                  listStyle: "none",
+                }}
+              >
+                {readiness.items.map((item) => (
+                  <li
+                    key={item.id}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      color: item.met ? "#059669" : "#64748B",
+                    }}
+                  >
+                    {item.met ? (
+                      <CheckCircle2 size={14} color="#059669" />
+                    ) : (
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          width: "14px",
+                          height: "14px",
+                          borderRadius: "50%",
+                          border: "1.5px solid #CBD5E1",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                        }}
+                      >
+                        <X size={9} color="#94A3B8" />
+                      </span>
+                    )}
+                    {READINESS_LABELS[item.id]}
+                    <span style={{ fontWeight: 700, color: item.met ? "#059669" : "#94A3B8" }}>
+                      ({readinessDetail(item.id)})
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             {/* Action Buttons */}
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <Button
@@ -1077,21 +1213,35 @@ export default function CreateBlogModule() {
                   <Send size={15} style={{ display: "inline", marginRight: "6px" }} /> Xuất Bản Ngay
                 </Button>
               ) : (
-                <Button
-                  type="primary"
-                  onClick={() => handleSaveOrPublish("submit")}
-                  loading={loading}
-                  style={{
-                    backgroundColor: "#0066CC",
-                    borderRadius: "14px",
-                    fontWeight: 700,
-                    height: "40px",
-                    padding: "0 22px",
-                    boxShadow: "0 4px 14px rgba(0, 102, 204, 0.3)",
-                  }}
+                // Nút Gửi duyệt dùng disabled native + tooltip liệt kê thiếu;
+                // Lưu nháp (bên trên) luôn khả dụng. Không đổi API submit/review.
+                <Tooltip
+                  title={readiness.isReady ? "Đã sẵn sàng gửi duyệt" : `Còn thiếu: ${missingHints}`}
                 >
-                  <Send size={15} style={{ display: "inline", marginRight: "6px" }} /> Gửi Duyệt Bài Viết
-                </Button>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      cursor: readiness.isReady ? undefined : "not-allowed",
+                    }}
+                  >
+                    <Button
+                      type="primary"
+                      disabled={!readiness.isReady || loading}
+                      onClick={() => handleSaveOrPublish("submit")}
+                      loading={loading}
+                      style={{
+                        backgroundColor: "#0066CC",
+                        borderRadius: "14px",
+                        fontWeight: 700,
+                        height: "40px",
+                        padding: "0 22px",
+                        boxShadow: "0 4px 14px rgba(0, 102, 204, 0.3)",
+                      }}
+                    >
+                      <Send size={15} style={{ display: "inline", marginRight: "6px" }} /> Gửi Duyệt Bài Viết
+                    </Button>
+                  </span>
+                </Tooltip>
               )}
             </div>
           </div>
