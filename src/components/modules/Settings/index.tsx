@@ -14,6 +14,7 @@ import FavouritiesChange from "./FavouritesChange";
 import PasswordChange from "./PasswordChange";
 import LeetcodeSubcriber from "./LeetcodeSubcriber";
 import PrivacySettings from "./PrivacySettings";
+import NotificationPreferences from "./NotificationPreferences";
 import FavoriteTrackChange from "./FavoriteTrackChange";
 
 import { useTranslation } from "@/app/i18n/client";
@@ -109,6 +110,7 @@ function SettingsModules() {
               isUserProfileLoading={isFetching}
               userData={result}
             />
+            <NotificationPreferences />
           </S.LGalleryCol>
 
           {/* Right Gallery Column */}

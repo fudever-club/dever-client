@@ -57,6 +57,7 @@ const endpointGamification = {
 
 const endpointNotifications = {
   MY_NOTIFICATIONS: `${prefixBase}/notifications/my-notifications`,
+  PREFS: `${prefixBase}/notifications/prefs`,
   READ_ALL: `${prefixBase}/notifications/read-all`,
   READ_ITEM: `${prefixBase}/notifications/{id}/read`,
   DELETE_ITEM: `${prefixBase}/notifications/{id}`,
