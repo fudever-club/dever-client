@@ -37,6 +37,11 @@ const endpointLeetcode = {
   UPDATE: `${prefixBase}/leetcode/update`,
 };
 
+const endpointSeason = {
+  LIST: `${prefixBase}/seasons`,
+  LEADERBOARD: `${prefixBase}/seasons/leaderboard`,
+};
+
 const endpointEcosystem = {
   EVENTS: `${prefixBase}/events`,
   EVENT_REGISTER: `${prefixBase}/events/{id}/register`,
@@ -85,6 +90,7 @@ export {
   endpointSettings,
   endpointProfile,
   endpointLeetcode,
+  endpointSeason,
   endpointEcosystem,
   endpointGamification,
   endpointNotifications,
