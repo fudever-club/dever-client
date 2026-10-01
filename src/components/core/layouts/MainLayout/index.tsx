@@ -17,6 +17,7 @@ import DropdownMenu from "./DropdownMenu";
 import EcosystemSwitcher from "./EcosystemSwitcher";
 import SelectLanguage from "./SelectLanguage";
 import NotificationBell from "@/components/ui/NotificationBell";
+import OfflineBanner from "@/components/core/OfflineBanner";
 import DeverRouteLoader from "@/components/ui/DeverRouteLoader";
 import ErrorBoundary from "../../common/ErrorBoundary";
 
@@ -314,6 +315,7 @@ const MainLayout = ({
             </S.SiderCustom>
             <S.LayoutCustom>
               <S.ContentCustom>
+                <OfflineBanner />
                 {mustChangePassword && (
                   <Alert
                     type="warning"
