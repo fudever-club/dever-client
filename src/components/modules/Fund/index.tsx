@@ -575,12 +575,12 @@ export default function FundModule() {
                   </div>
 
                   {/* Actions under QR */}
-                  <div className="flex items-center gap-3 pt-1">
+                  <div className="flex items-center gap-3 pt-1 flex-wrap">
                     <Button
                       type="primary"
                       icon={<ZoomInOutlined />}
                       onClick={() => setQrZoomModalOpen(true)}
-                      className="rounded-xl text-xs font-bold bg-[#0066CC] h-9 shadow-sm"
+                      className="rounded-xl text-xs font-bold bg-[#0066CC] h-11 min-h-[44px] shadow-sm"
                     >
                       Phóng To Mã QR
                     </Button>
@@ -590,7 +590,7 @@ export default function FundModule() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Button icon={<DownloadOutlined />} className="rounded-xl text-xs font-bold h-9">
+                      <Button icon={<DownloadOutlined />} className="rounded-xl text-xs font-bold h-11 min-h-[44px]">
                         Tải Ảnh QR
                       </Button>
                     </a>
@@ -703,9 +703,10 @@ export default function FundModule() {
                         <img
                           src={proofImageUrl}
                           alt="Uploaded Bill Preview"
-                          className="max-h-52 mx-auto rounded-xl shadow-md border border-slate-200 object-contain"
+                          className="w-full h-auto object-contain max-h-52 mx-auto rounded-xl shadow-md border border-slate-200"
+                          style={{ maxWidth: "100%" }}
                         />
-                        <div className="flex items-center justify-center gap-2">
+                        <div className="flex items-center justify-center gap-2 flex-wrap">
                           <span className="text-xs text-emerald-600 font-bold">✓ Đã tải ảnh biên lai thành công</span>
                           <Button
                             type="text"
@@ -717,6 +718,7 @@ export default function FundModule() {
                               setProofImageUrl("");
                             }}
                             className="text-xs font-semibold"
+                            style={{ minHeight: 44 }}
                           >
                             Đổi ảnh
                           </Button>
@@ -746,6 +748,7 @@ export default function FundModule() {
                     value={transactionCode}
                     onChange={(e) => setTransactionCode(e.target.value)}
                     className="rounded-xl text-xs py-2.5 font-mono"
+                    style={{ minHeight: 44 }}
                   />
                 </div>
 
@@ -760,6 +763,7 @@ export default function FundModule() {
                     value={memberNote}
                     onChange={(e) => setMemberNote(e.target.value)}
                     className="rounded-xl text-xs"
+                    style={{ minHeight: 44 }}
                   />
                 </div>
               </div>
@@ -865,11 +869,12 @@ export default function FundModule() {
         style={{ top: 20 }}
       >
         <div className="py-4 flex flex-col items-center justify-center space-y-4">
-          <div className="p-4 bg-white rounded-3xl shadow-2xl border-2 border-blue-200 max-w-[500px] w-full">
+          <div className="p-4 bg-white rounded-3xl shadow-2xl border-2 border-blue-200 max-w-[500px] w-full" style={{ maxWidth: "min(500px, 100%)" }}>
             <img
               src={vietQrImageUrl}
               alt="QR Code Zoom Khổng Lồ"
               className="w-full h-auto object-contain rounded-2xl"
+              style={{ maxWidth: "100%", height: "auto" }}
             />
           </div>
           
@@ -880,18 +885,18 @@ export default function FundModule() {
             <p className="m-0 text-slate-700">Số tiền: <b>{qrAmount.toLocaleString("vi-VN")} đ</b></p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap justify-center">
             <a
               href={vietQrImageUrl}
               download={`VietQR_${qrAccHolder}_TPBank.png`}
               target="_blank"
               rel="noreferrer"
             >
-              <Button type="primary" icon={<DownloadOutlined />} className="rounded-xl font-bold bg-[#0066CC] h-10 px-5">
+              <Button type="primary" icon={<DownloadOutlined />} className="rounded-xl font-bold bg-[#0066CC] h-11 min-h-[44px] px-5">
                 Tải Ảnh QR Về Điện Thoại
               </Button>
             </a>
-            <Button onClick={() => setQrZoomModalOpen(false)} className="rounded-xl font-bold h-10 px-5">
+            <Button onClick={() => setQrZoomModalOpen(false)} className="rounded-xl font-bold h-11 min-h-[44px] px-5">
               Đóng
             </Button>
           </div>
@@ -904,15 +909,26 @@ export default function FundModule() {
         onCancel={() => setBillPreviewModalOpen(false)}
         footer={null}
         title="Minh Chứng Biên Lai Đã Nộp"
+        width="min(520px, 95vw)"
+        centered
         className="rounded-2xl text-center"
       >
         {activePayment?.proofImageUrl && (
           <img
             src={activePayment.proofImageUrl}
             alt="Bill Proof"
-            className="max-h-96 mx-auto rounded-xl shadow-md border border-slate-200 mt-3"
+            className="w-full h-auto object-contain mx-auto rounded-xl shadow-md border border-slate-200 mt-3"
+            style={{ maxWidth: "100%", maxHeight: "70vh" }}
           />
         )}
+        <div className="flex justify-center pt-4">
+          <Button
+            onClick={() => setBillPreviewModalOpen(false)}
+            className="rounded-xl font-bold h-11 min-h-[44px] px-5"
+          >
+            Đóng
+          </Button>
+        </div>
       </Modal>
     </div>
   );

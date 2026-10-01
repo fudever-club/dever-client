@@ -50,6 +50,7 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
       footer={null}
       destroyOnClose
       centered
+      width="min(600px, 95vw)"
       className="rounded-3xl"
     >
       <div className="mb-4 text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200">

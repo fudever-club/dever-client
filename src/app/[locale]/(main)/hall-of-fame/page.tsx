@@ -527,7 +527,7 @@ export default function HallOfFameClientPage() {
             dataSource={leaders}
             rowKey={(rec) => rec._id || Math.random().toString()}
             pagination={false}
-            scroll={{ x: 650 }}
+            scroll={{ x: 640 }}
           />
         )}
       </div>

@@ -73,6 +73,7 @@ function PasswordChange({ isUserProfileLoading, userData }: IProps) {
                   iconRender={(visible) =>
                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                   }
+                  style={{ minHeight: 44 }}
                 />
               </Form.Item>
               <Form.Item
@@ -94,6 +95,7 @@ function PasswordChange({ isUserProfileLoading, userData }: IProps) {
                   iconRender={(visible) =>
                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                   }
+                  style={{ minHeight: 44 }}
                 />
               </Form.Item>
               <Form.Item
@@ -119,6 +121,7 @@ function PasswordChange({ isUserProfileLoading, userData }: IProps) {
                   iconRender={(visible) =>
                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                   }
+                  style={{ minHeight: 44 }}
                 />
               </Form.Item>
               <div>
@@ -148,7 +151,7 @@ function PasswordChange({ isUserProfileLoading, userData }: IProps) {
               </div>
 
               <S.FormItemNotMB>
-                <Button htmlType="submit" type="primary" loading={isLoading}>
+                <Button htmlType="submit" type="primary" loading={isLoading} style={{ minHeight: 44 }}>
                   {t("update")}
                 </Button>
               </S.FormItemNotMB>

@@ -1892,6 +1892,7 @@ export default function CreateBlogModule() {
         onCancel={() => setIsTableModalOpen(false)}
         okText="Chèn Bảng Vào Bài Viết"
         cancelText="Hủy"
+        width="min(600px, 95vw)"
         okButtonProps={{ style: { backgroundColor: "#0066CC", borderRadius: "12px", fontWeight: 700 } }}
         cancelButtonProps={{ style: { borderRadius: "12px" } }}
       >
@@ -2021,6 +2022,7 @@ export default function CreateBlogModule() {
         onCancel={() => setIsCalloutModalOpen(false)}
         okText="Chèn Ghi Chú"
         cancelText="Hủy"
+        width="min(600px, 95vw)"
         okButtonProps={{ style: { backgroundColor: "#059669", borderRadius: "12px", fontWeight: 700 } }}
         cancelButtonProps={{ style: { borderRadius: "12px" } }}
       >
