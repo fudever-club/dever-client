@@ -5,5 +5,18 @@
   "loadErrorTitle": "The leaderboard could not be loaded",
   "loadErrorDescription": "Check your connection and try again.",
   "retry": "Try again",
-  "emptyDescription": "No members have joined the leaderboard yet."
+  "emptyDescription": "No members have joined the leaderboard yet.",
+  "seasonTitle": "Season leaderboard",
+  "seasonMember": "Member",
+  "seasonSolved": "Solved",
+  "seasonScore": "Score",
+  "seasonBreakdown": "Breakdown",
+  "seasonLoadErrorTitle": "Could not load the season leaderboard",
+  "seasonLoadErrorDesc": "Check your connection and try again.",
+  "seasonRetry": "Try again",
+  "seasonEmptyNoSeason": "No season is currently running",
+  "seasonEmptyNoData": "This season has no ranking data yet",
+  "seasonActiveSuffix": "(ongoing)",
+  "seasonScoringIncomplete": "Season scores are provisional — some solutions are not categorized by difficulty yet.",
+  "seasonFallbackMember": "DEVER member"
 }

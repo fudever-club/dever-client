@@ -1,9 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { BellOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { Alert, Button, Card, Skeleton, Switch, Typography, message } from "antd";
 
+import { useTranslation } from "@/app/i18n/client";
 import { endpointNotifications } from "@/helpers/enpoints";
 import { apiClient } from "@/utils/apiClient";
 
@@ -27,6 +29,8 @@ function normalizePrefs(raw: unknown): NotificationPrefs {
 }
 
 function NotificationPreferences() {
+  const params = useParams();
+  const { t } = useTranslation(params?.locale as string, "settings");
   const [prefs, setPrefs] = useState<NotificationPrefs>(DEFAULT_PREFS);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -43,12 +47,11 @@ function NotificationPreferences() {
       const raw = (res.data as { data?: unknown })?.data ?? res.data;
       setPrefs(normalizePrefs(raw));
     } catch {
-      // TODO(i18n): move hardcoded VI copy to settings locale namespace.
-      setLoadError("Chưa thể tải tùy chọn thông báo. Vui lòng thử lại.");
+      setLoadError(t("notificationsLoadError", "Chưa thể tải tùy chọn thông báo. Vui lòng thử lại."));
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     let cancelled = false;
@@ -65,8 +68,7 @@ function NotificationPreferences() {
         setPrefs(normalizePrefs(raw));
       } catch {
         if (cancelled) return;
-        // TODO(i18n): move hardcoded VI copy to settings locale namespace.
-        setLoadError("Chưa thể tải tùy chọn thông báo. Vui lòng thử lại.");
+        setLoadError(t("notificationsLoadError", "Chưa thể tải tùy chọn thông báo. Vui lòng thử lại."));
       } finally {
         if (!cancelled) setIsLoading(false);
       }
@@ -74,7 +76,7 @@ function NotificationPreferences() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [t]);
 
   const handleToggle = async (key: PrefKey, checked: boolean) => {
     if (pendingKey !== null) return;
@@ -90,12 +92,10 @@ function NotificationPreferences() {
       }
       const raw = (res.data as { data?: unknown })?.data ?? res.data;
       setPrefs(normalizePrefs({ ...previous, [key]: checked, ...((raw ?? {}) as object) }));
-      // TODO(i18n): move hardcoded VI copy to settings locale namespace.
-      message.success("Đã cập nhật tùy chọn thông báo.");
+      message.success(t("notificationsUpdateSuccess", "Đã cập nhật tùy chọn thông báo."));
     } catch {
       setPrefs(previous);
-      // TODO(i18n): move hardcoded VI copy to settings locale namespace.
-      message.error("Chưa thể cập nhật tùy chọn thông báo. Vui lòng thử lại.");
+      message.error(t("notificationsUpdateError", "Chưa thể cập nhật tùy chọn thông báo. Vui lòng thử lại."));
     } finally {
       setPendingKey(null);
     }
@@ -104,15 +104,13 @@ function NotificationPreferences() {
   const rows: { key: PrefKey; title: string; desc: string }[] = [
     {
       key: "arena",
-      // TODO(i18n): move hardcoded VI copy to settings locale namespace.
-      title: "Đấu trường & huy hiệu",
-      desc: "Huy hiệu mới, lên cấp, chuỗi hoạt động (streak).",
+      title: t("notificationsArenaTitle", "Đấu trường & huy hiệu"),
+      desc: t("notificationsArenaDesc", "Huy hiệu mới, lên cấp, chuỗi hoạt động (streak)."),
     },
     {
       key: "event",
-      // TODO(i18n): move hardcoded VI copy to settings locale namespace.
-      title: "Sự kiện",
-      desc: "Vé, check-in và nhắc lịch sự kiện.",
+      title: t("notificationsEventTitle", "Sự kiện"),
+      desc: t("notificationsEventDesc", "Vé, check-in và nhắc lịch sự kiện."),
     },
   ];
 
@@ -127,11 +125,11 @@ function NotificationPreferences() {
           <Alert
             showIcon
             type="error"
-            message="Không tải được tùy chọn thông báo"
+            message={t("notificationsErrorTitle", "Không tải được tùy chọn thông báo")}
             description={loadError}
             action={
               <Button size="small" onClick={fetchPrefs}>
-                Thử lại
+                {t("notificationsRetry", "Thử lại")}
               </Button>
             }
           />
@@ -147,12 +145,10 @@ function NotificationPreferences() {
                   level={3}
                   style={{ marginBottom: 4 }}
                 >
-                  {/* TODO(i18n): move hardcoded VI copy to settings locale namespace. */}
-                  Thông báo
+                  {t("notificationsTitle", "Thông báo")}
                 </Typography.Title>
                 <Typography.Paragraph type="secondary" style={{ marginBottom: 0 }}>
-                  {/* TODO(i18n): move hardcoded VI copy to settings locale namespace. */}
-                  Chọn loại thông báo bạn muốn nhận từ CLB.
+                  {t("notificationsSubtitle", "Chọn loại thông báo bạn muốn nhận từ CLB.")}
                 </Typography.Paragraph>
               </div>
             </S.HeadingRow>
@@ -177,10 +173,10 @@ function NotificationPreferences() {
                       checked={checked}
                       loading={loading}
                       disabled={isPending}
-                      checkedChildren="Bật"
-                      unCheckedChildren="Tắt"
+                      checkedChildren={t("notificationsOn", "Bật")}
+                      unCheckedChildren={t("notificationsOff", "Tắt")}
                       onChange={(next) => handleToggle(row.key, next)}
-                      aria-label={`${row.title}: ${checked ? "Bật" : "Tắt"}`}
+                      aria-label={`${row.title}: ${checked ? t("notificationsOn", "Bật") : t("notificationsOff", "Tắt")}`}
                       style={{
                         backgroundColor: checked ? "#16a34a" : "#94a3b8",
                       }}
@@ -195,12 +191,11 @@ function NotificationPreferences() {
                 aria-hidden="true"
                 style={{ color: "#0066cc", fontSize: 16, marginTop: 2 }}
               />
-              {/* TODO(i18n): move hardcoded VI copy to settings locale namespace. */}
-              <span>Tin giao dịch như duyệt bài và quỹ luôn được gửi và không thể tắt.</span>
+              <span>{t("notificationsTxnNote", "Tin giao dịch như duyệt bài và quỹ luôn được gửi và không thể tắt.")}</span>
             </S.TxnNote>
 
             <S.LiveRegion role="status" aria-live="polite">
-              {isPending ? "Đang cập nhật tùy chọn thông báo…" : ""}
+              {isPending ? t("notificationsUpdating", "Đang cập nhật tùy chọn thông báo…") : ""}
             </S.LiveRegion>
           </S.ContentWrapper>
         )}

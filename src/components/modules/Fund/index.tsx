@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { useParams } from "next/navigation";
 import {
   Card,
   Tag,
@@ -45,6 +46,7 @@ import {
 import { compressImage } from "@/utils/imageCompressor";
 import { apiClient } from "@/utils/apiClient";
 import { endpointFund } from "@/helpers/enpoints";
+import { useTranslation } from "@/app/i18n/client";
 import dayjs from "dayjs";
 
 const { Title, Text, Paragraph } = Typography;
@@ -102,6 +104,8 @@ interface FundPublicStats {
 }
 
 export default function FundModule() {
+  const params = useParams();
+  const { t } = useTranslation(params?.locale as string, "fund");
   const [loading, setLoading] = useState<boolean>(true);
   const [loadError, setLoadError] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -165,11 +169,11 @@ export default function FundModule() {
       }
     } catch {
       setLoadError(true);
-      message.error("Không thể tải thông tin quỹ CLB.");
+      message.error(t("loadErrorToast", "Không thể tải thông tin quỹ CLB."));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     fetchData();
@@ -214,7 +218,7 @@ export default function FundModule() {
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
     setCopiedKey(key);
-    message.success(`Đã sao chép: ${text}`);
+    message.success(t("copiedPrefix", { defaultValue: `Đã sao chép: ${text}`, text }));
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
@@ -244,16 +248,16 @@ export default function FundModule() {
         const imageUrl = json.data?.url || json.url || json.secure_url;
         if (imageUrl) {
           setProofImageUrl(imageUrl);
-          message.success("Tải ảnh biên lai lên hệ thống lưu trữ thành công!");
+          message.success(t("uploadImageSuccess", "Tải ảnh biên lai lên hệ thống lưu trữ thành công!"));
           return false;
         }
       }
 
       const errJson = (res.data as any) || null;
-      throw new Error(errJson?.message || "Tải ảnh biên lai lên thất bại");
+      throw new Error(errJson?.message || t("uploadImageFailDefault", "Tải ảnh biên lai lên thất bại"));
     } catch (err: any) {
       console.error("Fund proof upload error:", err);
-      message.error(err?.message || "Không thể tải ảnh biên lai lên máy chủ. Vui lòng thử lại!");
+      message.error(err?.message || t("uploadImageError", "Không thể tải ảnh biên lai lên máy chủ. Vui lòng thử lại!"));
     } finally {
       setUploadingImage(false);
     }
@@ -264,7 +268,7 @@ export default function FundModule() {
   const handleSubmitPayment = async () => {
     if (!activeCampaign) return;
     if (!proofImageUrl) {
-      message.warning("Vui lòng tải lên ảnh chụp màn hình biên lai chuyển khoản!");
+      message.warning(t("proofRequired", "Vui lòng tải lên ảnh chụp màn hình biên lai chuyển khoản!"));
       return;
     }
 
@@ -283,14 +287,14 @@ export default function FundModule() {
       }
 
       if (res.ok) {
-        message.success("Đã gửi minh chứng đóng quỹ thành công! Ban Quản Trị sẽ đối soát sớm.");
+        message.success(t("submitSuccess", "Đã gửi minh chứng đóng quỹ thành công! Ban Quản Trị sẽ đối soát sớm."));
         fetchData();
       } else {
         const err = (res.data as any) || {};
-        message.error(err.message || "Gửi thất bại.");
+        message.error(err.message || t("submitFailDefault", "Gửi thất bại."));
       }
     } catch {
-      message.error("Lỗi kết nối máy chủ.");
+      message.error(t("networkError", "Lỗi kết nối máy chủ."));
     } finally {
       setSubmitting(false);
     }
@@ -324,11 +328,11 @@ export default function FundModule() {
         <Alert
           type="error"
           showIcon
-          message="Không thể tải thông tin quỹ CLB"
-          description="Vui lòng kiểm tra kết nối và thử lại."
+          message={t("loadErrorTitle", "Không thể tải thông tin quỹ CLB")}
+          description={t("loadErrorDesc", "Vui lòng kiểm tra kết nối và thử lại.")}
           action={
             <Button size="small" danger onClick={fetchData}>
-              Thử lại
+              {t("retry", "Thử lại")}
             </Button>
           }
         />
@@ -343,13 +347,13 @@ export default function FundModule() {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#0066CC] text-xs font-bold mb-2 shadow-sm">
             <ThunderboltOutlined />
-            <span>CỔNG ĐÓNG QUỸ FU-DEVER</span>
+            <span>{t("badge", "CỔNG ĐÓNG QUỸ FU-DEVER")}</span>
           </div>
           <Title level={2} className="!mb-1 text-slate-900 font-black tracking-tight">
-            Quỹ Hoạt Động &amp; Phát Triển CLB
+            {t("heading", "Quỹ Hoạt Động & Phát Triển CLB")}
           </Title>
           <Text type="secondary" className="text-sm">
-            Thực hiện nghĩa vụ đóng quỹ thành viên để duy trì sinh hoạt, trang thiết bị Project Lab và tài trợ giải thưởng.
+            {t("subtitle", "Thực hiện nghĩa vụ đóng quỹ thành viên để duy trì sinh hoạt, trang thiết bị Project Lab và tài trợ giải thưởng.")}
           </Text>
         </div>
         <Button
@@ -360,7 +364,7 @@ export default function FundModule() {
           }}
           className="rounded-xl text-xs font-bold self-start sm:self-auto h-10 px-4 shadow-sm border-slate-200 hover:border-[#0066CC]"
         >
-          Làm mới
+          {t("refresh", "Làm mới")}
         </Button>
       </div>
 
@@ -374,11 +378,11 @@ export default function FundModule() {
         <Alert
           type="error"
           showIcon
-          message="Không thể tải thống kê quỹ CLB"
-          description="Vui lòng kiểm tra kết nối và thử lại."
+          message={t("statsErrorTitle", "Không thể tải thống kê quỹ CLB")}
+          description={t("statsErrorDesc", "Vui lòng kiểm tra kết nối và thử lại.")}
           action={
             <Button size="small" danger onClick={fetchPublicStats}>
-              Thử lại
+              {t("retry", "Thử lại")}
             </Button>
           }
         />
@@ -387,7 +391,7 @@ export default function FundModule() {
         <div className="rounded-3xl border border-dashed border-slate-200 bg-white p-8 text-center shadow-xs">
           <Empty
             image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description="Chưa có kỳ thu quỹ"
+            description={t("statsEmpty", "Chưa có kỳ thu quỹ")}
           />
         </div>
       )}
@@ -405,11 +409,11 @@ export default function FundModule() {
               )}
             </div>
             <Text type="secondary" className="text-xs">
-              Đã đóng <b className="text-slate-800">{stats.paidCount}/{stats.totalMembers}</b> thành viên
-              {" • "}Mức thu <b className="text-[#0066CC]">{(stats.amount ?? 0).toLocaleString("vi-VN")} đ</b>
-              {" • "}Đã thu <b className="text-slate-800">{(stats.totalMoneyCollected ?? 0).toLocaleString("vi-VN")} đ</b>
+              {t("statsPaid", "Đã đóng")} <b className="text-slate-800">{stats.paidCount}/{stats.totalMembers}</b> {t("statsMembersSuffix", "thành viên")}
+              {" • "}{t("statsAmountLabel", "Mức thu")} <b className="text-[#0066CC]">{(stats.amount ?? 0).toLocaleString("vi-VN")} đ</b>
+              {" • "}{t("statsCollectedLabel", "Đã thu")} <b className="text-slate-800">{(stats.totalMoneyCollected ?? 0).toLocaleString("vi-VN")} đ</b>
               {stats.deadline && (
-                <>{" • "}Hạn chót <b className="text-slate-800">{dayjs(stats.deadline).format("DD/MM/YYYY")}</b></>
+                <>{" • "}{t("statsDeadlineLabel", "Hạn chót")} <b className="text-slate-800">{dayjs(stats.deadline).format("DD/MM/YYYY")}</b></>
               )}
             </Text>
             <Progress
@@ -431,11 +435,11 @@ export default function FundModule() {
             </div>
             <div>
               <Tag color="success" className="font-extrabold text-xs px-2.5 py-0.5 rounded-full">
-                ✓ ĐÃ HOÀN THÀNH NGHĨA VỤ QUỸ
+                {t("approvedTag", "✓ ĐÃ HOÀN THÀNH NGHĨA VỤ QUỸ")}
               </Tag>
-              <h3 className="text-xl font-black text-slate-900 mt-1">Chúc mừng! Bạn đã hoàn thành đóng quỹ kỳ này</h3>
+              <h3 className="text-xl font-black text-slate-900 mt-1">{t("approvedTitle", "Chúc mừng! Bạn đã hoàn thành đóng quỹ kỳ này")}</h3>
               <p className="text-xs text-slate-600 font-medium mt-0.5">
-                Kỳ quỹ: <b>{activeCampaign?.title}</b> • Số tiền đã xác nhận: <b>{(activePayment.amount || 100000).toLocaleString("vi-VN")} đ</b>
+                {t("approvedMetaPeriod", "Kỳ quỹ:")} <b>{activeCampaign?.title}</b> • {t("approvedMetaConfirmed", "Số tiền đã xác nhận:")} <b>{(activePayment.amount || 100000).toLocaleString("vi-VN")} đ</b>
               </p>
             </div>
           </div>
@@ -445,7 +449,7 @@ export default function FundModule() {
             onClick={() => setBillPreviewModalOpen(true)}
             className="rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-700 h-10 px-5 shadow-md"
           >
-            Xem Lại Biên Lai
+            {t("viewReceipt", "Xem Lại Biên Lai")}
           </Button>
         </div>
       )}
@@ -458,11 +462,11 @@ export default function FundModule() {
             </div>
             <div>
               <Tag color="warning" className="font-extrabold text-xs px-2.5 py-0.5 rounded-full">
-                ⏳ ĐANG CHỜ ĐỐI SOÁT
+                {t("pendingTag", "⏳ ĐANG CHỜ ĐỐI SOÁT")}
               </Tag>
-              <h3 className="text-xl font-black text-slate-900 mt-1">Minh chứng của bạn đang được Ban Quản Trị kiểm tra</h3>
+              <h3 className="text-xl font-black text-slate-900 mt-1">{t("pendingTitle", "Minh chứng của bạn đang được Ban Quản Trị kiểm tra")}</h3>
               <p className="text-xs text-slate-600 font-medium mt-0.5">
-                Đã nộp lúc: <b>{dayjs(activePayment.createdAt).format("HH:mm DD/MM/YYYY")}</b>. Ban Quản Trị sẽ duyệt ngay khi tiền về tài khoản.
+                {t("pendingMetaPrefix", "Đã nộp lúc:")} <b>{dayjs(activePayment.createdAt).format("HH:mm DD/MM/YYYY")}</b>. {t("pendingMetaSuffix", "Ban Quản Trị sẽ duyệt ngay khi tiền về tài khoản.")}
               </p>
             </div>
           </div>
@@ -471,7 +475,7 @@ export default function FundModule() {
             onClick={() => setBillPreviewModalOpen(true)}
             className="rounded-xl font-bold text-xs border-amber-300 text-amber-800 hover:bg-amber-100 h-10 px-5 shadow-sm"
           >
-            Xem Biên Lai Đã Nộp
+            {t("viewSubmittedReceipt", "Xem Biên Lai Đã Nộp")}
           </Button>
         </div>
       )}
@@ -481,11 +485,11 @@ export default function FundModule() {
           type="error"
           showIcon
           className="rounded-2xl border-2 border-rose-300 shadow-sm p-4"
-          message={<span className="font-bold text-rose-800 text-sm">Minh chứng đóng quỹ bị từ chối</span>}
+          message={<span className="font-bold text-rose-800 text-sm">{t("rejectedTitle", "Minh chứng đóng quỹ bị từ chối")}</span>}
           description={
             <div className="space-y-1.5 mt-1 text-xs text-rose-700 font-medium">
-              <p>Lý do từ Ban Quản Trị: <b>{activePayment.reviewNotes || "Ảnh minh chứng không rõ ràng hoặc chuyển khoản sai cú pháp."}</b></p>
-              <p>Vui lòng kiểm tra lại thông tin và tải lên biên lai hợp lệ bên dưới.</p>
+              <p>{t("rejectedReasonPrefix", "Lý do từ Ban Quản Trị:")} <b>{activePayment.reviewNotes || t("rejectedFallbackReason", "Ảnh minh chứng không rõ ràng hoặc chuyển khoản sai cú pháp.")}</b></p>
+              <p>{t("rejectedHint", "Vui lòng kiểm tra lại thông tin và tải lên biên lai hợp lệ bên dưới.")}</p>
             </div>
           }
         />
@@ -494,8 +498,8 @@ export default function FundModule() {
       {/* Main Unified 2-Column Payment Grid */}
       {!activeCampaign && (
         <div className="rounded-3xl border border-dashed border-slate-200 bg-white p-10 text-center space-y-2 shadow-xs">
-          <p className="text-sm font-bold text-slate-700">Hiện chưa có kỳ thu quỹ nào đang mở.</p>
-          <p className="text-xs text-slate-500">Ban Chủ Nhiệm sẽ thông báo khi có đợt đóng quỹ mới.</p>
+          <p className="text-sm font-bold text-slate-700">{t("noCampaignTitle", "Hiện chưa có kỳ thu quỹ nào đang mở.")}</p>
+          <p className="text-xs text-slate-500">{t("noCampaignDesc", "Ban Chủ Nhiệm sẽ thông báo khi có đợt đóng quỹ mới.")}</p>
         </div>
       )}
       {(!activePayment || activePayment.status === "rejected" || activePayment.status === "pending") && activeCampaign && (
@@ -513,7 +517,7 @@ export default function FundModule() {
                     <h3 className="text-sm sm:text-base font-extrabold text-white m-0">
                       {activeCampaign.bankInfo?.bankName || "TPBank (Ngân hàng Tiên Phong)"}
                     </h3>
-                    <span className="text-xs text-blue-100 font-mono">Tài khoản Thủ Quỹ Chính Thức</span>
+                    <span className="text-xs text-blue-100 font-mono">{t("bankAccountLabel", "Tài khoản Thủ Quỹ Chính Thức")}</span>
                   </div>
                 </div>
                 <Tag color="gold" className="font-bold text-xs px-2.5 py-0.5 rounded-full border-0 shadow-sm">
@@ -533,7 +537,7 @@ export default function FundModule() {
                         qrMode === "vietqr" ? "bg-[#0066CC] text-white shadow-md" : "text-slate-600 hover:text-slate-900"
                       }`}
                     >
-                      ⚡ Mã VietQR Chuẩn HD
+                      {t("qrStandard", "⚡ Mã VietQR Chuẩn HD")}
                     </button>
                     <button
                       onClick={() => setQrMode("custom")}
@@ -541,7 +545,7 @@ export default function FundModule() {
                         qrMode === "custom" ? "bg-[#0066CC] text-white shadow-md" : "text-slate-600 hover:text-slate-900"
                       }`}
                     >
-                      🖼️ Ảnh Gốc Thủ Quỹ
+                      {t("qrCustom", "🖼️ Ảnh Gốc Thủ Quỹ")}
                     </button>
                   </div>
 
@@ -567,10 +571,10 @@ export default function FundModule() {
                     <button
                       type="button"
                       onClick={() => setQrZoomModalOpen(true)}
-                      aria-label="Phóng to mã QR"
+                      aria-label={t("qrZoomAria", "Phóng to mã QR")}
                       className="absolute inset-0 bg-slate-900/40 rounded-2xl opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-sm cursor-pointer backdrop-blur-[2px]"
                     >
-                      <ZoomInOutlined style={{ fontSize: 20 }} /> Nhấp để phóng to toàn màn hình
+                      <ZoomInOutlined style={{ fontSize: 20 }} /> {t("qrZoomHint", "Nhấp để phóng to toàn màn hình")}
                     </button>
                   </div>
 
@@ -582,7 +586,7 @@ export default function FundModule() {
                       onClick={() => setQrZoomModalOpen(true)}
                       className="rounded-xl text-xs font-bold bg-[#0066CC] h-11 min-h-[44px] shadow-sm"
                     >
-                      Phóng To Mã QR
+                      {t("qrZoom", "Phóng To Mã QR")}
                     </Button>
                     <a
                       href={currentDisplayQr}
@@ -591,13 +595,13 @@ export default function FundModule() {
                       rel="noopener noreferrer"
                     >
                       <Button icon={<DownloadOutlined />} className="rounded-xl text-xs font-bold h-11 min-h-[44px]">
-                        Tải Ảnh QR
+                        {t("qrDownload", "Tải Ảnh QR")}
                       </Button>
                     </a>
                   </div>
 
                   <p className="text-xs text-slate-600 font-medium m-0">
-                    Mở app Ngân hàng (TPBank, MB, VCB, Momo...) quét mã để tự điền số tiền và nội dung chuyển khoản.
+                    {t("qrHint", "Mở app Ngân hàng (TPBank, MB, VCB, Momo...) quét mã để tự điền số tiền và nội dung chuyển khoản.")}
                   </p>
                 </div>
 
@@ -605,19 +609,19 @@ export default function FundModule() {
                 <div className="space-y-3 bg-blue-50/50 p-5 rounded-2xl border border-blue-100 text-xs">
                   {/* Account Number */}
                   <div className="flex items-center justify-between py-1 border-b border-blue-100/80">
-                    <span className="text-slate-500 font-medium text-xs">Số tài khoản nhận:</span>
+                    <span className="text-slate-500 font-medium text-xs">{t("accNumber", "Số tài khoản nhận:")}</span>
                     <div className="flex items-center gap-2">
                       <span className="font-mono text-lg font-black text-slate-900 tracking-wider">
                         {qrAccNumber}
                       </span>
-                      <Tooltip title="Sao chép số tài khoản">
+                      <Tooltip title={t("copyAccTitle", "Sao chép số tài khoản")}>
                         <Button
                           size="small"
                           icon={copiedKey === "acc" ? <CheckOutlined className="text-emerald-600 font-bold" /> : <CopyOutlined />}
                           onClick={() => handleCopy(qrAccNumber, "acc")}
                           className="h-11 min-h-[44px] px-2.5 rounded-lg font-bold text-xs border-blue-200 bg-white shadow-sm"
                         >
-                          {copiedKey === "acc" ? "Đã chép" : "Chép"}
+                          {copiedKey === "acc" ? t("copied", "Đã chép") : t("copy", "Chép")}
                         </Button>
                       </Tooltip>
                     </div>
@@ -625,7 +629,7 @@ export default function FundModule() {
 
                   {/* Account Holder */}
                   <div className="flex items-center justify-between py-1 border-b border-blue-100/80">
-                    <span className="text-slate-500 font-medium text-xs">Chủ tài khoản (Thủ Quỹ):</span>
+                    <span className="text-slate-500 font-medium text-xs">{t("accHolder", "Chủ tài khoản (Thủ Quỹ):")}</span>
                     <span className="font-black text-sm text-slate-900 uppercase tracking-wide">
                       {qrAccHolder}
                     </span>
@@ -633,19 +637,19 @@ export default function FundModule() {
 
                   {/* Amount */}
                   <div className="flex items-center justify-between py-1 border-b border-blue-100/80">
-                    <span className="text-slate-500 font-medium text-xs">Mức thu kỳ này:</span>
+                    <span className="text-slate-500 font-medium text-xs">{t("amountLabel", "Mức thu kỳ này:")}</span>
                     <div className="flex items-center gap-2">
                       <span className="font-black text-[#0066CC] text-base">
                         {qrAmount.toLocaleString("vi-VN")} đ
                       </span>
-                      <Tooltip title="Sao chép số tiền">
+                      <Tooltip title={t("copyAmountTitle", "Sao chép số tiền")}>
                         <Button
                           size="small"
                           icon={copiedKey === "amount" ? <CheckOutlined className="text-emerald-600 font-bold" /> : <CopyOutlined />}
                           onClick={() => handleCopy(String(qrAmount), "amount")}
                           className="h-11 min-h-[44px] px-2.5 rounded-lg font-bold text-xs border-blue-200 bg-white shadow-sm"
                         >
-                          {copiedKey === "amount" ? "Đã chép" : "Chép"}
+                          {copiedKey === "amount" ? t("copied", "Đã chép") : t("copy", "Chép")}
                         </Button>
                       </Tooltip>
                     </div>
@@ -653,19 +657,19 @@ export default function FundModule() {
 
                   {/* Transfer Memo Syntax */}
                   <div className="flex items-center justify-between py-1">
-                    <span className="text-slate-500 font-medium text-xs">Cú pháp chuyển khoản:</span>
+                    <span className="text-slate-500 font-medium text-xs">{t("syntaxLabel", "Cú pháp chuyển khoản:")}</span>
                     <div className="flex items-center gap-2">
                       <span className="font-mono font-bold text-amber-800 bg-amber-100/90 px-2.5 py-1 rounded-md border border-amber-300">
                         {qrSyntax}
                       </span>
-                      <Tooltip title="Sao chép cú pháp">
+                      <Tooltip title={t("copySyntaxTitle", "Sao chép cú pháp")}>
                         <Button
                           size="small"
                           icon={copiedKey === "syntax" ? <CheckOutlined className="text-emerald-600 font-bold" /> : <CopyOutlined />}
                           onClick={() => handleCopy(qrSyntax, "syntax")}
                           className="h-11 min-h-[44px] px-2.5 rounded-lg font-bold text-xs border-amber-300 bg-white text-amber-900 shadow-sm"
                         >
-                          {copiedKey === "syntax" ? "Đã chép" : "Chép"}
+                          {copiedKey === "syntax" ? t("copied", "Đã chép") : t("copy", "Chép")}
                         </Button>
                       </Tooltip>
                     </div>
@@ -682,15 +686,15 @@ export default function FundModule() {
                 <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                   <div className="flex items-center gap-2">
                     <UploadOutlined className="text-xl text-[#0066CC]" />
-                    <h3 className="font-extrabold text-slate-900 text-base m-0">Nộp Minh Chứng Đóng Quỹ</h3>
+                    <h3 className="font-extrabold text-slate-900 text-base m-0">{t("submitBoxTitle", "Nộp Minh Chứng Đóng Quỹ")}</h3>
                   </div>
-                  <Tag color="blue" className="font-bold text-xs">Bước 2 / 2</Tag>
+                  <Tag color="blue" className="font-bold text-xs">{t("step", "Bước 2 / 2")}</Tag>
                 </div>
 
                 {/* Upload Component Box */}
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-800 block">
-                    1. Tải lên ảnh chụp biên lai chuyển khoản (Bill Banking) <span className="text-rose-500">*</span>
+                    {t("uploadLabel", "1. Tải lên ảnh chụp biên lai chuyển khoản (Bill Banking)")} <span className="text-rose-500">*</span>
                   </label>
 
                   <Upload.Dragger
@@ -707,7 +711,7 @@ export default function FundModule() {
                           style={{ maxWidth: "100%" }}
                         />
                         <div className="flex items-center justify-center gap-2 flex-wrap">
-                          <span className="text-xs text-emerald-600 font-bold">✓ Đã tải ảnh biên lai thành công</span>
+                          <span className="text-xs text-emerald-600 font-bold">{t("uploadSuccess", "✓ Đã tải ảnh biên lai thành công")}</span>
                           <Button
                             type="text"
                             danger
@@ -720,7 +724,7 @@ export default function FundModule() {
                             className="text-xs font-semibold"
                             style={{ minHeight: 44 }}
                           >
-                            Đổi ảnh
+                            {t("changeImage", "Đổi ảnh")}
                           </Button>
                         </div>
                       </div>
@@ -730,8 +734,8 @@ export default function FundModule() {
                           <FileImageOutlined style={{ fontSize: "28px" }} />
                         </div>
                         <div>
-                          <p className="text-sm font-bold text-slate-800 m-0">Kéo thả hoặc nhấp để chọn ảnh biên lai</p>
-                          <p className="text-xs text-slate-400 m-0 mt-1">Hỗ trợ PNG, JPG, JPEG (tối đa 10MB)</p>
+                          <p className="text-sm font-bold text-slate-800 m-0">{t("uploadPlaceholderTitle", "Kéo thả hoặc nhấp để chọn ảnh biên lai")}</p>
+                          <p className="text-xs text-slate-400 m-0 mt-1">{t("uploadPlaceholderDesc", "Hỗ trợ PNG, JPG, JPEG (tối đa 10MB)")}</p>
                         </div>
                       </div>
                     )}
@@ -741,10 +745,10 @@ export default function FundModule() {
                 {/* Transaction Code */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-800 block">
-                    2. Mã giao dịch ngân hàng (Mã FT / Số tham chiếu):
+                    {t("txnLabel", "2. Mã giao dịch ngân hàng (Mã FT / Số tham chiếu):")}
                   </label>
                   <Input
-                    placeholder="Ví dụ: FT2412345678..."
+                    placeholder={t("txnPlaceholder", "Ví dụ: FT2412345678...")}
                     value={transactionCode}
                     onChange={(e) => setTransactionCode(e.target.value)}
                     className="rounded-xl text-xs py-2.5 font-mono"
@@ -755,11 +759,11 @@ export default function FundModule() {
                 {/* Member Notes */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-800 block">
-                    3. Lời nhắn / Ghi chú thêm (Tùy chọn):
+                    {t("noteLabel", "3. Lời nhắn / Ghi chú thêm (Tùy chọn):")}
                   </label>
                   <TextArea
                     rows={2}
-                    placeholder="Ghi chú thêm nếu bạn nộp hộ hoặc chuyển từ tài khoản khác..."
+                    placeholder={t("notePlaceholder", "Ghi chú thêm nếu bạn nộp hộ hoặc chuyển từ tài khoản khác...")}
                     value={memberNote}
                     onChange={(e) => setMemberNote(e.target.value)}
                     className="rounded-xl text-xs"
@@ -779,7 +783,7 @@ export default function FundModule() {
                   onClick={handleSubmitPayment}
                   className="bg-[#0066CC] hover:bg-[#004C99] rounded-2xl font-black text-sm shadow-xl shadow-blue-600/25 active:scale-[0.98] transition-all h-14 text-white flex items-center justify-center gap-2"
                 >
-                  <span>Xác Nhận Đã Chuyển Khoản &amp; Nộp Minh Chứng</span>
+                  <span>{t("confirmSubmit", "Xác Nhận Đã Chuyển Khoản & Nộp Minh Chứng")}</span>
                   <ArrowRightOutlined />
                 </Button>
               </div>
@@ -792,9 +796,9 @@ export default function FundModule() {
       <div className="rounded-3xl border border-slate-200/80 shadow-md bg-white p-6">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
           <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2 m-0">
-            <DollarOutlined className="text-[#0066CC]" /> Lịch Sử Đóng Quỹ Của Bạn
+            <DollarOutlined className="text-[#0066CC]" /> {t("historyTitle", "Lịch Sử Đóng Quỹ Của Bạn")}
           </h3>
-          <span className="text-xs text-slate-500 font-medium">Tổng cộng {history.length} lần đóng</span>
+          <span className="text-xs text-slate-500 font-medium">{t("historyTotal", `Tổng cộng ${history.length} lần đóng`, { count: history.length })}</span>
         </div>
 
         <Table
@@ -804,17 +808,17 @@ export default function FundModule() {
           scroll={{ x: 640 }}
           columns={[
             {
-              title: "Kỳ thu quỹ",
+              title: t("colCampaign", "Kỳ thu quỹ"),
               key: "campaign",
               render: (_: any, record: FundPayment) => (
                 <div>
-                  <Text strong className="text-xs text-slate-900 block">{record.campaignId?.title || "Quỹ CLB"}</Text>
+                  <Text strong className="text-xs text-slate-900 block">{record.campaignId?.title || t("fundFallbackTitle", "Quỹ CLB")}</Text>
                   <Tag color="blue" className="text-[10px] mt-0.5">{record.campaignId?.semester || "Fall 2026"}</Tag>
                 </div>
               ),
             },
             {
-              title: "Số tiền",
+              title: t("colAmount", "Số tiền"),
               dataIndex: "amount",
               key: "amount",
               render: (amount: number) => (
@@ -824,23 +828,23 @@ export default function FundModule() {
               ),
             },
             {
-              title: "Mã giao dịch",
+              title: t("colTxn", "Mã giao dịch"),
               dataIndex: "transactionCode",
               key: "transactionCode",
               render: (code: string) => <Text code className="text-xs">{code || "N/A"}</Text>,
             },
             {
-              title: "Trạng thái",
+              title: t("colStatus", "Trạng thái"),
               dataIndex: "status",
               key: "status",
               render: (status: string) => {
-                if (status === "approved") return <Tag color="success" icon={<CheckCircleOutlined />}>Đã duyệt</Tag>;
-                if (status === "rejected") return <Tag color="error" icon={<CloseCircleOutlined />}>Bị từ chối</Tag>;
-                return <Tag color="warning" icon={<ClockCircleOutlined />}>Chờ duyệt</Tag>;
+                if (status === "approved") return <Tag color="success" icon={<CheckCircleOutlined />}>{t("statusApproved", "Đã duyệt")}</Tag>;
+                if (status === "rejected") return <Tag color="error" icon={<CloseCircleOutlined />}>{t("statusRejected", "Bị từ chối")}</Tag>;
+                return <Tag color="warning" icon={<ClockCircleOutlined />}>{t("statusPending", "Chờ duyệt")}</Tag>;
               },
             },
             {
-              title: "Ngày nộp",
+              title: t("colDate", "Ngày nộp"),
               dataIndex: "createdAt",
               key: "createdAt",
               render: (date: string) => (
@@ -861,7 +865,7 @@ export default function FundModule() {
         centered
         title={
           <div className="flex items-center justify-between pr-6">
-            <span className="font-extrabold text-base text-slate-900">Mã QR Chuyển Khoản Thủ Quỹ (TPBank)</span>
+            <span className="font-extrabold text-base text-slate-900">{t("qrModalTitle", "Mã QR Chuyển Khoản Thủ Quỹ (TPBank)")}</span>
             <Tag color="blue" className="font-bold text-xs">{qrAccHolder}</Tag>
           </div>
         }
@@ -879,10 +883,10 @@ export default function FundModule() {
           </div>
           
           <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 w-full max-w-[500px] text-left text-xs space-y-1.5">
-            <p className="m-0 text-slate-700">Ngân hàng: <b>TPBank (Ngân hàng TMCP Tiên Phong)</b></p>
-            <p className="m-0 text-slate-700">Số tài khoản: <b className="font-mono text-sm text-[#0066CC]">{qrAccNumber}</b></p>
-            <p className="m-0 text-slate-700">Chủ tài khoản: <b>{qrAccHolder}</b></p>
-            <p className="m-0 text-slate-700">Số tiền: <b>{qrAmount.toLocaleString("vi-VN")} đ</b></p>
+            <p className="m-0 text-slate-700">{t("qrModalBankPrefix", "Ngân hàng:")} <b>TPBank (Ngân hàng TMCP Tiên Phong)</b></p>
+            <p className="m-0 text-slate-700">{t("qrModalAccPrefix", "Số tài khoản:")} <b className="font-mono text-sm text-[#0066CC]">{qrAccNumber}</b></p>
+            <p className="m-0 text-slate-700">{t("qrModalHolderPrefix", "Chủ tài khoản:")} <b>{qrAccHolder}</b></p>
+            <p className="m-0 text-slate-700">{t("qrModalAmountPrefix", "Số tiền:")} <b>{qrAmount.toLocaleString("vi-VN")} đ</b></p>
           </div>
 
           <div className="flex items-center gap-3 flex-wrap justify-center">
@@ -893,11 +897,11 @@ export default function FundModule() {
               rel="noreferrer"
             >
               <Button type="primary" icon={<DownloadOutlined />} className="rounded-xl font-bold bg-[#0066CC] h-11 min-h-[44px] px-5">
-                Tải Ảnh QR Về Điện Thoại
+                {t("qrModalDownload", "Tải Ảnh QR Về Điện Thoại")}
               </Button>
             </a>
             <Button onClick={() => setQrZoomModalOpen(false)} className="rounded-xl font-bold h-11 min-h-[44px] px-5">
-              Đóng
+              {t("close", "Đóng")}
             </Button>
           </div>
         </div>
@@ -908,7 +912,7 @@ export default function FundModule() {
         open={billPreviewModalOpen}
         onCancel={() => setBillPreviewModalOpen(false)}
         footer={null}
-        title="Minh Chứng Biên Lai Đã Nộp"
+        title={t("billModalTitle", "Minh Chứng Biên Lai Đã Nộp")}
         width="min(520px, 95vw)"
         centered
         className="rounded-2xl text-center"
@@ -926,7 +930,7 @@ export default function FundModule() {
             onClick={() => setBillPreviewModalOpen(false)}
             className="rounded-xl font-bold h-11 min-h-[44px] px-5"
           >
-            Đóng
+            {t("close", "Đóng")}
           </Button>
         </div>
       </Modal>

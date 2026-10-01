@@ -50,6 +50,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import { useTranslation } from "@/app/i18n/client";
 import { useAppSelector } from "@/hooks/redux-toolkit";
 import webStorageClient from "@/utils/webStorageClient";
 import { apiClient } from "@/utils/apiClient";
@@ -173,7 +174,9 @@ const MERMAID_PRESETS = [
   },
 ];
 
-// TODO(i18n): checklist "Sẵn sàng gửi duyệt" hardcode VI; chuyển sang next-intl khi có key dịch vụ.
+// Checklist "Sẵn sàng gửi duyệt" labels live in the blogChecklist i18n namespace.
+// READINESS_LABELS / READINESS_MISSING_HINTS below are module fallbacks (VI)
+// used only when a translation key is missing, so the checklist never renders blank.
 const READINESS_LABELS: Record<BlogReadinessItem["id"], string> = {
   title: `Tiêu đề ≥ ${TITLE_MIN_LENGTH} ký tự`,
   content: `Nội dung ≥ ${CONTENT_MIN_WORDS} từ`,
@@ -555,6 +558,7 @@ export default function CreateBlogModule() {
 
   const router = useRouter();
   const locale = useLocale();
+  const { t: tChecklist } = useTranslation(locale, "blogChecklist");
   const { userInfo } = useAppSelector((state: any) => state.auth);
 
   const textAreaRef = useRef<any>(null);
@@ -578,21 +582,45 @@ export default function CreateBlogModule() {
       }),
     [title, content, category, selectedTags]
   );
+  const readinessLabel = (id: BlogReadinessItem["id"]): string => {
+    switch (id) {
+      case "title":
+        return tChecklist("labelTitle", { defaultValue: READINESS_LABELS[id], min: TITLE_MIN_LENGTH });
+      case "content":
+        return tChecklist("labelContent", { defaultValue: READINESS_LABELS[id], min: CONTENT_MIN_WORDS });
+      case "category":
+        return tChecklist("labelCategory", READINESS_LABELS[id]);
+      case "tags":
+        return tChecklist("labelTags", READINESS_LABELS[id]);
+    }
+  };
+  const readinessHint = (id: BlogReadinessItem["id"]): string => {
+    switch (id) {
+      case "title":
+        return tChecklist("hintTitle", { defaultValue: READINESS_MISSING_HINTS[id], min: TITLE_MIN_LENGTH });
+      case "content":
+        return tChecklist("hintContent", { defaultValue: READINESS_MISSING_HINTS[id], min: CONTENT_MIN_WORDS });
+      case "category":
+        return tChecklist("hintCategory", READINESS_MISSING_HINTS[id]);
+      case "tags":
+        return tChecklist("hintTags", READINESS_MISSING_HINTS[id]);
+    }
+  };
   const readinessDetail = (id: BlogReadinessItem["id"]): string => {
     switch (id) {
       case "title":
-        return `${readiness.titleLength}/${TITLE_MIN_LENGTH} ký tự`;
+        return tChecklist("detailTitle", { defaultValue: `${readiness.titleLength}/${TITLE_MIN_LENGTH} ký tự`, done: readiness.titleLength, required: TITLE_MIN_LENGTH });
       case "content":
-        return `${readiness.wordCount}/${CONTENT_MIN_WORDS} từ`;
+        return tChecklist("detailContent", { defaultValue: `${readiness.wordCount}/${CONTENT_MIN_WORDS} từ`, done: readiness.wordCount, required: CONTENT_MIN_WORDS });
       case "category":
-        return category.trim() || "chưa chọn";
+        return category.trim() || tChecklist("detailCategoryEmpty", "chưa chọn");
       case "tags":
-        return `${readiness.tagCount}/1 tag`;
+        return tChecklist("detailTags", { defaultValue: `${readiness.tagCount}/1 tag`, count: readiness.tagCount });
     }
   };
   const missingHints = readiness.items
     .filter((item) => !item.met)
-    .map((item) => READINESS_MISSING_HINTS[item.id])
+    .map((item) => readinessHint(item.id))
     .join("; ");
 
   // Auto-Save Draft to LocalStorage
@@ -1118,7 +1146,7 @@ export default function CreateBlogModule() {
                 }}
               >
                 <CheckCircle2 size={16} color={readiness.isReady ? "#059669" : "#94A3B8"} />
-                Sẵn sàng gửi duyệt
+                {tChecklist("title", "Sẵn sàng gửi duyệt")}
                 <span
                   style={{
                     fontSize: "12px",
@@ -1171,7 +1199,7 @@ export default function CreateBlogModule() {
                         <X size={9} color="#94A3B8" />
                       </span>
                     )}
-                    {READINESS_LABELS[item.id]}
+                    {readinessLabel(item.id)}
                     <span style={{ fontWeight: 700, color: item.met ? "#059669" : "#94A3B8" }}>
                       ({readinessDetail(item.id)})
                     </span>
@@ -1216,7 +1244,7 @@ export default function CreateBlogModule() {
                 // Nút Gửi duyệt dùng disabled native + tooltip liệt kê thiếu;
                 // Lưu nháp (bên trên) luôn khả dụng. Không đổi API submit/review.
                 <Tooltip
-                  title={readiness.isReady ? "Đã sẵn sàng gửi duyệt" : `Còn thiếu: ${missingHints}`}
+                  title={readiness.isReady ? tChecklist("readyTooltip", "Đã sẵn sàng gửi duyệt") : tChecklist("missingPrefix", { defaultValue: `Còn thiếu: ${missingHints}`, hints: missingHints })}
                 >
                   <span
                     style={{

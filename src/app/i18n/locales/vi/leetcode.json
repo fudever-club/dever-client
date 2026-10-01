@@ -5,5 +5,18 @@
   "loadErrorTitle": "Chưa thể tải bảng xếp hạng",
   "loadErrorDescription": "Kiểm tra kết nối rồi thử lại.",
   "retry": "Thử lại",
-  "emptyDescription": "Chưa có thành viên nào tham gia bảng xếp hạng."
+  "emptyDescription": "Chưa có thành viên nào tham gia bảng xếp hạng.",
+  "seasonTitle": "Bảng xếp hạng mùa giải",
+  "seasonMember": "Thành viên",
+  "seasonSolved": "Đã giải",
+  "seasonScore": "Điểm",
+  "seasonBreakdown": "Breakdown",
+  "seasonLoadErrorTitle": "Chưa thể tải bảng xếp hạng mùa giải",
+  "seasonLoadErrorDesc": "Kiểm tra kết nối rồi thử lại.",
+  "seasonRetry": "Thử lại",
+  "seasonEmptyNoSeason": "Chưa có mùa giải đang diễn ra",
+  "seasonEmptyNoData": "Mùa giải này chưa có dữ liệu xếp hạng",
+  "seasonActiveSuffix": "(đang diễn ra)",
+  "seasonScoringIncomplete": "Điểm mùa giải đang tạm tính — một số bài chưa được phân loại độ khó.",
+  "seasonFallbackMember": "Thành viên DEVER"
 }

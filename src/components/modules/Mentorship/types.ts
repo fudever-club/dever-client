@@ -1,7 +1,5 @@
 "use client";
 
-// TODO(i18n): move all hardcoded Vietnamese strings in this module to locale JSON files.
-
 export interface Mentor {
   _id: string;
   name: string;

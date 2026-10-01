@@ -1,6 +1,6 @@
 // "Sẵn sàng gửi duyệt" readiness rules for CreateBlog.
 // Pure helpers (no React/API/storage) so they stay unit-testable.
-// TODO(i18n): thresholds/messages are hardcoded VI; move to next-intl when dict keys exist.
+// UI labels/hints live in the blogChecklist i18n namespace; thresholds here stay numeric.
 
 export const TITLE_MIN_LENGTH = 10;
 export const CONTENT_MIN_WORDS = 300;

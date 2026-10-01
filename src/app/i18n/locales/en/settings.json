@@ -156,5 +156,20 @@
   "trackSaveSuccess": "Profile soundtrack updated successfully!",
   "trackSaveError": "Failed to update soundtrack. Please try again.",
   "trackUploadSuccess": "Audio file uploaded successfully!",
-  "trackUploadError": "Failed to upload audio file to server."
+  "trackUploadError": "Failed to upload audio file to server.",
+  "notificationsTitle": "Notifications",
+  "notificationsSubtitle": "Choose which club notifications you want to receive.",
+  "notificationsErrorTitle": "Could not load notification preferences",
+  "notificationsLoadError": "Could not load notification preferences. Please try again.",
+  "notificationsRetry": "Try again",
+  "notificationsUpdateSuccess": "Notification preferences updated.",
+  "notificationsUpdateError": "Could not update notification preferences. Please try again.",
+  "notificationsArenaTitle": "Arena & badges",
+  "notificationsArenaDesc": "New badges, level-ups, activity streaks.",
+  "notificationsEventTitle": "Events",
+  "notificationsEventDesc": "Tickets, check-in, and event reminders.",
+  "notificationsTxnNote": "Transactional messages such as post reviews and fund updates are always sent and cannot be turned off.",
+  "notificationsUpdating": "Updating notification preferences…",
+  "notificationsOn": "On",
+  "notificationsOff": "Off"
 }

@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { Avatar, Button, Form, Input, Modal, Select, Typography, message } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { apiClient } from "@/utils/apiClient";
 import { endpointMentorship } from "@/helpers/enpoints";
+import { useTranslation } from "@/app/i18n/client";
 import type { Mentor } from "./types";
 
 const { TextArea } = Input;
@@ -32,6 +34,8 @@ interface MentorRequestModalProps {
 }
 
 export default function MentorRequestModal({ open, mentor, onClose, onSuccess }: MentorRequestModalProps) {
+  const params = useParams();
+  const { t } = useTranslation(params?.locale as string, "mentorship");
   const [form] = Form.useForm();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [avatarBroken, setAvatarBroken] = useState<boolean>(false);
@@ -54,19 +58,17 @@ export default function MentorRequestModal({ open, mentor, onClose, onSuccess }:
         message: values.message?.trim(),
       });
       if (res.ok) {
-        // TODO(i18n): localize success toast.
-        message.success("Đã gửi yêu cầu kết nối tới mentor. Mentor sẽ phản hồi sớm nhất có thể.");
+        message.success(t("successToast", "Đã gửi yêu cầu kết nối tới mentor. Mentor sẽ phản hồi sớm nhất có thể."));
         if (onSuccess) onSuccess();
         onClose();
       } else if (res.status === 409) {
-        // TODO(i18n): localize duplicate-request notice.
-        message.warning("Bạn đã có yêu cầu đang chờ với mentor này.");
+        message.warning(t("duplicateToast", "Bạn đã có yêu cầu đang chờ với mentor này."));
       } else {
         const err = (res.data as { message?: string } | null) || {};
-        message.error(err.message || "Gửi yêu cầu thất bại. Vui lòng thử lại.");
+        message.error(err.message || t("submitFailDefault", "Gửi yêu cầu thất bại. Vui lòng thử lại."));
       }
     } catch {
-      message.error("Lỗi kết nối máy chủ.");
+      message.error(t("networkError", "Lỗi kết nối máy chủ."));
     } finally {
       setSubmitting(false);
     }
@@ -79,7 +81,7 @@ export default function MentorRequestModal({ open, mentor, onClose, onSuccess }:
       footer={null}
       width="min(560px, 95vw)"
       centered
-      title="Xin kết nối Mentor"
+      title={t("modalTitle", "Xin kết nối Mentor")}
       destroyOnClose
     >
       {mentor && (
@@ -97,7 +99,7 @@ export default function MentorRequestModal({ open, mentor, onClose, onSuccess }:
           <div>
             <div style={{ fontWeight: 800, fontSize: 15, color: "#0F172A" }}>{mentor.name}</div>
             <Text type="secondary" style={{ fontSize: 12 }}>
-              {[mentor.headline, mentor.workplace].filter(Boolean).join(" · ") || "Mentor DEVER"}
+              {[mentor.headline, mentor.workplace].filter(Boolean).join(" · ") || t("modalFallbackHeadline", "Mentor DEVER")}
             </Text>
           </div>
         </div>
@@ -106,11 +108,11 @@ export default function MentorRequestModal({ open, mentor, onClose, onSuccess }:
       <Form form={form} layout="vertical" onFinish={handleSubmit} preserve={false}>
         <Form.Item
           name="topic"
-          label="Chủ đề muốn được cố vấn"
-          rules={[{ required: true, message: "Vui lòng chọn 1 chủ đề cố vấn" }]}
+          label={t("topicLabel", "Chủ đề muốn được cố vấn")}
+          rules={[{ required: true, message: t("topicRequired", "Vui lòng chọn 1 chủ đề cố vấn") }]}
         >
           <Select
-            placeholder="Chọn 1 trong 6 chủ đề mentoring"
+            placeholder={t("topicPlaceholder", "Chọn 1 trong 6 chủ đề mentoring")}
             options={MENTOR_TOPIC_OPTIONS}
             disabled={submitting}
           />
@@ -118,17 +120,17 @@ export default function MentorRequestModal({ open, mentor, onClose, onSuccess }:
 
         <Form.Item
           name="message"
-          label="Lời nhắn tới mentor"
+          label={t("messageLabel", "Lời nhắn tới mentor")}
           rules={[
-            { required: true, message: "Vui lòng nhập lời nhắn giới thiệu bản thân" },
-            { max: MESSAGE_MAX_LENGTH, message: `Lời nhắn tối đa ${MESSAGE_MAX_LENGTH} ký tự` },
+            { required: true, message: t("messageRequired", "Vui lòng nhập lời nhắn giới thiệu bản thân") },
+            { max: MESSAGE_MAX_LENGTH, message: t("messageMax", { defaultValue: `Lời nhắn tối đa ${MESSAGE_MAX_LENGTH} ký tự`, max: MESSAGE_MAX_LENGTH }) },
           ]}
         >
           <TextArea
             rows={4}
             maxLength={MESSAGE_MAX_LENGTH}
             showCount
-            placeholder="Giới thiệu ngắn gọn về bạn và điều bạn muốn được mentor hỗ trợ (tối đa 500 ký tự)..."
+            placeholder={t("messagePlaceholder", "Giới thiệu ngắn gọn về bạn và điều bạn muốn được mentor hỗ trợ (tối đa 500 ký tự)...")}
             disabled={submitting}
           />
         </Form.Item>
@@ -142,7 +144,7 @@ export default function MentorRequestModal({ open, mentor, onClose, onSuccess }:
             return (
               <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, paddingTop: 4 }}>
                 <Button onClick={onClose} disabled={submitting}>
-                  Để sau
+                  {t("cancel", "Để sau")}
                 </Button>
                 <Button
                   type="primary"
@@ -151,7 +153,7 @@ export default function MentorRequestModal({ open, mentor, onClose, onSuccess }:
                   disabled={disabled}
                   style={{ background: "#0066CC" }}
                 >
-                  Gửi yêu cầu kết nối
+                  {t("submit", "Gửi yêu cầu kết nối")}
                 </Button>
               </div>
             );

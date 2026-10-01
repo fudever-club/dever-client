@@ -1,0 +1,17 @@
+{
+  "title": "Sẵn sàng gửi duyệt",
+  "readyTooltip": "Đã sẵn sàng gửi duyệt",
+  "missingPrefix": "Còn thiếu: {{hints}}",
+  "labelTitle": "Tiêu đề ≥ {{min}} ký tự",
+  "labelContent": "Nội dung ≥ {{min}} từ",
+  "labelCategory": "Đã chọn chuyên mục",
+  "labelTags": "Ít nhất 1 tag",
+  "hintTitle": "tiêu đề ≥ {{min}} ký tự",
+  "hintContent": "nội dung ≥ {{min}} từ",
+  "hintCategory": "chọn chuyên mục",
+  "hintTags": "chọn ít nhất 1 tag",
+  "detailTitle": "{{done}}/{{required}} ký tự",
+  "detailContent": "{{done}}/{{required}} từ",
+  "detailCategoryEmpty": "chưa chọn",
+  "detailTags": "{{count}}/1 tag"
+}

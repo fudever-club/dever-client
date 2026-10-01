@@ -157,5 +157,20 @@
   "trackSaveSuccess": "Đã lưu nhạc nền hồ sơ thành công!",
   "trackSaveError": "Chưa thể lưu nhạc nền. Vui lòng thử lại.",
   "trackUploadSuccess": "Đã tải tệp âm thanh lên thành công!",
-  "trackUploadError": "Lỗi khi tải tệp âm thanh lên máy chủ."
+  "trackUploadError": "Lỗi khi tải tệp âm thanh lên máy chủ.",
+  "notificationsTitle": "Thông báo",
+  "notificationsSubtitle": "Chọn loại thông báo bạn muốn nhận từ CLB.",
+  "notificationsErrorTitle": "Không tải được tùy chọn thông báo",
+  "notificationsLoadError": "Chưa thể tải tùy chọn thông báo. Vui lòng thử lại.",
+  "notificationsRetry": "Thử lại",
+  "notificationsUpdateSuccess": "Đã cập nhật tùy chọn thông báo.",
+  "notificationsUpdateError": "Chưa thể cập nhật tùy chọn thông báo. Vui lòng thử lại.",
+  "notificationsArenaTitle": "Đấu trường & huy hiệu",
+  "notificationsArenaDesc": "Huy hiệu mới, lên cấp, chuỗi hoạt động (streak).",
+  "notificationsEventTitle": "Sự kiện",
+  "notificationsEventDesc": "Vé, check-in và nhắc lịch sự kiện.",
+  "notificationsTxnNote": "Tin giao dịch như duyệt bài và quỹ luôn được gửi và không thể tắt.",
+  "notificationsUpdating": "Đang cập nhật tùy chọn thông báo…",
+  "notificationsOn": "Bật",
+  "notificationsOff": "Tắt"
 }

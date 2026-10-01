@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useParams } from "next/navigation";
 import {
   Alert,
   Avatar,
@@ -24,6 +25,7 @@ import {
 } from "@ant-design/icons";
 import { apiClient } from "@/utils/apiClient";
 import { endpointMentorship } from "@/helpers/enpoints";
+import { useTranslation } from "@/app/i18n/client";
 import MentorRequestModal from "./MentorRequestModal";
 import {
   getMentorIdOf,
@@ -34,13 +36,17 @@ import {
   type MentorshipRequestStatus,
 } from "./types";
 
-// TODO(i18n): move all hardcoded Vietnamese strings below to locale JSON files.
-
-const STATUS_META: Record<MentorshipRequestStatus, { color: string; label: string; icon: React.ReactNode }> = {
-  pending: { color: "gold", label: "Đang chờ", icon: <ClockCircleOutlined /> },
-  accepted: { color: "green", label: "Đã chấp nhận", icon: <CheckCircleOutlined /> },
-  declined: { color: "red", label: "Đã từ chối", icon: <CloseCircleOutlined /> },
+const STATUS_META: Record<MentorshipRequestStatus, { color: string; icon: React.ReactNode }> = {
+  pending: { color: "gold", icon: <ClockCircleOutlined /> },
+  accepted: { color: "green", icon: <CheckCircleOutlined /> },
+  declined: { color: "red", icon: <CloseCircleOutlined /> },
 };
+
+function statusLabel(status: MentorshipRequestStatus, t: (key: string, fallback: string) => string): string {
+  if (status === "accepted") return t("statusAccepted", "Đã chấp nhận");
+  if (status === "declined") return t("statusDeclined", "Đã từ chối");
+  return t("statusPending", "Đang chờ");
+}
 
 function MentorAvatar({ mentor }: { mentor: Mentor }) {
   const [broken, setBroken] = useState<boolean>(false);
@@ -73,9 +79,11 @@ function MentorsTab({
   onRetry: () => void;
   onConnect: (mentor: Mentor) => void;
 }) {
+  const params = useParams();
+  const { t } = useTranslation(params?.locale as string, "mentorship");
   if (loading) {
     return (
-      <Row gutter={[16, 16]} aria-busy="true" aria-label="Đang tải danh sách mentor">
+      <Row gutter={[16, 16]} aria-busy="true" aria-label={t("loadingMentors", "Đang tải danh sách mentor")}>
         {Array.from({ length: 6 }).map((_, index) => (
           <Col xs={24} sm={12} lg={8} key={index}>
             <Card bordered={false} style={{ borderRadius: 16 }}>
@@ -92,11 +100,11 @@ function MentorsTab({
       <Alert
         type="error"
         showIcon
-        message="Không thể tải danh sách mentor."
-        description="Kiểm tra kết nối mạng rồi thử lại."
+        message={t("mentorsErrorTitle", "Không thể tải danh sách mentor.")}
+        description={t("mentorsErrorDesc", "Kiểm tra kết nối mạng rồi thử lại.")}
         action={
           <Button size="small" icon={<ReloadOutlined />} onClick={onRetry}>
-            Thử lại
+            {t("retry", "Thử lại")}
           </Button>
         }
       />
@@ -108,7 +116,7 @@ function MentorsTab({
       <Card bordered={false} style={{ borderRadius: 16, textAlign: "center", padding: "32px 16px" }}>
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description="Chưa có mentor nào trong mạng lưới. Hãy quay lại sau."
+          description={t("emptyMentors", "Chưa có mentor nào trong mạng lưới. Hãy quay lại sau.")}
         />
       </Card>
     );
@@ -133,10 +141,10 @@ function MentorsTab({
                     {mentor.name}
                   </h3>
                   <p style={{ fontSize: 13, color: "#475569", margin: "2px 0 0 0" }}>
-                    {mentor.headline || "Mentor DEVER"}
+                    {mentor.headline || t("fallbackHeadline", "Mentor DEVER")}
                   </p>
                   <p style={{ fontSize: 12, color: "#64748B", margin: "2px 0 0 0" }}>
-                    {[mentor.workplace, mentor.graduationGen].filter(Boolean).join(" · ") || "Mạng lưới cựu thành viên"}
+                    {[mentor.workplace, mentor.graduationGen].filter(Boolean).join(" · ") || t("fallbackNetwork", "Mạng lưới cựu thành viên")}
                   </p>
                 </div>
               </div>
@@ -166,7 +174,7 @@ function MentorsTab({
                   onClick={() => onConnect(mentor)}
                   style={{ borderRadius: 10, background: "#0066CC", fontWeight: 700 }}
                 >
-                  {hasPending ? "Đã có yêu cầu đang chờ" : "Xin kết nối"}
+                  {hasPending ? t("pendingRequest", "Đã có yêu cầu đang chờ") : t("connect", "Xin kết nối")}
                 </Button>
               </div>
             </Card>
@@ -188,9 +196,11 @@ function MyRequestsTab({
   error: boolean;
   onRetry: () => void;
 }) {
+  const params = useParams();
+  const { t } = useTranslation(params?.locale as string, "mentorship");
   if (loading) {
     return (
-      <Card bordered={false} style={{ borderRadius: 16 }} aria-busy="true" aria-label="Đang tải yêu cầu của tôi">
+      <Card bordered={false} style={{ borderRadius: 16 }} aria-busy="true" aria-label={t("loadingRequests", "Đang tải yêu cầu của tôi")}>
         <Skeleton active paragraph={{ rows: 4 }} />
       </Card>
     );
@@ -201,11 +211,11 @@ function MyRequestsTab({
       <Alert
         type="error"
         showIcon
-        message="Không thể tải yêu cầu của bạn."
-        description="Vui lòng đăng nhập rồi thử lại."
+        message={t("requestsErrorTitle", "Không thể tải yêu cầu của bạn.")}
+        description={t("requestsErrorDesc", "Vui lòng đăng nhập rồi thử lại.")}
         action={
           <Button size="small" icon={<ReloadOutlined />} onClick={onRetry}>
-            Thử lại
+            {t("retry", "Thử lại")}
           </Button>
         }
       />
@@ -217,7 +227,7 @@ function MyRequestsTab({
       <Card bordered={false} style={{ borderRadius: 16, textAlign: "center", padding: "32px 16px" }}>
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description="Bạn chưa gửi yêu cầu kết nối nào. Chọn một mentor ở tab bên cạnh để bắt đầu."
+          description={t("emptyRequests", "Bạn chưa gửi yêu cầu kết nối nào. Chọn một mentor ở tab bên cạnh để bắt đầu.")}
         />
       </Card>
     );
@@ -244,7 +254,7 @@ function MyRequestsTab({
                 )}
               </div>
               <Tag color={meta.color} icon={meta.icon} style={{ borderRadius: 6, flexShrink: 0 }}>
-                {meta.label}
+                {statusLabel(request.status, t)}
               </Tag>
             </div>
           </Card>
@@ -255,6 +265,8 @@ function MyRequestsTab({
 }
 
 export default function MentorshipSection() {
+  const params = useParams();
+  const { t } = useTranslation(params?.locale as string, "mentorship");
   const [activeTab, setActiveTab] = useState<string>("mentors");
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [mentorsLoading, setMentorsLoading] = useState<boolean>(true);
@@ -327,7 +339,7 @@ export default function MentorshipSection() {
   }, [activeTab, fetchMyRequests]);
 
   return (
-    <section aria-label="Mentor và cố vấn">
+    <section aria-label={t("sectionLabel", "Mentor và cố vấn")}>
       <Card
         bordered={false}
         style={{ borderRadius: 20, border: "1px solid #E2E8F0" }}
@@ -338,11 +350,11 @@ export default function MentorshipSection() {
             <CrownOutlined />
           </span>
           <h2 style={{ fontSize: 18, fontWeight: 800, color: "#0F172A", margin: 0 }}>
-            Mentor &amp; Cố vấn
+            {t("heading", "Mentor & Cố vấn")}
           </h2>
         </div>
         <p style={{ fontSize: 13, color: "#64748B", margin: "0 0 16px 0" }}>
-          Kết nối 1-1 với các anh/chị cựu thành viên để được định hướng sự nghiệp và kỹ năng thực chiến.
+          {t("description", "Kết nối 1-1 với các anh/chị cựu thành viên để được định hướng sự nghiệp và kỹ năng thực chiến.")}
         </p>
 
         <Tabs
@@ -351,7 +363,7 @@ export default function MentorshipSection() {
           items={[
             {
               key: "mentors",
-              label: "Mentor & Cố vấn",
+              label: t("tabMentors", "Mentor & Cố vấn"),
               children: (
                 <MentorsTab
                   mentors={mentors}
@@ -365,7 +377,7 @@ export default function MentorshipSection() {
             },
             {
               key: "requests",
-              label: "Yêu cầu của tôi",
+              label: t("tabRequests", "Yêu cầu của tôi"),
               children: (
                 <MyRequestsTab
                   requests={requests}

@@ -1,0 +1,17 @@
+{
+  "title": "Ready for review",
+  "readyTooltip": "Ready for review",
+  "missingPrefix": "Still missing: {{hints}}",
+  "labelTitle": "Title ≥ {{min}} characters",
+  "labelContent": "Content ≥ {{min}} words",
+  "labelCategory": "Category selected",
+  "labelTags": "At least 1 tag",
+  "hintTitle": "title ≥ {{min}} characters",
+  "hintContent": "content ≥ {{min}} words",
+  "hintCategory": "select a category",
+  "hintTags": "select at least 1 tag",
+  "detailTitle": "{{done}}/{{required}} characters",
+  "detailContent": "{{done}}/{{required}} words",
+  "detailCategoryEmpty": "not selected",
+  "detailTags": "{{count}}/1 tag"
+}
