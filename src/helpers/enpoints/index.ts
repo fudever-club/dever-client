@@ -81,6 +81,12 @@ const endpointAlumniAdvisory = {
   ACCEPT_INVITATION: `${prefixBase}/alumni/accept-advisory`,
 };
 
+const endpointMentorship = {
+  MENTORS: `${prefixBase}/mentorship/mentors`,
+  MENTOR_REQUEST: (mentorId: string) => `${prefixBase}/mentorship/mentors/${mentorId}/request`,
+  MY_REQUESTS: `${prefixBase}/mentorship/requests/me`,
+};
+
 const endpointOther = {};
 
 export {
@@ -96,4 +102,5 @@ export {
   endpointNotifications,
   endpointFund,
   endpointAlumniAdvisory,
+  endpointMentorship,
 };

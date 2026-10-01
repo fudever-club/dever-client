@@ -17,6 +17,7 @@ import {
   useGetProjectLabsQuery,
   useGetResourcesQuery,
 } from "@/store/queries/ecosystem";
+import MentorshipSection from "@/components/modules/Mentorship";
 
 type FeedSectionProps = {
   title: string;
@@ -125,6 +126,9 @@ function Discover() {
           </p>
         </div>
       </div>
+
+      {/* Mentor & Cố vấn: mentor grid + my requests tabs */}
+      <MentorshipSection />
 
       {/* Events Section */}
       <FeedSection
