@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import { Flex, Grid, Skeleton } from "antd";
 import { useParams } from "next/navigation";
 

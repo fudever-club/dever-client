@@ -58,10 +58,7 @@ function MemberCard({ dataSource }: IProps) {
             onKeyDown: handleKeyDown,
             "aria-label": t("openPublicProfile", { name: memberName }),
           }
-        : {
-            "aria-disabled": true,
-            "aria-label": t("profileNotPublic", { name: memberName }),
-          })}
+        : {})}
     >
       <S.ItemWrapper>
         <div style={{ position: "relative", width: "100%", height: "220px", borderRadius: "14px", overflow: "hidden", backgroundColor: "#F1F5F9" }}>

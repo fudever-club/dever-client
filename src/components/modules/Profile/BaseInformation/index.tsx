@@ -3,7 +3,7 @@ import * as S from "./styles";
 
 import React, { useState } from "react";
 import { Flex, Skeleton, message } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -151,7 +151,7 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                   >
                     {canSee("dob")
                       ? (userData?.dob
-                        ? moment(userData?.dob).format("DD/MM/YYYY")
+                        ? dayjs(userData?.dob).format("DD/MM/YYYY")
                         : t("notSetYet"))
                       : t("hiddenByPrivacy")}
                   </Typography.Text>

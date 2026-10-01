@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { getCookie, setCookie, deleteCookie } from "cookies-next";
 import Cookies from "js-cookie";
 
@@ -12,7 +11,7 @@ const COOKIE_DEFAULT_OPTIONS = {
 
 const webStorageClient = {
   set(key: string, rawValue: any, option?: any) {
-    const value = _.isString(rawValue) ? rawValue : JSON?.stringify(rawValue);
+    const value = typeof rawValue === "string" ? rawValue : JSON?.stringify(rawValue);
     setCookie(key, value, { ...COOKIE_DEFAULT_OPTIONS, ...option });
     if (typeof window !== "undefined") {
       try {

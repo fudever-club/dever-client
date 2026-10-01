@@ -20,7 +20,7 @@ import {
   Typography,
 } from "antd";
 
-import _ from "lodash";
+import debounce from "lodash/debounce";
 import { useRouter } from "next-nprogress-bar";
 import Image from "next/image";
 import { useParams, useSearchParams } from "next/navigation";
@@ -132,7 +132,7 @@ function AllMemberModule() {
     },
   });
 
-  const updateSearch = useMemo(() => _.debounce((value: string) => {
+  const updateSearch = useMemo(() => debounce((value: string) => {
     router.push(createQueryString("search", value, true));
   }, 300), [router]);
 

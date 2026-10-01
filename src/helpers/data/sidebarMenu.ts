@@ -18,7 +18,7 @@ export const sidebarMenu: MenuProps["items"] = [
   {
     key: "fund",
     icon: React.createElement(WalletOutlined),
-    label: "Quỹ CLB",
+    label: "foundation",
   },
   {
     key: "hall-of-fame",
