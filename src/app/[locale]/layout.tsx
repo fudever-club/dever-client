@@ -24,12 +24,14 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }>) {
+  // Awaited for Next 15+ async params; resolves immediately on Next 14.
+  const { locale } = await params;
   return (
-    <html lang={params?.locale || "vi"}>
+    <html lang={locale || "vi"}>
       <head>
         <script
           dangerouslySetInnerHTML={{

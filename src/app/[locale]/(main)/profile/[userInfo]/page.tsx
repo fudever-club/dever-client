@@ -7,13 +7,14 @@ export const metadata: Metadata = {
 };
 
 interface IProps {
-  params: {
+  params: Promise<{
     userInfo: string;
-  };
+  }>;
 }
 
-function Profile({ params }: IProps) {
-  return <ProfileModule userInfo={params.userInfo} />;
+async function Profile({ params }: IProps) {
+  const { userInfo } = await params;
+  return <ProfileModule userInfo={userInfo} />;
 }
 
 export default Profile;
