@@ -8,7 +8,7 @@
   "password": "Password",
   "enterPassword": "Create a password (min. 6 characters)",
   "confirmPassword": "Confirm password",
-  "enterConfirmPassword": "Re-enter the password",
+  "enterConfirmPassword": "Re-enter the password you just created",
   "passwordError": "Please enter a password.",
   "passwordMinLength": "Password must be at least 6 characters.",
   "confirmError": "Please confirm your password.",
