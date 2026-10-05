@@ -15,7 +15,7 @@
     "@reduxjs/toolkit": "^2.2.4",
     "accept-language": "^3.0.18",
     "antd": "^5.17.0",
-    "axios": "^1.6.8",
+    "axios": "^1.20.0",
     "cookies-next": "^4.1.1",
     "dayjs": "^1.11.11",
     "dompurify": "3.4.15",
