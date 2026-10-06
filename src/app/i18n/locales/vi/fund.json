@@ -65,6 +65,8 @@
   "confirmSubmit": "Xác Nhận Đã Chuyển Khoản & Nộp Minh Chứng",
   "historyTitle": "Lịch Sử Đóng Quỹ Của Bạn",
   "historyTotal": "Tổng cộng {{count}} lần đóng",
+  "historyEmpty": "Bạn chưa nộp lần nào trong kỳ này",
+  "historyEmptyCta": "Nộp ngay",
   "colCampaign": "Kỳ thu quỹ",
   "colAmount": "Số tiền",
   "colTxn": "Mã giao dịch",

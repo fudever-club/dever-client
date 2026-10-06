@@ -681,7 +681,7 @@ export default function FundModule() {
 
           {/* Column 2: Streamlined Step-by-Step Proof Verification Box */}
           <Col xs={24} lg={11}>
-            <div className="rounded-3xl border border-slate-200/90 bg-white shadow-xl p-6 sm:p-7 h-full flex flex-col justify-between">
+            <div id="fund-submit-box" className="rounded-3xl border border-slate-200/90 bg-white shadow-xl p-6 sm:p-7 h-full flex flex-col justify-between scroll-mt-4">
               <div className="space-y-5">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                   <div className="flex items-center gap-2">
@@ -801,11 +801,30 @@ export default function FundModule() {
           <span className="text-xs text-slate-500 font-medium">{t("historyTotal", `Tổng cộng ${history.length} lần đóng`, { count: history.length })}</span>
         </div>
 
-        <Table
+          <Table
           dataSource={history}
           rowKey="_id"
           pagination={false}
           scroll={{ x: 640 }}
+          locale={{
+            emptyText: (
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={t("historyEmpty", "Bạn chưa nộp lần nào trong kỳ này")}
+              >
+                <Button
+                  type="primary"
+                  size="middle"
+                  className="min-h-[44px]"
+                  onClick={() =>
+                    document.getElementById("fund-submit-box")?.scrollIntoView({ behavior: "smooth", block: "start" })
+                  }
+                >
+                  {t("historyEmptyCta", "Nộp ngay")}
+                </Button>
+              </Empty>
+            ),
+          }}
           columns={[
             {
               title: t("colCampaign", "Kỳ thu quỹ"),

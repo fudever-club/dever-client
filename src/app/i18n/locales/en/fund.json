@@ -65,6 +65,8 @@
   "confirmSubmit": "Confirm Transfer & Submit Proof",
   "historyTitle": "Your Fund History",
   "historyTotal": "{{count}} payments in total",
+  "historyEmpty": "You have not submitted any payment this period",
+  "historyEmptyCta": "Submit now",
   "colCampaign": "Collection period",
   "colAmount": "Amount",
   "colTxn": "Transaction code",
