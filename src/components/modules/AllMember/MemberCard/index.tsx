@@ -62,16 +62,18 @@ function MemberCard({ dataSource }: IProps) {
     >
       <S.ItemWrapper>
         <div style={{ position: "relative", width: "100%", height: "220px", borderRadius: "14px", overflow: "hidden", backgroundColor: "#F1F5F9" }}>
-          <img
+          {/* Served via Next optimizer so browsers behind storage-origin
+              blocks still see avatars; local fallback on true failure. */}
+          <Image
             src={avatarSrc}
             alt={memberName}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            loading="lazy"
             onError={() => setImgError(true)}
             style={{
-              width: "100%",
-              height: "100%",
               objectFit: imgError || !dataSource.avatar ? "contain" : "cover",
               padding: imgError || !dataSource.avatar ? "20px" : "0",
-              transition: "transform 0.3s ease",
             }}
           />
           {dataSource.gen && (

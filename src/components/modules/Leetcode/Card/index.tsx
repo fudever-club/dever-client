@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { CrownOutlined, TrophyOutlined } from "@ant-design/icons";
 import { LeetcodeLeaderboardEntry } from "@/helpers/types/leetcodeTypes";
 
@@ -122,13 +123,14 @@ function Card({ data, top, isTop1 }: CardProps) {
         }}
       >
         {showAvatar ? (
-          <img
+          <Image
             src={avatar!}
             alt={name}
+            fill
+            sizes="72px"
+            loading="lazy"
             onError={() => setHasAvatarError(true)}
             style={{
-              width: "100%",
-              height: "100%",
               borderRadius: "50%",
               objectFit: "cover",
               border: isGold
@@ -137,7 +139,6 @@ function Card({ data, top, isTop1 }: CardProps) {
                 ? "3px solid #CBD5E1"
                 : "3px solid #FB923C",
               boxShadow: isGold ? "0 4px 14px rgba(245, 158, 11, 0.25)" : "none",
-              display: "block",
             }}
           />
         ) : (
