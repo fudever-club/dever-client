@@ -25,6 +25,8 @@ export interface SeasonScoring {
   hard: number;
 }
 
+export type SeasonBracket = "open" | "newbie" | "pro";
+
 export interface SeasonDto {
   _id: string;
   name: string;
@@ -32,6 +34,8 @@ export interface SeasonDto {
   endDate: string;
   status: SeasonStatus;
   scoring: SeasonScoring;
+  bracket?: SeasonBracket;
+  newbieGenCutoff?: number | null;
 }
 
 export interface SeasonBreakdown {
@@ -48,6 +52,7 @@ export interface SeasonLeaderboardEntry {
     lastname?: string | null;
     avatar?: string | null;
     profileKey?: string | null;
+    gen?: number | null;
   } | null;
   solved: number;
   score: number;

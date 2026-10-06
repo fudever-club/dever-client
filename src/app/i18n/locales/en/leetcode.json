@@ -18,5 +18,9 @@
   "seasonEmptyNoData": "This season has no ranking data yet",
   "seasonActiveSuffix": "(ongoing)",
   "seasonScoringIncomplete": "Season scores are provisional — some solutions are not categorized by difficulty yet.",
-  "seasonFallbackMember": "DEVER member"
+  "seasonFallbackMember": "DEVER member",
+  "seasonBracketOpen": "Open bracket · Whole club",
+  "seasonBracketNewbie": "Newbie bracket · Gen ≥ {{cutoff}}",
+  "seasonBracketPro": "Pro bracket · Gen < {{cutoff}}",
+  "seasonGen": "Gen {{gen}}"
 }

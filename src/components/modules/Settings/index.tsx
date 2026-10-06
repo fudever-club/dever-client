@@ -14,6 +14,7 @@ import FavouritiesChange from "./FavouritesChange";
 import PasswordChange from "./PasswordChange";
 import LeetcodeSubcriber from "./LeetcodeSubcriber";
 import PrivacySettings from "./PrivacySettings";
+import MentorOptIn from "./MentorOptIn";
 import NotificationPreferences from "./NotificationPreferences";
 import FavoriteTrackChange from "./FavoriteTrackChange";
 
@@ -111,6 +112,7 @@ function SettingsModules() {
               userData={result}
               onRetry={refetch}
             />
+            <MentorOptIn />
             <NotificationPreferences />
           </S.LGalleryCol>
 

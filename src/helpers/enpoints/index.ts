@@ -76,6 +76,10 @@ const endpointFund = {
   PUBLIC_STATS: `${prefixBase}/funds/public-stats`,
 };
 
+const endpointAlumni = {
+  MENTOR_PROFILE: `${prefixBase}/alumni/me/mentor-profile`,
+};
+
 const endpointAlumniAdvisory = {
   INVITATION_STATUS: `${prefixBase}/alumni/advisory-invitation-status`,
   ACCEPT_INVITATION: `${prefixBase}/alumni/accept-advisory`,
@@ -101,6 +105,7 @@ export {
   endpointGamification,
   endpointNotifications,
   endpointFund,
+  endpointAlumni,
   endpointAlumniAdvisory,
   endpointMentorship,
 };

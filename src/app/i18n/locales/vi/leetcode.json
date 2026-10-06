@@ -18,5 +18,9 @@
   "seasonEmptyNoData": "Mùa giải này chưa có dữ liệu xếp hạng",
   "seasonActiveSuffix": "(đang diễn ra)",
   "seasonScoringIncomplete": "Điểm mùa giải đang tạm tính — một số bài chưa được phân loại độ khó.",
-  "seasonFallbackMember": "Thành viên DEVER"
+  "seasonFallbackMember": "Thành viên DEVER",
+  "seasonBracketOpen": "Hạng Open · Toàn CLB",
+  "seasonBracketNewbie": "Hạng Newbie · Gen ≥ {{cutoff}}",
+  "seasonBracketPro": "Hạng Pro · Gen < {{cutoff}}",
+  "seasonGen": "Gen {{gen}}"
 }

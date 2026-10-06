@@ -54,6 +54,9 @@ const isNotFound = (error: unknown) =>
   "status" in error &&
   (error as { status: unknown }).status === 404;
 
+const getMemberGen = (entry: SeasonLeaderboardEntry): number | null =>
+  typeof entry.user?.gen === "number" ? entry.user.gen : null;
+
 function SeasonBoard() {
   const params = useParams();
   const { t } = useTranslation(params?.locale as string, "leetcode");
@@ -90,6 +93,19 @@ function SeasonBoard() {
   );
 
   const payload: SeasonLeaderboardData | null = boardData?.data ?? null;
+  const activeSeason: SeasonDto | undefined = useMemo(() => {
+    const fromPayload = payload?.season;
+    if (fromPayload) return fromPayload;
+    return seasons.find((season) => season._id === selectedSeasonId);
+  }, [payload, seasons, selectedSeasonId]);
+  const bracket = activeSeason?.bracket ?? "open";
+  const cutoff = activeSeason?.newbieGenCutoff ?? null;
+  const bracketLabel =
+    bracket === "newbie" && typeof cutoff === "number"
+      ? t("seasonBracketNewbie", `Hạng Newbie · Gen ≥ ${cutoff}`, { cutoff })
+      : bracket === "pro" && typeof cutoff === "number"
+        ? t("seasonBracketPro", `Hạng Pro · Gen < ${cutoff}`, { cutoff })
+        : t("seasonBracketOpen", "Hạng Open · Toàn CLB");
   const rows: SeasonRow[] = useMemo(
     () =>
       (payload?.entries ?? []).map((entry, index) => ({
@@ -119,6 +135,11 @@ function SeasonBoard() {
             <div className="font-medium text-slate-900">{getName(row, fallbackMember)}</div>
             <div className="text-xs text-slate-500">
               @{row.leetcodeUsername}
+              {getMemberGen(row) !== null && (
+                <Tag color="default" style={{ marginLeft: 6 }}>
+                  {t("seasonGen", `Gen ${getMemberGen(row)}`, { gen: getMemberGen(row) })}
+                </Tag>
+              )}
             </div>
           </div>
         </div>
@@ -201,7 +222,9 @@ function SeasonBoard() {
       <S.CardWrapper>
         <S.Toolbar>
           <S.ToolbarTitle>{t("seasonTitle", "Bảng xếp hạng mùa giải")}</S.ToolbarTitle>
-          <Select
+          <div className="flex flex-wrap items-center gap-2">
+            <Tag color="blue">{bracketLabel}</Tag>
+            <Select
             value={selectedSeasonId}
             onChange={(value) => setSelectedSeasonId(value)}
             options={seasons.map((season) => ({
@@ -212,6 +235,7 @@ function SeasonBoard() {
             }))}
             style={{ width: "100%", maxWidth: 320 }}
           />
+          </div>
         </S.Toolbar>
         <div style={{ textAlign: "center", padding: "32px 16px" }}>
           <Empty description={t("seasonEmptyNoData", "Mùa giải này chưa có dữ liệu xếp hạng")} />
@@ -227,17 +251,20 @@ function SeasonBoard() {
           {t("seasonTitle", "Bảng xếp hạng mùa giải")}
           {payload?.season?.name ? ` — ${payload.season.name}` : ""}
         </S.ToolbarTitle>
-        <Select
-          value={selectedSeasonId}
-          onChange={(value) => setSelectedSeasonId(value)}
-          options={seasons.map((season) => ({
-            value: season._id,
-            label: `${season.name}${
-              season.status === "active" ? ` ${t("seasonActiveSuffix", "(đang diễn ra)")}` : ""
-            }`,
-          }))}
-          style={{ width: "100%", maxWidth: 320 }}
-        />
+        <div className="flex flex-wrap items-center gap-2">
+          <Tag color="blue">{bracketLabel}</Tag>
+          <Select
+            value={selectedSeasonId}
+            onChange={(value) => setSelectedSeasonId(value)}
+            options={seasons.map((season) => ({
+              value: season._id,
+              label: `${season.name}${
+                season.status === "active" ? ` ${t("seasonActiveSuffix", "(đang diễn ra)")}` : ""
+              }`,
+            }))}
+            style={{ width: "100%", maxWidth: 320 }}
+          />
+        </div>
       </S.Toolbar>
 
       {payload && payload.scoringComplete === false && (
