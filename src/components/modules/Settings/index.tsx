@@ -109,6 +109,7 @@ function SettingsModules() {
             <PrivacySettings
               isUserProfileLoading={isFetching}
               userData={result}
+              onRetry={refetch}
             />
             <NotificationPreferences />
           </S.LGalleryCol>

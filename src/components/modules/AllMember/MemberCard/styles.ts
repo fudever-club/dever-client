@@ -14,7 +14,7 @@ export const ComponentsWrapper = styled.div<{ $interactive: boolean }>`
   cursor: ${(props) => (props.$interactive ? "pointer" : "default")};
   
   &:hover{
-    ${(props) => props.$interactive && "scale: 1.02;"}
+    ${(props) => props.$interactive && "transform: scale(1.02);"}
   }
 
   &:focus-visible {
@@ -24,7 +24,7 @@ export const ComponentsWrapper = styled.div<{ $interactive: boolean }>`
   }
 
   &:active {
-    ${(props) => props.$interactive && "scale: 0.98;"}
+    ${(props) => props.$interactive && "transform: scale(0.98);"}
   }
 `;
 

@@ -21,9 +21,8 @@ import {
   Users,
   Zap,
   Wallet,
-  Crown,
 } from "lucide-react";
-import { Progress, Skeleton, Empty, Alert } from "antd";
+import { Progress, Skeleton, Empty, Alert, Button } from "antd";
 import { useLocale } from "next-intl";
 import { useRouter } from "next-nprogress-bar";
 
@@ -60,7 +59,27 @@ function Dashboard() {
   const router = useRouter();
   const [advisoryOpen, setAdvisoryOpen] = React.useState<boolean>(false);
   const [submitProjectOpen, setSubmitProjectOpen] = React.useState<boolean>(false);
+  const [promoVisible, setPromoVisible] = React.useState<boolean>(true);
   const { userInfo } = useAppSelector((state) => state.auth);
+
+  React.useEffect(() => {
+    try {
+      if (webStorageClient.get("dever-dashboard-promo-dismissed-v1")) {
+        setPromoVisible(false);
+      }
+    } catch {
+      // localStorage unavailable — keep promo visible
+    }
+  }, []);
+
+  const handlePromoClose = () => {
+    setPromoVisible(false);
+    try {
+      webStorageClient.set("dever-dashboard-promo-dismissed-v1", "1");
+    } catch {
+      // ignore storage errors
+    }
+  };
   
   const storedUser = typeof window !== "undefined" ? webStorageClient.get(constants.USER_INFO) : null;
   const currentUserId =
@@ -104,62 +123,54 @@ function Dashboard() {
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-7 pb-12 font-sans">
-      {/* 1. Command Center Hero Gamification Banner */}
-      <LevelProgressCard />
-
-      {/* Alumni Advisory Board Invitation Callout Banner */}
-      <div className="rounded-3xl border border-blue-200/80 bg-gradient-to-r from-[#003B73] via-[#004C99] to-[#0066CC] p-5 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="h-12 w-12 rounded-2xl bg-amber-400/20 border border-amber-300/40 text-amber-300 flex items-center justify-center shrink-0">
-            <Crown className="w-6 h-6" />
-          </div>
-          <div>
-            <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-300 tracking-wider uppercase mb-0.5">
-              <span>Thư Mời Danh Dự Từ Ban Chủ Nhiệm</span>
-            </div>
-            <h3 className="text-base sm:text-lg font-black text-white">Tham Gia Hội Đồng Cố Vấn &amp; Mạng Lưới Cựu Thành Viên</h3>
-            <p className="text-xs text-blue-100 max-w-2xl">
-              Trân trọng kính mời các thế hệ Cựu thành viên DEVER cùng đồng hành định hướng, chia sẻ kinh nghiệm và tiếp lửa cho thế hệ đàn em.
-            </p>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={() => setAdvisoryOpen(true)}
-          className="shrink-0 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs px-5 py-2.5 shadow-md active:scale-[0.98] transition-all cursor-pointer"
-        >
-          Nhận Thư Mời &amp; Đồng Hành
-        </button>
+      {/* 1. Command Center Hero Gamification Banner — sticky on mobile */}
+      <div className="sticky top-16 z-20 lg:static lg:z-auto">
+        <LevelProgressCard />
       </div>
 
-      {/* Open Source Project Contribution Banner */}
-      <div className="rounded-3xl border border-slate-200/90 bg-white p-5 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 transition-all hover:border-[#0066CC]/50 hover:shadow-md">
-        <div className="flex items-center gap-4">
-          <div className="h-12 w-12 rounded-2xl bg-blue-50 border border-blue-100 text-[#0066CC] flex items-center justify-center shrink-0">
-            <Code2 className="w-6 h-6" />
-          </div>
-          <div>
-            <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#0066CC] tracking-wider uppercase mb-0.5">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Cộng Đồng DEVER Open Source (+150 EXP)</span>
+      {/* Combined community promo — single closable Alert, dismissal remembered */}
+      {promoVisible && (
+        <Alert
+          type="info"
+          showIcon
+          closable
+          onClose={handlePromoClose}
+          className="!rounded-3xl !border-blue-200/80 !bg-gradient-to-r !from-[#003B73] !via-[#004C99] !to-[#0066CC] !text-white shadow-lg [&_.ant-alert-message]:!text-white [&_.ant-alert-description]:!text-blue-100 [&_.ant-alert-close-icon]:!text-white"
+          message={
+            <span className="font-black text-sm sm:text-base">
+              Cộng đồng DEVER Open Source &amp; Hội đồng Cố vấn (+150 EXP)
+            </span>
+          }
+          description={
+            <div className="flex flex-col gap-3">
+              <p className="m-0 text-xs text-blue-100 max-w-2xl">
+                Trân trọng kính mời các thế hệ Cựu thành viên đồng hành định hướng, chia sẻ
+                dự án cá nhân &amp; mã nguồn mở lên hệ sinh thái FU-DEVER để nhận điểm danh
+                vọng và mở khóa huy hiệu Core Contributor.
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <Button
+                  type="primary"
+                  size="middle"
+                  onClick={() => setAdvisoryOpen(true)}
+                  className="!bg-amber-400 hover:!bg-amber-300 !text-slate-900 !border-amber-400 font-extrabold !rounded-xl shadow-md min-h-[44px]"
+                >
+                  Nhận Thư Mời &amp; Đồng Hành
+                </Button>
+                <Button
+                  type="primary"
+                  size="middle"
+                  icon={<Code2 className="w-4 h-4" />}
+                  onClick={() => setSubmitProjectOpen(true)}
+                  className="font-extrabold !rounded-xl shadow-md shadow-blue-500/20 min-h-[44px]"
+                >
+                  + Đóng Góp Dự Án
+                </Button>
+              </div>
             </div>
-            <h3 className="text-base sm:text-lg font-black text-slate-900 m-0">
-              Đóng Góp Dự Án Cá Nhân &amp; Mã Nguồn Mở
-            </h3>
-            <p className="text-xs text-slate-500 max-w-2xl m-0 mt-0.5">
-              Chia sẻ các sản phẩm web, extension, công cụ CLI hoặc thư viện của bạn lên hệ sinh thái FU-DEVER để nhận điểm danh vọng và mở khóa huy hiệu Core Contributor.
-            </p>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={() => setSubmitProjectOpen(true)}
-          className="shrink-0 rounded-xl bg-[#0066CC] hover:bg-[#004C99] text-white font-extrabold text-xs px-5 py-2.5 shadow-md shadow-blue-500/20 active:scale-[0.98] transition-all cursor-pointer flex items-center gap-1.5"
-        >
-          <Code2 className="w-4 h-4" />
-          + Đóng Góp Dự Án
-        </button>
-      </div>
+          }
+        />
+      )}
 
       {/* 2. Magic UI Bento Grid Feature Showcase */}
       <section aria-label="Bento Command Grid">
@@ -174,7 +185,7 @@ function Dashboard() {
             href={`/${locale}/leetcode`}
             cta="Vào Đấu Trường LeetCode"
             background={
-              <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-gradient-to-br from-amber-400/10 via-blue-400/10 to-transparent blur-2xl group-hover:scale-110 transition-transform duration-700 pointer-events-none" />
+              <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-gradient-to-br from-amber-400/10 via-blue-400/10 to-transparent blur-2xl motion-safe:group-hover:scale-110 transition-transform duration-700 pointer-events-none" />
             }
           />
 
@@ -188,7 +199,7 @@ function Dashboard() {
             href={`/${locale}/create-blog`}
             cta="Soạn Bài Viết Mới"
             background={
-              <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-gradient-to-br from-blue-500/15 to-cyan-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+              <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-gradient-to-br from-blue-500/15 to-cyan-400/10 blur-2xl motion-safe:group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
             }
           />
 
@@ -202,7 +213,7 @@ function Dashboard() {
             href={`/${locale}/fund`}
             cta="Đóng Quỹ CLB"
             background={
-              <div className="absolute -bottom-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-tr from-blue-500/15 to-indigo-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+              <div className="absolute -bottom-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-tr from-blue-500/15 to-indigo-400/10 blur-2xl motion-safe:group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
             }
           />
 
@@ -216,7 +227,7 @@ function Dashboard() {
             href={`/${locale}/settings`}
             cta="Cập Nhật Hồ Sơ"
             background={
-              <div className="absolute -bottom-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-tr from-emerald-400/15 to-teal-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+              <div className="absolute -bottom-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-tr from-emerald-400/15 to-teal-400/10 blur-2xl motion-safe:group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
             }
           />
 
@@ -230,7 +241,7 @@ function Dashboard() {
             href={`/${locale}/members`}
             cta="Mở Danh Bạ DEVER"
             background={
-              <div className="absolute -bottom-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-br from-blue-400/15 to-cyan-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+              <div className="absolute -bottom-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-br from-blue-400/15 to-cyan-400/10 blur-2xl motion-safe:group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
             }
           />
 
@@ -244,7 +255,7 @@ function Dashboard() {
             href={`/${locale}/discover`}
             cta="Khám Phá Tài Liệu"
             background={
-              <div className="absolute -top-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-br from-amber-400/15 to-orange-400/10 blur-2xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+              <div className="absolute -top-8 -right-8 w-44 h-44 rounded-full bg-gradient-to-br from-amber-400/15 to-orange-400/10 blur-2xl motion-safe:group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
             }
           />
         </BentoGrid>
@@ -264,13 +275,12 @@ function Dashboard() {
               Sự kiện sắp diễn ra, tài liệu học tập và bài viết công nghệ mới nhất.
             </p>
           </div>
-          <button
-            type="button"
+          <Button
             onClick={() => router.push(`/${locale}/discover`)}
-            className="inline-flex items-center gap-1.5 self-start sm:self-center px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:border-[#0066CC] hover:text-[#0066CC] transition-all shadow-xs cursor-pointer"
+            className="inline-flex items-center gap-1.5 self-start sm:self-center !rounded-xl !border-slate-200 text-xs font-bold !text-slate-700 hover:!border-[#0066CC] hover:!text-[#0066CC] shadow-xs min-h-[44px]"
           >
             <Compass className="w-3.5 h-3.5 text-[#0066CC]" /> Khám phá tất cả
-          </button>
+          </Button>
         </div>
 
         {isLoading ? (
@@ -287,13 +297,9 @@ function Dashboard() {
             showIcon
             message="Không thể tải cập nhật từ máy chủ."
             action={
-              <button
-                type="button"
-                onClick={retryFeed}
-                className="text-xs font-bold text-red-700 underline cursor-pointer"
-              >
+              <Button size="middle" danger onClick={retryFeed} className="min-h-[44px]">
                 Thử lại
-              </button>
+              </Button>
             }
           />
         ) : (
@@ -305,10 +311,10 @@ function Dashboard() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-[#0066CC] text-[11px] font-black border border-blue-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-[#0066CC] text-xs font-black border border-blue-100">
                     <Calendar className="w-3.5 h-3.5" /> Sự kiện sắp tới
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066CC] group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066CC] motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
                 <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
                   {eventsQuery.data?.data?.[0]?.title || "Chưa có sự kiện nào"}
@@ -326,10 +332,10 @@ function Dashboard() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-[11px] font-black border border-amber-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-black border border-amber-100">
                     <BookOpen className="w-3.5 h-3.5" /> Kho tài liệu
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-700 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-700 motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
                 <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
                   {resourcesQuery.data?.data?.[0]?.title || "Chưa có tài liệu nào"}
@@ -347,10 +353,10 @@ function Dashboard() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 text-[11px] font-black border border-purple-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-black border border-purple-100">
                     <FileText className="w-3.5 h-3.5" /> Bài viết công nghệ
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-700 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-700 motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
                 <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
                   {blogsQuery.data?.data?.[0]?.title || "Chưa có bài viết nào"}
@@ -380,13 +386,14 @@ function Dashboard() {
               </p>
             </div>
           </div>
-          <button
-            type="button"
+          <Button
+            type="primary"
             onClick={() => router.push(`/${locale}/create-blog`)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0066CC] text-white text-xs font-black shadow-md shadow-blue-500/20 hover:bg-[#0052A3] transition-all self-start sm:self-center cursor-pointer"
+            icon={<Edit3 className="w-3.5 h-3.5" />}
+            className="inline-flex items-center gap-2 !rounded-xl text-xs font-black shadow-md shadow-blue-500/20 self-start sm:self-center min-h-[44px]"
           >
-            <Edit3 className="w-3.5 h-3.5" /> Đăng bài chia sẻ
-          </button>
+            Đăng bài chia sẻ
+          </Button>
         </div>
       )}
       {/* Alumni Advisory Board Invitation Modal */}

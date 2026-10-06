@@ -47,7 +47,7 @@ export default function LevelProgressCard() {
           {/* Glowing Level Badge */}
           <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0066CC] via-[#0080FF] to-cyan-500 p-0.5 shadow-lg shadow-blue-500/25">
             <div className="flex h-full w-full flex-col items-center justify-center rounded-[14px] bg-white text-slate-900">
-              <span className="text-[10px] font-black tracking-widest text-[#0066CC] uppercase">
+              <span className="text-xs font-black tracking-widest text-[#0066CC] uppercase">
                 LV
               </span>
               <span className="text-2xl font-black leading-none text-slate-900">
@@ -87,7 +87,7 @@ export default function LevelProgressCard() {
               <Flame className="w-4 h-4 fill-white animate-pulse" />
             </div>
             <div>
-              <span className="block text-[10px] font-bold text-amber-800 uppercase tracking-wider">
+              <span className="block text-xs font-bold text-amber-800 uppercase tracking-wider">
                 Chuỗi học tập
               </span>
               <span className="text-sm font-black text-amber-900 leading-tight">
@@ -104,7 +104,7 @@ export default function LevelProgressCard() {
             className={`group relative inline-flex items-center gap-2 rounded-2xl px-5 py-3 text-xs sm:text-sm font-black transition-all ${
               stats.isCheckedInToday
                 ? "bg-slate-100 text-slate-500 border border-slate-200 cursor-default"
-                : "bg-gradient-to-r from-[#0066CC] to-[#0080FF] text-white shadow-md shadow-blue-600/25 hover:shadow-lg hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0"
+                : "bg-gradient-to-r from-[#0066CC] to-[#0080FF] text-white shadow-md shadow-blue-600/25 hover:shadow-lg hover:shadow-blue-600/35 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0"
             }`}
           >
             {stats.isCheckedInToday ? (

@@ -331,7 +331,7 @@ export default function FundModule() {
           message={t("loadErrorTitle", "Không thể tải thông tin quỹ CLB")}
           description={t("loadErrorDesc", "Vui lòng kiểm tra kết nối và thử lại.")}
           action={
-            <Button size="small" danger onClick={fetchData}>
+            <Button size="middle" danger onClick={fetchData} className="min-h-[44px]">
               {t("retry", "Thử lại")}
             </Button>
           }
@@ -381,7 +381,7 @@ export default function FundModule() {
           message={t("statsErrorTitle", "Không thể tải thống kê quỹ CLB")}
           description={t("statsErrorDesc", "Vui lòng kiểm tra kết nối và thử lại.")}
           action={
-            <Button size="small" danger onClick={fetchPublicStats}>
+            <Button size="middle" danger onClick={fetchPublicStats} className="min-h-[44px]">
               {t("retry", "Thử lại")}
             </Button>
           }
@@ -572,7 +572,7 @@ export default function FundModule() {
                       type="button"
                       onClick={() => setQrZoomModalOpen(true)}
                       aria-label={t("qrZoomAria", "Phóng to mã QR")}
-                      className="absolute inset-0 bg-slate-900/40 rounded-2xl opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-sm cursor-pointer backdrop-blur-[2px]"
+                      className="absolute inset-0 bg-slate-900/40 rounded-2xl opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-sm cursor-pointer backdrop-blur-[2px] min-h-[44px]"
                     >
                       <ZoomInOutlined style={{ fontSize: 20 }} /> {t("qrZoomHint", "Nhấp để phóng to toàn màn hình")}
                     </button>
@@ -616,7 +616,7 @@ export default function FundModule() {
                       </span>
                       <Tooltip title={t("copyAccTitle", "Sao chép số tài khoản")}>
                         <Button
-                          size="small"
+                          size="middle"
                           icon={copiedKey === "acc" ? <CheckOutlined className="text-emerald-600 font-bold" /> : <CopyOutlined />}
                           onClick={() => handleCopy(qrAccNumber, "acc")}
                           className="h-11 min-h-[44px] px-2.5 rounded-lg font-bold text-xs border-blue-200 bg-white shadow-sm"
@@ -644,7 +644,7 @@ export default function FundModule() {
                       </span>
                       <Tooltip title={t("copyAmountTitle", "Sao chép số tiền")}>
                         <Button
-                          size="small"
+                          size="middle"
                           icon={copiedKey === "amount" ? <CheckOutlined className="text-emerald-600 font-bold" /> : <CopyOutlined />}
                           onClick={() => handleCopy(String(qrAmount), "amount")}
                           className="h-11 min-h-[44px] px-2.5 rounded-lg font-bold text-xs border-blue-200 bg-white shadow-sm"
@@ -664,7 +664,7 @@ export default function FundModule() {
                       </span>
                       <Tooltip title={t("copySyntaxTitle", "Sao chép cú pháp")}>
                         <Button
-                          size="small"
+                          size="middle"
                           icon={copiedKey === "syntax" ? <CheckOutlined className="text-emerald-600 font-bold" /> : <CopyOutlined />}
                           onClick={() => handleCopy(qrSyntax, "syntax")}
                           className="h-11 min-h-[44px] px-2.5 rounded-lg font-bold text-xs border-amber-300 bg-white text-amber-900 shadow-sm"
@@ -813,7 +813,7 @@ export default function FundModule() {
               render: (_: any, record: FundPayment) => (
                 <div>
                   <Text strong className="text-xs text-slate-900 block">{record.campaignId?.title || t("fundFallbackTitle", "Quỹ CLB")}</Text>
-                  <Tag color="blue" className="text-[10px] mt-0.5">{record.campaignId?.semester || "Fall 2026"}</Tag>
+                  <Tag color="blue" className="text-xs mt-0.5">{record.campaignId?.semester || "Fall 2026"}</Tag>
                 </div>
               ),
             },

@@ -117,7 +117,7 @@ export default function BadgeShowcaseGrid() {
               <div className="p-1">
                 <div className="font-bold text-sm text-white mb-1">{badge.title}</div>
                 <div className="text-xs text-slate-300 mb-2 leading-relaxed">{badge.description}</div>
-                <div className="text-[11px] text-sky-300 border-t border-slate-700/80 pt-1.5 font-medium">
+                <div className="text-xs text-sky-300 border-t border-slate-700/80 pt-1.5 font-medium">
                   Điều kiện: {badge.requirement}
                 </div>
               </div>
@@ -126,7 +126,7 @@ export default function BadgeShowcaseGrid() {
             <div
               className={`group relative flex flex-col items-center justify-between p-5 rounded-2xl transition-all duration-300 cursor-pointer ${
                 badge.isUnlocked
-                  ? "bg-white border-2 hover:shadow-lg hover:-translate-y-1"
+                  ? "bg-white border-2 hover:shadow-lg motion-safe:hover:-translate-y-1"
                   : "bg-slate-50/80 border border-slate-200 hover:border-slate-300"
               }`}
               style={{
@@ -137,7 +137,7 @@ export default function BadgeShowcaseGrid() {
               {/* Top Icon Badge Frame */}
               <div className="w-full flex items-center justify-center mb-3">
                 <div
-                  className="flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 shadow-xs"
+                  className="flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 motion-safe:group-hover:scale-110 shadow-xs"
                   style={{
                     backgroundColor: badge.isUnlocked ? badge.bgColor : "#E2E8F0",
                     border: badge.isUnlocked ? `1.5px solid ${badge.color}60` : "1px solid #CBD5E1",
@@ -152,14 +152,14 @@ export default function BadgeShowcaseGrid() {
                 <h4 className="text-xs sm:text-sm font-black text-slate-900 mb-1 line-clamp-1">
                   {badge.title}
                 </h4>
-                <p className="text-[11px] text-slate-500 font-medium line-clamp-2 m-0 min-h-[30px] leading-snug">
+                <p className="text-xs text-slate-500 font-medium line-clamp-2 m-0 min-h-[30px] leading-snug">
                   {badge.requirement}
                 </p>
               </div>
 
               {/* Status Pill */}
               <span
-                className={`inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase ${
+                className={`inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-xs font-black tracking-wider uppercase ${
                   badge.isUnlocked
                     ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
                     : "bg-slate-200/90 text-slate-600 border border-slate-300"

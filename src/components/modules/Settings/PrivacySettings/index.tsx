@@ -10,6 +10,7 @@ import {
 import { Alert, Button, Card, Col, Row, Skeleton, Switch, Typography, message, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { Phone, Briefcase, Globe } from "lucide-react";
 
 import { useTranslation } from "@/app/i18n/client";
 import { ProfileVisibility, UserInfo } from "@/helpers/types/userTypes";
@@ -20,6 +21,7 @@ import * as S from "./styles";
 interface IProps {
   isUserProfileLoading: boolean;
   userData: UserInfo;
+  onRetry?: () => void;
 }
 
 type VisibilityKey = keyof ProfileVisibility;
@@ -27,13 +29,13 @@ type VisibilityKey = keyof ProfileVisibility;
 const visibilityGroups: {
   titleKey: string;
   hintKey: string;
-  icon: string;
+  icon: React.ComponentType<{ size?: number | string; className?: string; style?: React.CSSProperties }>;
   fields: { key: VisibilityKey; label: string }[];
 }[] = [
   {
     titleKey: "privacyGroupContact",
     hintKey: "privacyGroupContactHint",
-    icon: "📞",
+    icon: Phone,
     fields: [
       { key: "phone", label: "visibilityPhone" },
       { key: "email", label: "visibilityEmail" },
@@ -45,7 +47,7 @@ const visibilityGroups: {
   {
     titleKey: "privacyGroupCareer",
     hintKey: "privacyGroupCareerHint",
-    icon: "💼",
+    icon: Briefcase,
     fields: [
       { key: "job", label: "visibilityJob" },
       { key: "workplace", label: "visibilityWorkplace" },
@@ -57,7 +59,7 @@ const visibilityGroups: {
   {
     titleKey: "privacyGroupActivity",
     hintKey: "privacyGroupActivityHint",
-    icon: "🌐",
+    icon: Globe,
     fields: [
       { key: "nickname", label: "visibilityNickname" },
       { key: "description", label: "visibilityAbout" },
@@ -75,7 +77,7 @@ const getPrivateDefaults = (): ProfileVisibility =>
     return visibility;
   }, {});
 
-function PrivacySettings({ isUserProfileLoading, userData }: IProps) {
+function PrivacySettings({ isUserProfileLoading, userData, onRetry }: IProps) {
   const params = useParams();
   const { t } = useTranslation(params?.locale as string, "settings");
   const [updateUserProfile, { isLoading }] = useUpdateUserProfileMutation();
@@ -106,6 +108,23 @@ function PrivacySettings({ isUserProfileLoading, userData }: IProps) {
       <Card bordered={false} className="privacy-settings-card">
         {isUserProfileLoading ? (
           <Skeleton active paragraph={{ rows: 8 }} />
+        ) : !userData || Object.keys(userData).length === 0 ? (
+          <Alert
+            showIcon
+            type="error"
+            message={t("privacyLoadErrorTitle", "Không tải được cài đặt riêng tư")}
+            description={t(
+              "privacyLoadError",
+              "Chưa thể tải cài đặt riêng tư của bạn. Vui lòng kiểm tra kết nối và thử lại."
+            )}
+            action={
+              onRetry ? (
+                <Button size="middle" onClick={onRetry} className="min-h-[44px]">
+                  {t("retry", "Thử lại")}
+                </Button>
+              ) : undefined
+            }
+          />
         ) : (
           <S.ContentWrapper>
             <S.HeadingRow>
@@ -134,8 +153,23 @@ function PrivacySettings({ isUserProfileLoading, userData }: IProps) {
             {visibilityGroups.map((group, gIdx) => (
               <div key={gIdx} style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 6 }}>
                 <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ fontSize: 16 }}>{group.icon}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 28,
+                        height: 28,
+                        borderRadius: 8,
+                        background: "#EFF6FF",
+                        border: "1px solid #BFDBFE",
+                        color: "#0066CC",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <group.icon size={15} aria-hidden="true" />
+                    </span>
                     <strong style={{ fontSize: 14, color: "#1e293b" }}>{t(group.titleKey)}</strong>
                   </div>
                   <Typography.Text type="secondary" style={{ fontSize: 12 }}>
@@ -156,7 +190,7 @@ function PrivacySettings({ isUserProfileLoading, userData }: IProps) {
                         >
                           <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }}>
                             {isVisible ? (
-                              <EyeOutlined style={{ color: "#16a34a", fontSize: 15 }} />
+                              <EyeOutlined style={{ color: "#0066CC", fontSize: 15 }} />
                             ) : (
                               <LockOutlined style={{ color: "#64748b", fontSize: 15 }} />
                             )}
@@ -175,7 +209,7 @@ function PrivacySettings({ isUserProfileLoading, userData }: IProps) {
                               isVisible ? t("privacyVisible") : t("privacyPrivate")
                             }`}
                             style={{
-                              backgroundColor: isVisible ? "#16a34a" : "#94a3b8",
+                              backgroundColor: isVisible ? "#0066CC" : "#94a3b8",
                             }}
                           />
                         </S.VisibilityRow>

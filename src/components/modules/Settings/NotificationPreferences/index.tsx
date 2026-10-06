@@ -128,7 +128,7 @@ function NotificationPreferences() {
             message={t("notificationsErrorTitle", "Không tải được tùy chọn thông báo")}
             description={loadError}
             action={
-              <Button size="small" onClick={fetchPrefs}>
+              <Button size="middle" onClick={fetchPrefs} className="min-h-[44px]">
                 {t("notificationsRetry", "Thử lại")}
               </Button>
             }
@@ -178,7 +178,7 @@ function NotificationPreferences() {
                       onChange={(next) => handleToggle(row.key, next)}
                       aria-label={`${row.title}: ${checked ? t("notificationsOn", "Bật") : t("notificationsOff", "Tắt")}`}
                       style={{
-                        backgroundColor: checked ? "#16a34a" : "#94a3b8",
+                        backgroundColor: checked ? "#0066CC" : "#94a3b8",
                       }}
                     />
                   </S.SwitchHitArea>

@@ -53,7 +53,8 @@ export default function NotificationBell() {
 
   const [markAsRead] = useMarkNotificationAsReadMutation();
   const [markAllAsRead, { isLoading: isMarkingAll }] = useMarkAllNotificationsAsReadMutation();
-  const [deleteNotif] = useDeleteNotificationMutation();
+  const [deleteNotif, { isLoading: isDeleting }] = useDeleteNotificationMutation();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const notifications = notifData?.data || [];
   const unreadCount = notifData?.unreadCount || 0;
@@ -97,11 +98,15 @@ export default function NotificationBell() {
 
   const handleDelete = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
+    if (isDeleting || deletingId !== null) return;
+    setDeletingId(id);
     try {
       await deleteNotif(id).unwrap();
       message.success("Đã xóa thông báo");
     } catch (e) {
       message.error("Lỗi khi xóa thông báo");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -167,7 +172,7 @@ export default function NotificationBell() {
   };
 
   const popoverContent = (
-    <div className="w-[360px] sm:w-[400px]">
+    <div className="w-[min(360px,calc(100vw-32px))] sm:w-[min(400px,calc(100vw-32px))]">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
         <div className="flex items-center gap-2">
@@ -181,11 +186,12 @@ export default function NotificationBell() {
         {unreadCount > 0 && (
           <Button
             type="text"
-            size="small"
+            size="middle"
             icon={<CheckCheck className="h-3.5 w-3.5" />}
             loading={isMarkingAll}
+            disabled={isMarkingAll}
             onClick={handleMarkAllRead}
-            className="!text-xs !text-[#0066CC] hover:!bg-blue-50"
+            className="!text-xs !text-[#0066CC] hover:!bg-blue-50 min-h-[44px]"
           >
             Đọc tất cả
           </Button>
@@ -218,7 +224,7 @@ export default function NotificationBell() {
             <Text type="secondary" className="block text-xs mb-2">
               Không thể tải danh sách thông báo
             </Text>
-            <Button size="small" onClick={() => refetch()}>
+            <Button size="middle" onClick={() => refetch()} className="min-h-[44px]">
               Thử lại
             </Button>
           </div>
@@ -261,29 +267,31 @@ export default function NotificationBell() {
                       <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#0066CC]" />
                     )}
                   </div>
-                  <p className="text-[11px] leading-relaxed text-slate-500 line-clamp-2 mt-0.5">
+                  <p className="text-xs leading-relaxed text-slate-500 line-clamp-2 mt-0.5">
                     {item.message}
                   </p>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-[10px] text-slate-400">
+                    <span className="text-xs text-slate-400">
                       {formatTimeAgo(item.createdAt)}
                     </span>
                     {item.link && (
-                      <span className="inline-flex items-center gap-0.5 text-[10px] text-[#0066CC] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="inline-flex items-center gap-0.5 text-xs text-[#0066CC] font-medium opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 sm:focus-visible:opacity-100 transition-opacity">
                         Xem chi tiết <ExternalLink className="h-2.5 w-2.5" />
                       </span>
                     )}
                   </div>
                 </div>
 
-                {/* Delete button on hover */}
+                {/* Delete button — always visible on touch (<sm), min 44px target */}
                 <button
                   type="button"
                   onClick={(e) => handleDelete(e, item._id)}
+                  disabled={deletingId === item._id || isDeleting}
                   aria-label="Xóa thông báo"
-                  className="absolute right-2 top-3 rounded-lg p-1 text-slate-400 opacity-0 transition-all hover:bg-slate-100 hover:text-rose-600 group-hover:opacity-100"
+                  aria-busy={deletingId === item._id}
+                  className="absolute right-1 top-2 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-slate-400 opacity-100 transition-all hover:bg-slate-100 hover:text-rose-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60 sm:right-2 sm:top-3 sm:p-1 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 sm:focus-visible:opacity-100"
                 >
-                  <Trash2 className="h-3 w-3" />
+                  <Trash2 className="h-4 w-4 sm:h-3 sm:w-3" />
                 </button>
               </div>
             ))}
@@ -325,7 +333,7 @@ export default function NotificationBell() {
             shape="circle"
             size="large"
             aria-label="Thông báo"
-            className="flex items-center justify-center text-slate-700 hover:text-[#0066CC] hover:bg-slate-100 transition-all duration-200 active:scale-[0.96]"
+            className="flex items-center justify-center text-slate-700 hover:text-[#0066CC] hover:bg-slate-100 transition-all duration-200 active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
             icon={<Bell className="h-5 w-5" />}
           />
         </Badge>

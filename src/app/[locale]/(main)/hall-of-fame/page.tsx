@@ -20,6 +20,7 @@ import {
   SafetyCertificateOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import { Trophy as TrophyLucide } from "lucide-react";
 import { useGetHallOfFameQuery } from "@/store/queries/gamification";
 import SubmitProjectModal from "@/components/ui/SubmitProjectModal";
 import { useAppSelector } from "@/hooks/redux-toolkit";
@@ -88,7 +89,7 @@ export default function HallOfFameClientPage() {
                 {record.name}
               </span>
               {record._id === userInfo.id && (
-                <Tag color="blue" style={{ borderRadius: "6px", fontSize: "11px", fontWeight: 700, margin: 0 }}>
+                <Tag color="blue" style={{ borderRadius: "6px", fontSize: "12px", fontWeight: 700, margin: 0 }}>
                   Bạn
                 </Tag>
               )}
@@ -238,14 +239,15 @@ export default function HallOfFameClientPage() {
               border: "none",
               padding: "12px 24px",
               borderRadius: "16px",
-              fontWeight: 800,
-              fontSize: "14px",
+              fontWeight: 700,
+              fontSize: "13px",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               gap: "8px",
               boxShadow: "0 6px 20px rgba(245, 158, 11, 0.4)",
               transition: "transform 0.2s ease",
+              minHeight: 44,
             }}
           >
             <PlusOutlined /> Đóng góp Dự án (+150 EXP)
@@ -253,12 +255,12 @@ export default function HallOfFameClientPage() {
         </div>
       </div>
 
-      {/* Top 3 Podium Cards */}
+      {/* Top 3 Podium Cards — mobile order 1-2-3, desktop order 2-1-3 (same as Leetcode/Main $orderMobile/$orderDesktop) */}
       {podium.first && (
         <Row gutter={[20, 20]} align="bottom">
-          {/* Rank 2 (Á Quân) */}
+          {/* Rank 2 (Á Quân) — mobile 2nd, desktop 1st (left) */}
           {podium.second && (
-            <Col xs={24} md={8} style={{ order: 2 }}>
+            <Col xs={24} md={8} className="order-2 md:order-1">
               <div
                 style={{
                   backgroundColor: "#FFFFFF",
@@ -304,7 +306,7 @@ export default function HallOfFameClientPage() {
                   </h3>
                   <span
                     style={{
-                      fontSize: "11px",
+                      fontSize: "12px",
                       fontWeight: 700,
                       color: "#0066CC",
                       backgroundColor: "#EFF6FF",
@@ -329,8 +331,8 @@ export default function HallOfFameClientPage() {
             </Col>
           )}
 
-          {/* Rank 1 (Quán Quân) */}
-          <Col xs={24} md={8} style={{ order: 1 }}>
+          {/* Rank 1 (Quán Quân) — mobile 1st (top), desktop 2nd (center) */}
+          <Col xs={24} md={8} className="order-1 md:order-2">
             <div
               style={{
                 background: "linear-gradient(180deg, #FFFBEB 0%, #FFFFFF 100%)",
@@ -418,9 +420,9 @@ export default function HallOfFameClientPage() {
             </div>
           </Col>
 
-          {/* Rank 3 (Quý Quân) */}
+          {/* Rank 3 (Quý Quân) — mobile 3rd, desktop 3rd (right) */}
           {podium.third && (
-            <Col xs={24} md={8} style={{ order: 3 }}>
+            <Col xs={24} md={8} className="order-3 md:order-3">
               <div
                 style={{
                   backgroundColor: "#FFFFFF",
@@ -466,7 +468,7 @@ export default function HallOfFameClientPage() {
                   </h3>
                   <span
                     style={{
-                      fontSize: "11px",
+                      fontSize: "12px",
                       fontWeight: 700,
                       color: "#0066CC",
                       backgroundColor: "#EFF6FF",
@@ -516,7 +518,7 @@ export default function HallOfFameClientPage() {
           <div style={{ padding: "32px 0", textAlign: "center" }}>
             <Text type="secondary">Không thể tải dữ liệu bảng vàng</Text>
             <div style={{ marginTop: "12px" }}>
-              <Button size="small" onClick={() => refetch()}>
+              <Button size="middle" onClick={() => refetch()} style={{ minHeight: 44 }}>
                 Thử lại
               </Button>
             </div>
@@ -570,15 +572,15 @@ export default function HallOfFameClientPage() {
                     height: "48px",
                     flexShrink: 0,
                     borderRadius: "16px",
-                    backgroundColor: "#FFFFFF",
+                    backgroundColor: "#EFF6FF",
+                    border: "1px solid #BFDBFE",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "22px",
                     boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
                   }}
                 >
-                  🏆
+                  <TrophyLucide size={22} color="#0066CC" aria-hidden="true" />
                 </div>
                 <div>
                   <h4 style={{ fontSize: "14px", fontWeight: 800, color: "#1E293B", margin: "0 0 4px 0" }}>
