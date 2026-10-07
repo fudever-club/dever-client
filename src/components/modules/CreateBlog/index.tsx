@@ -253,7 +253,7 @@ function CodeBlockWithCopy({ code, language }: { code: string; language: string 
           {copied ? "Đã sao chép" : "Sao chép"}
         </button>
       </div>
-      <pre style={{ margin: 0, padding: "16px", fontSize: "13px", fontFamily: "monospace", overflowX: "auto", lineHeight: "1.6", color: "#E2E8F0" }}>
+      <pre style={{ margin: 0, padding: "16px", fontSize: "14px", fontFamily: "monospace", overflowX: "auto", lineHeight: "1.6", color: "#E2E8F0" }}>
         <code>{code}</code>
       </pre>
     </div>
@@ -280,10 +280,10 @@ function RichMarkdownRenderer({ content }: { content: string }) {
         >
           <PenTool size={28} />
         </div>
-        <p style={{ fontSize: "15px", fontWeight: "700", color: "#334155", marginBottom: "6px" }}>
+        <p style={{ fontSize: "16px", fontWeight: "700", color: "#334155", marginBottom: "6px" }}>
           Nội dung xem trước thời gian thực sẽ hiển thị tại đây
         </p>
-        <p style={{ fontSize: "13px", color: "#64748B", maxWidth: "480px", margin: "0 auto" }}>
+        <p style={{ fontSize: "14px", color: "#64748B", maxWidth: "480px", margin: "0 auto" }}>
           Hỗ trợ đầy đủ khối Code đa ngôn ngữ, Khung ghi chú (Callouts), Sơ đồ Mermaid, Bảng biểu và Ảnh chất lượng cao.
         </p>
       </div>
@@ -328,7 +328,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
         <h1
           key={index}
           style={{
-            fontSize: "26px",
+            fontSize: "28px",
             fontWeight: "800",
             color: "#0F172A",
             borderBottom: "2px solid #E2E8F0",
@@ -403,7 +403,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
             border: `1px solid ${borderColor}50`,
             backgroundColor: bgColor,
             color: textColor,
-            fontSize: "13px",
+            fontSize: "14px",
             fontWeight: "600",
             display: "flex",
             alignItems: "flex-start",
@@ -430,7 +430,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
             border: "1px solid #E2E8F0",
             color: "#1E293B",
             fontStyle: "italic",
-            fontSize: "13px",
+            fontSize: "14px",
             backgroundColor: "#F8FAFC",
             borderRadius: "12px",
             padding: "10px 14px",
@@ -483,7 +483,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
     // Bullet lists
     if (/^[-*]\s/.test(line)) {
       elements.push(
-        <li key={index} style={{ marginLeft: "18px", listStyleType: "disc", fontSize: "13px", color: "#334155", lineHeight: "1.7" }}>
+        <li key={index} style={{ marginLeft: "18px", listStyleType: "disc", fontSize: "14px", color: "#334155", lineHeight: "1.7" }}>
           {line.replace(/^[-*]\s/, "")}
         </li>
       );
@@ -493,7 +493,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
     // Numbered lists
     if (/^\d+\.\s/.test(line)) {
       elements.push(
-        <li key={index} style={{ marginLeft: "18px", listStyleType: "decimal", fontSize: "13px", color: "#334155", lineHeight: "1.7" }}>
+        <li key={index} style={{ marginLeft: "18px", listStyleType: "decimal", fontSize: "14px", color: "#334155", lineHeight: "1.7" }}>
           {line.replace(/^\d+\.\s/, "")}
         </li>
       );
@@ -508,7 +508,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
 
     // Regular paragraph
     elements.push(
-      <p key={index} style={{ fontSize: "13px", color: "#334155", lineHeight: "1.7", marginBottom: "6px", fontWeight: "normal" }}>
+      <p key={index} style={{ fontSize: "14px", color: "#334155", lineHeight: "1.7", marginBottom: "6px", fontWeight: "normal" }}>
         {line}
       </p>
     );
@@ -970,7 +970,7 @@ export default function CreateBlogModule() {
           >
             <Sparkles size={14} color="#FDE047" /> DEVER Studio Blog Writer
           </div>
-          <h1 style={{ fontSize: "28px", fontWeight: 900, margin: 0, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
+          <h1 style={{ fontSize: "28px", fontWeight: 800, margin: 0, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
             {editingBlogId ? "Chỉnh Sửa Bài Viết Chuyên Môn" : "Soạn Thảo & Chia Sẻ Kiến Thức Kỹ Thuật"}
           </h1>
           <p style={{ fontSize: "14px", color: "#E0F2FE", margin: 0, fontWeight: 500 }}>
@@ -1095,7 +1095,7 @@ export default function CreateBlogModule() {
             </div>
 
             {/* Live Metrics & Auto-Save Badge */}
-            <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "13px", color: "#64748B", fontWeight: 600 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "14px", color: "#64748B", fontWeight: 600 }}>
               {lastSaved && (
                 <span
                   style={{
@@ -1140,7 +1140,7 @@ export default function CreateBlogModule() {
                   display: "flex",
                   alignItems: "center",
                   gap: "8px",
-                  fontSize: "13px",
+                  fontSize: "14px",
                   fontWeight: 800,
                   color: "#0F172A",
                 }}
@@ -1440,7 +1440,7 @@ export default function CreateBlogModule() {
                 placeholder="Mô tả 2-3 câu ngắn gọn về giải pháp hoặc bài học trong bài viết..."
                 value={excerpt}
                 onChange={(e) => setExcerpt(e.target.value)}
-                style={{ borderRadius: "14px", fontSize: "13px" }}
+                style={{ borderRadius: "14px", fontSize: "14px" }}
               />
             </div>
 
@@ -1530,7 +1530,7 @@ export default function CreateBlogModule() {
                   <button
                     type="button"
                     onClick={() => insertFormatting("**", "**", "in đậm")}
-                    style={{ padding: "4px 10px", fontSize: "12px", fontWeight: 900, borderRadius: "8px", border: "none", backgroundColor: "transparent", cursor: "pointer", color: "#334155" }}
+                    style={{ padding: "4px 10px", fontSize: "12px", fontWeight: 800, borderRadius: "8px", border: "none", backgroundColor: "transparent", cursor: "pointer", color: "#334155" }}
                   >
                     B
                   </button>
@@ -1720,7 +1720,7 @@ export default function CreateBlogModule() {
                     border: "none",
                     boxShadow: "none",
                     fontFamily: "monospace",
-                    fontSize: "13.5px",
+                    fontSize: "14px",
                     lineHeight: "1.7",
                     minHeight: "480px",
                     resize: "vertical",
@@ -1757,7 +1757,7 @@ export default function CreateBlogModule() {
                 {/* Rendered Preview Content */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                   {title && (
-                    <h1 style={{ fontSize: "26px", fontWeight: 900, color: "#0F172A", margin: 0, lineHeight: "1.3" }}>
+                    <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#0F172A", margin: 0, lineHeight: "1.3" }}>
                       {title}
                     </h1>
                   )}
@@ -1794,7 +1794,7 @@ export default function CreateBlogModule() {
               <h2 style={{ fontSize: "18px", fontWeight: 800, color: "#0F172A", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
                 <BookOpen size={20} color="#0066CC" /> Danh Sách Bài Viết Của Tôi
               </h2>
-              <p style={{ fontSize: "13px", color: "#64748B", margin: "4px 0 0 0" }}>
+              <p style={{ fontSize: "14px", color: "#64748B", margin: "4px 0 0 0" }}>
                 Theo dõi trạng thái xét duyệt và xem góp ý chuyên môn từ Ban Quản Trị CLB.
               </p>
             </div>
@@ -1823,14 +1823,14 @@ export default function CreateBlogModule() {
           {loadingMyBlogs ? (
             <div style={{ padding: "60px 20px", textAlign: "center", color: "#64748B" }}>
               <RefreshCw size={24} color="#0066CC" className="animate-spin" style={{ margin: "0 auto 10px auto" }} />
-              <p style={{ fontSize: "13px", fontWeight: 600 }}>Đang tải danh sách bài viết...</p>
+              <p style={{ fontSize: "14px", fontWeight: 600 }}>Đang tải danh sách bài viết...</p>
             </div>
           ) : myBlogsError ? (
             <div role="alert" style={{ padding: "60px 20px", textAlign: "center" }}>
               <p style={{ fontSize: "14px", fontWeight: 700, color: "#DC2626", margin: "0 0 6px 0" }}>
                 Không thể tải danh sách bài viết
               </p>
-              <p style={{ fontSize: "13px", color: "#64748B", margin: "0 0 12px 0" }}>
+              <p style={{ fontSize: "14px", color: "#64748B", margin: "0 0 12px 0" }}>
                 Vui lòng kiểm tra kết nối và thử lại.
               </p>
               <Button type="primary" onClick={() => fetchMyBlogs()}>
@@ -1840,10 +1840,10 @@ export default function CreateBlogModule() {
           ) : myBlogs.length === 0 ? (
             <div style={{ padding: "80px 20px", textAlign: "center" }}>
               <BookOpen size={48} color="#BFDBFE" style={{ margin: "0 auto 12px auto" }} />
-              <p style={{ fontSize: "15px", fontWeight: 700, color: "#1E293B", margin: "0 0 6px 0" }}>
+              <p style={{ fontSize: "16px", fontWeight: 700, color: "#1E293B", margin: "0 0 6px 0" }}>
                 Bạn chưa có bài viết nào
               </p>
-              <p style={{ fontSize: "13px", color: "#64748B", margin: 0 }}>
+              <p style={{ fontSize: "14px", color: "#64748B", margin: 0 }}>
                 Hãy bắt đầu chia sẻ bài viết kỹ thuật đầu tiên để đóng góp cho cộng đồng FU-DEVER!
               </p>
             </div>
@@ -1925,7 +1925,7 @@ export default function CreateBlogModule() {
         cancelButtonProps={{ style: { borderRadius: "12px" } }}
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "12px 0" }}>
-          <p style={{ fontSize: "13px", color: "#64748B", margin: 0 }}>
+          <p style={{ fontSize: "14px", color: "#64748B", margin: 0 }}>
             Tự động tạo bảng Markdown chuẩn định dạng mà không cần gõ thủ công ký tự `|---|---|`.
           </p>
 
@@ -2032,7 +2032,7 @@ export default function CreateBlogModule() {
               value={codeSnippet}
               onChange={(e) => setCodeSnippet(e.target.value)}
               placeholder={`// Dán mã nguồn ${codeLang} tại đây...`}
-              style={{ fontFamily: "monospace", fontSize: "13px", backgroundColor: "#0D1117", color: "#F8FAFC", borderRadius: "14px", padding: "14px" }}
+              style={{ fontFamily: "monospace", fontSize: "14px", backgroundColor: "#0D1117", color: "#F8FAFC", borderRadius: "14px", padding: "14px" }}
             />
           </div>
         </div>
@@ -2076,11 +2076,11 @@ export default function CreateBlogModule() {
                       transition: "all 0.15s ease",
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 800, fontSize: "13px", color: item.badgeColor, marginBottom: "4px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 800, fontSize: "14px", color: item.badgeColor, marginBottom: "4px" }}>
                       <IconComp size={16} color={item.badgeColor} />
                       {item.title}
                     </div>
-                    <p style={{ fontSize: "11.5px", color: "#64748B", margin: 0, lineHeight: "1.4" }}>
+                    <p style={{ fontSize: "12px", color: "#64748B", margin: 0, lineHeight: "1.4" }}>
                       {item.desc}
                     </p>
                   </div>
@@ -2098,7 +2098,7 @@ export default function CreateBlogModule() {
               value={calloutText}
               onChange={(e) => setCalloutText(e.target.value)}
               placeholder="Nhập nội dung mẹo hay hoặc cảnh báo..."
-              style={{ borderRadius: "14px", fontSize: "13px" }}
+              style={{ borderRadius: "14px", fontSize: "14px" }}
             />
           </div>
         </div>
@@ -2117,7 +2117,7 @@ export default function CreateBlogModule() {
         width="min(680px, 95vw)"
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "14px", padding: "12px 0" }}>
-          <p style={{ fontSize: "13px", color: "#64748B", margin: 0 }}>
+          <p style={{ fontSize: "14px", color: "#64748B", margin: 0 }}>
             Chọn sơ đồ mẫu để hệ thống tự động render trực quan trong bài viết:
           </p>
 

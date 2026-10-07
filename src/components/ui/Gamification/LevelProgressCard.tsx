@@ -47,10 +47,10 @@ export default function LevelProgressCard() {
           {/* Glowing Level Badge */}
           <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0066CC] via-[#0080FF] to-cyan-500 p-0.5 shadow-lg shadow-blue-500/25">
             <div className="flex h-full w-full flex-col items-center justify-center rounded-[14px] bg-white text-slate-900">
-              <span className="text-xs font-black tracking-widest text-[#0066CC] uppercase">
+              <span className="text-xs font-extrabold tracking-widest text-[#0066CC] uppercase">
                 LV
               </span>
-              <span className="text-2xl font-black leading-none text-slate-900">
+              <span className="text-2xl font-extrabold leading-none text-slate-900">
                 {stats.level}
               </span>
             </div>
@@ -58,10 +58,10 @@ export default function LevelProgressCard() {
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2 mb-1">
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight m-0">
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight m-0">
                 {stats.title}
               </h2>
-              <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-200/70 px-2.5 py-0.5 text-xs font-black text-[#0066CC]">
+              <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-200/70 px-2.5 py-0.5 text-xs font-extrabold text-[#0066CC]">
                 <Shield className="w-3 h-3 text-[#0066CC]" /> Cấp {stats.level}
               </span>
             </div>
@@ -90,7 +90,7 @@ export default function LevelProgressCard() {
               <span className="block text-xs font-bold text-amber-800 uppercase tracking-wider">
                 Chuỗi học tập
               </span>
-              <span className="text-sm font-black text-amber-900 leading-tight">
+              <span className="text-sm font-extrabold text-amber-900 leading-tight">
                 {stats.streakDays} ngày
               </span>
             </div>
@@ -101,7 +101,7 @@ export default function LevelProgressCard() {
             type="button"
             onClick={handleDailyCheckin}
             disabled={stats.isCheckedInToday || isCheckingIn}
-            className={`group relative inline-flex items-center gap-2 rounded-2xl px-5 py-3 text-xs sm:text-sm font-black transition-all ${
+            className={`group relative inline-flex items-center gap-2 rounded-2xl px-5 py-3 text-xs sm:text-sm font-extrabold transition-all ${
               stats.isCheckedInToday
                 ? "bg-slate-100 text-slate-500 border border-slate-200 cursor-default"
                 : "bg-gradient-to-r from-[#0066CC] to-[#0080FF] text-white shadow-md shadow-blue-600/25 hover:shadow-lg hover:shadow-blue-600/35 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0"

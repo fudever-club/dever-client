@@ -115,7 +115,7 @@ function LeetCode({ userData, isUserDataFetching }: IProps) {
                 <Typography.Title level={3} style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>
                   Thành Tích LeetCode
                 </Typography.Title>
-                <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+                <Typography.Text type="secondary" style={{ fontSize: 14 }}>
                   Đấu trường thuật toán CLB DEVER
                 </Typography.Text>
               </div>
@@ -125,7 +125,7 @@ function LeetCode({ userData, isUserDataFetching }: IProps) {
               <Tag
                 color="gold"
                 icon={<ThunderboltFilled />}
-                style={{ borderRadius: 16, padding: "2px 10px", fontWeight: 700, fontSize: 13 }}
+                style={{ borderRadius: 16, padding: "2px 10px", fontWeight: 700, fontSize: 14 }}
               >
                 {submissions.length} AC
               </Tag>
@@ -145,7 +145,7 @@ function LeetCode({ userData, isUserDataFetching }: IProps) {
           {/* Submissions List */}
           {submissions.length > 0 ? (
             <Flex vertical gap={10}>
-              <Typography.Text strong style={{ fontSize: 13, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              <Typography.Text strong style={{ fontSize: 14, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                 Bài giải gần đây ({submissions.length})
               </Typography.Text>
               {submissions.map((item, index) => {
@@ -220,7 +220,7 @@ function LeetCode({ userData, isUserDataFetching }: IProps) {
                 border: "1px dashed #FDE68A",
               }}
             >
-              <Typography.Text style={{ color: "#D97706", fontSize: 13, fontWeight: 500 }}>
+              <Typography.Text style={{ color: "#D97706", fontSize: 14, fontWeight: 500 }}>
                 Đã kết nối tài khoản @{leetcodeUsername} • Đang đồng bộ dữ liệu bài giải...
               </Typography.Text>
             </div>

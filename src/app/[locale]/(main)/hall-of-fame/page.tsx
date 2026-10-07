@@ -128,7 +128,7 @@ export default function HallOfFameClientPage() {
       key: "exp",
       render: (record: any) => (
         <div>
-          <span style={{ fontWeight: 700, color: "#1E293B", fontSize: "13px" }}>
+          <span style={{ fontWeight: 700, color: "#1E293B", fontSize: "14px" }}>
             Level {record.level}
           </span>
           <p style={{ fontSize: "12px", color: "#0066CC", fontWeight: 700, margin: 0 }}>
@@ -221,7 +221,7 @@ export default function HallOfFameClientPage() {
               </span>
             </div>
 
-            <h1 style={{ fontSize: "28px", fontWeight: 900, color: "#FFFFFF", letterSpacing: "-0.02em", margin: 0, lineHeight: 1.2 }}>
+            <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.02em", margin: 0, lineHeight: 1.2 }}>
               Bảng Vàng Danh Dự (Hall of Fame)
             </h1>
 
@@ -240,7 +240,7 @@ export default function HallOfFameClientPage() {
               padding: "12px 24px",
               borderRadius: "16px",
               fontWeight: 700,
-              fontSize: "13px",
+              fontSize: "14px",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
@@ -287,7 +287,7 @@ export default function HallOfFameClientPage() {
                       borderRadius: "50%",
                       background: "linear-gradient(135deg, #94A3B8 0%, #64748B 100%)",
                       color: "#FFFFFF",
-                      fontWeight: 900,
+                      fontWeight: 800,
                       fontSize: "12px",
                       display: "flex",
                       alignItems: "center",
@@ -358,7 +358,7 @@ export default function HallOfFameClientPage() {
                   padding: "4px 14px",
                   borderRadius: "9999px",
                   fontSize: "11px",
-                  fontWeight: 900,
+                  fontWeight: 800,
                   border: "1px solid #FDE68A",
                 }}
               >
@@ -377,7 +377,7 @@ export default function HallOfFameClientPage() {
                     borderRadius: "50%",
                     background: "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
                     color: "#FFFFFF",
-                    fontWeight: 900,
+                    fontWeight: 800,
                     fontSize: "14px",
                     display: "flex",
                     alignItems: "center",
@@ -391,7 +391,7 @@ export default function HallOfFameClientPage() {
               </div>
 
               <div>
-                <h3 style={{ fontSize: "18px", fontWeight: 900, color: "#1E293B", margin: "0 0 4px 0" }}>
+                <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#1E293B", margin: "0 0 4px 0" }}>
                   {podium.first.name}
                 </h3>
                 <span
@@ -413,7 +413,7 @@ export default function HallOfFameClientPage() {
                 <span style={{ fontSize: "12px", fontWeight: 800, color: "#92400E", backgroundColor: "#FEF3C7", padding: "4px 12px", borderRadius: "10px" }}>
                   Level {podium.first.level}
                 </span>
-                <span style={{ fontSize: "12px", fontWeight: 900, color: "#B45309", backgroundColor: "#FFFBEB", padding: "4px 12px", borderRadius: "10px", border: "1px solid #FDE68A", display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                <span style={{ fontSize: "12px", fontWeight: 800, color: "#B45309", backgroundColor: "#FFFBEB", padding: "4px 12px", borderRadius: "10px", border: "1px solid #FDE68A", display: "inline-flex", alignItems: "center", gap: "4px" }}>
                   <ThunderboltOutlined /> {podium.first.exp} EXP
                 </span>
               </div>
@@ -449,7 +449,7 @@ export default function HallOfFameClientPage() {
                       borderRadius: "50%",
                       background: "linear-gradient(135deg, #D97706 0%, #B45309 100%)",
                       color: "#FFFFFF",
-                      fontWeight: 900,
+                      fontWeight: 800,
                       fontSize: "12px",
                       display: "flex",
                       alignItems: "center",
@@ -507,7 +507,7 @@ export default function HallOfFameClientPage() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
           <TrophyOutlined style={{ fontSize: "20px", color: "#0066CC" }} />
-          <h3 style={{ fontSize: "17px", fontWeight: 800, color: "#1E293B", margin: 0 }}>
+          <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#1E293B", margin: 0 }}>
             Bảng Xếp Hạng Điểm Danh Vọng
           </h3>
         </div>
@@ -546,7 +546,7 @@ export default function HallOfFameClientPage() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
           <SafetyCertificateOutlined style={{ fontSize: "20px", color: "#0066CC" }} />
-          <h3 style={{ fontSize: "17px", fontWeight: 800, color: "#1E293B", margin: 0 }}>
+          <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#1E293B", margin: 0 }}>
             Hệ Thống Huy Hiệu Kỹ Thuật (3D Badges)
           </h3>
         </div>

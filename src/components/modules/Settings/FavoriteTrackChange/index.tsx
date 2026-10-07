@@ -200,7 +200,7 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
                 <Typography.Title level={4} style={{ margin: 0, fontWeight: 700 }}>
                   {t("favoriteTrackTitle")}
                 </Typography.Title>
-                <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+                <Typography.Text type="secondary" style={{ fontSize: 14 }}>
                   {t("favoriteTrackSubtitle")}
                 </Typography.Text>
               </div>
@@ -209,7 +209,7 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
             {/* Presets Selection */}
             <S.PresetsSection>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <Typography.Text strong style={{ fontSize: 13, color: "#334155" }}>
+                <Typography.Text strong style={{ fontSize: 14, color: "#334155" }}>
                   {t("trackPresets")}
                 </Typography.Text>
               </div>
@@ -234,7 +234,7 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
             {/* Form Inputs Grid */}
             <S.FormGrid>
               <S.FieldWrapper>
-                <Typography.Text strong style={{ fontSize: 13 }}>
+                <Typography.Text strong style={{ fontSize: 14 }}>
                   {t("trackSongTitle")}
                 </Typography.Text>
                 <Input
@@ -247,7 +247,7 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
               </S.FieldWrapper>
 
               <S.FieldWrapper>
-                <Typography.Text strong style={{ fontSize: 13 }}>
+                <Typography.Text strong style={{ fontSize: 14 }}>
                   {t("trackArtist")}
                 </Typography.Text>
                 <Input
@@ -261,7 +261,7 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
 
               <S.FullWidthField>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <Typography.Text strong style={{ fontSize: 13 }}>
+                  <Typography.Text strong style={{ fontSize: 14 }}>
                     {t("trackAudioUrl")}
                   </Typography.Text>
                   <Upload

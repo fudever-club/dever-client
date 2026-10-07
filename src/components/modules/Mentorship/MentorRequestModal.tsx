@@ -97,7 +97,7 @@ export default function MentorRequestModal({ open, mentor, onClose, onSuccess }:
             }}
           />
           <div>
-            <div style={{ fontWeight: 800, fontSize: 15, color: "#0F172A" }}>{mentor.name}</div>
+            <div style={{ fontWeight: 800, fontSize: 16, color: "#0F172A" }}>{mentor.name}</div>
             <Text type="secondary" style={{ fontSize: 12 }}>
               {[mentor.headline, mentor.workplace].filter(Boolean).join(" · ") || t("modalFallbackHeadline", "Mentor DEVER")}
             </Text>

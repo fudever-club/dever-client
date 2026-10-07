@@ -12,7 +12,7 @@ export const MenuCustom = styled(Menu)`
     align-items: center !important;
     border-radius: 8px !important;
     margin: 4px 0 !important;
-    font-size: 13.5px !important;
+    font-size: 14px !important;
     transition: all 0.2s ease !important;
 
     &:active {

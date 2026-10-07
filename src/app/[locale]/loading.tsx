@@ -77,7 +77,7 @@ const CodeBadge = styled.div`
 `;
 
 const Label = styled.p`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #64748B;
   margin: 0;

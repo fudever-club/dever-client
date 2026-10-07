@@ -93,7 +93,7 @@ export default function BadgeShowcaseGrid() {
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-50 text-[#0066CC] border border-blue-100">
               <Award className="w-4 h-4 text-[#0066CC]" />
             </div>
-            <h3 className="text-base sm:text-lg font-black text-slate-900 m-0">
+            <h3 className="text-base sm:text-lg font-extrabold text-slate-900 m-0">
               Bộ Sưu Tập Huy Hiệu Kỹ Thuật (3D Badges)
             </h3>
           </div>
@@ -102,7 +102,7 @@ export default function BadgeShowcaseGrid() {
           </p>
         </div>
 
-        <div className="inline-flex items-center gap-1.5 self-start sm:self-center px-3 py-1 rounded-full bg-blue-50/90 border border-blue-200/80 text-xs font-black text-[#0066CC]">
+        <div className="inline-flex items-center gap-1.5 self-start sm:self-center px-3 py-1 rounded-full bg-blue-50/90 border border-blue-200/80 text-xs font-extrabold text-[#0066CC]">
           <Sparkles className="w-3.5 h-3.5 text-[#0066CC]" />
           <span>Đã đạt: {unlockedCount} / {badges.length}</span>
         </div>
@@ -149,7 +149,7 @@ export default function BadgeShowcaseGrid() {
 
               {/* Title & Info */}
               <div className="text-center mb-3">
-                <h4 className="text-xs sm:text-sm font-black text-slate-900 mb-1 line-clamp-1">
+                <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 mb-1 line-clamp-1">
                   {badge.title}
                 </h4>
                 <p className="text-xs text-slate-500 font-medium line-clamp-2 m-0 min-h-[30px] leading-snug">
@@ -159,7 +159,7 @@ export default function BadgeShowcaseGrid() {
 
               {/* Status Pill */}
               <span
-                className={`inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-xs font-black tracking-wider uppercase ${
+                className={`inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-xs font-extrabold tracking-wider uppercase ${
                   badge.isUnlocked
                     ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
                     : "bg-slate-200/90 text-slate-600 border border-slate-300"

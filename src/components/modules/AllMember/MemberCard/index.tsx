@@ -99,7 +99,7 @@ function MemberCard({ dataSource }: IProps) {
           <Typography.Title level={5} $fontWeight={700} $align="center" style={{ margin: "4px 0 2px 0" }}>
             {memberName}
           </Typography.Title>
-          <Typography.Text $align="center" style={{ color: "#64748B", fontSize: "13px" }}>
+          <Typography.Text $align="center" style={{ color: "#64748B", fontSize: "14px" }}>
             {positionLabel}
           </Typography.Text>
           {!canOpenProfile && (

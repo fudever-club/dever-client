@@ -113,7 +113,7 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
             <CodeOutlined style={{ fontSize: "18px" }} />
           </div>
           <div>
-            <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#0F172A", margin: 0, lineHeight: 1.3 }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0F172A", margin: 0, lineHeight: 1.3 }}>
               Hoạt động LeetCode của CLB
             </h3>
             <p style={{ fontSize: "12px", color: "#64748B", margin: "2px 0 0 0" }}>
@@ -147,7 +147,7 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
               backgroundColor: "#0066CC",
               padding: "4px 14px",
               fontSize: "12px",
-              fontWeight: 900,
+              fontWeight: 800,
               color: "#FFFFFF",
               boxShadow: "0 2px 6px rgba(0, 102, 204, 0.25)",
             }}

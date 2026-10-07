@@ -84,7 +84,7 @@ function LeetcodeSubcriber({ isUserProfileLoading, userData, refetchUserData }: 
               <Tag
                 color="success"
                 icon={<CheckCircleFilled />}
-                style={{ borderRadius: 20, padding: "2px 10px", fontWeight: 600, fontSize: 13 }}
+                style={{ borderRadius: 20, padding: "2px 10px", fontWeight: 600, fontSize: 14 }}
               >
                 Đã kết nối
               </Tag>
@@ -123,7 +123,7 @@ function LeetcodeSubcriber({ isUserProfileLoading, userData, refetchUserData }: 
                     <Typography.Text strong style={{ fontSize: 16, color: "#0F172A", display: "block" }}>
                       @{currentUsername}
                     </Typography.Text>
-                    <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+                    <Typography.Text type="secondary" style={{ fontSize: 14 }}>
                       {totalSubmissions > 0
                         ? `${totalSubmissions} bài giải đã đồng bộ trên BXH`
                         : "Đã liên kết • Sẵn sàng tính điểm xếp hạng"}

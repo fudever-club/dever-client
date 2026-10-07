@@ -321,7 +321,7 @@ export default function NotificationBell() {
             indicator: {
               backgroundColor: "#0066CC",
               boxShadow: "0 0 0 2px #fff",
-              fontSize: "10px",
+              fontSize: "11px",
               height: "16px",
               minWidth: "16px",
               lineHeight: "16px",

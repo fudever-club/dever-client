@@ -60,14 +60,14 @@ export const TitleBadge = styled.span`
 
 export const MainTitle = styled.h1`
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 800;
   color: #ffffff;
   letter-spacing: -0.02em;
   margin: 8px 0 6px 0;
   line-height: 1.25;
 
   @media (min-width: 640px) {
-    font-size: 26px;
+    font-size: 28px;
   }
 
   @media (min-width: 1024px) {
@@ -95,7 +95,7 @@ export const RefreshButton = styled.button`
   padding: 10px 18px;
   border-radius: 12px;
   font-weight: 800;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -235,7 +235,7 @@ export const RankBadge = styled.span<{ $rank: number }>`
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  font-weight: 900;
+  font-weight: 800;
   font-size: 12px;
   background-color: ${(props) =>
     props.$rank === 0
@@ -260,7 +260,7 @@ export const UserText = styled.div`
   flex: 1;
 
   h4 {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 800;
     color: #0f172a;
     margin: 0 0 2px 0;

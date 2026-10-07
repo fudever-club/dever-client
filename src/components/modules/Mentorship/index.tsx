@@ -137,10 +137,10 @@ function MentorsTab({
               <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                 <MentorAvatar mentor={mentor} />
                 <div style={{ minWidth: 0, flex: 1 }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 800, color: "#0F172A", margin: 0 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 800, color: "#0F172A", margin: 0 }}>
                     {mentor.name}
                   </h3>
-                  <p style={{ fontSize: 13, color: "#475569", margin: "2px 0 0 0" }}>
+                  <p style={{ fontSize: 14, color: "#475569", margin: "2px 0 0 0" }}>
                     {mentor.headline || t("fallbackHeadline", "Mentor DEVER")}
                   </p>
                   <p style={{ fontSize: 12, color: "#64748B", margin: "2px 0 0 0" }}>
@@ -150,7 +150,7 @@ function MentorsTab({
               </div>
 
               {mentor.quote && (
-                <p style={{ fontSize: 13, color: "#334155", fontStyle: "italic", margin: 0 }}>
+                <p style={{ fontSize: 14, color: "#334155", fontStyle: "italic", margin: 0 }}>
                   “{mentor.quote}”
                 </p>
               )}
@@ -250,7 +250,7 @@ function MyRequestsTab({
                   </div>
                 )}
                 {request.message && (
-                  <p style={{ fontSize: 13, color: "#475569", margin: "8px 0 0 0" }}>{request.message}</p>
+                  <p style={{ fontSize: 14, color: "#475569", margin: "8px 0 0 0" }}>{request.message}</p>
                 )}
               </div>
               <Tag color={meta.color} icon={meta.icon} style={{ borderRadius: 6, flexShrink: 0 }}>
@@ -353,7 +353,7 @@ export default function MentorshipSection() {
             {t("heading", "Mentor & Cố vấn")}
           </h2>
         </div>
-        <p style={{ fontSize: 13, color: "#64748B", margin: "0 0 16px 0" }}>
+        <p style={{ fontSize: 14, color: "#64748B", margin: "0 0 16px 0" }}>
           {t("description", "Kết nối 1-1 với các anh/chị cựu thành viên để được định hướng sự nghiệp và kỹ năng thực chiến.")}
         </p>
 

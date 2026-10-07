@@ -188,7 +188,7 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
             />
           ) : (
             <Flex vertical gap={4}>
-              <Typography.Text $fontSize="13px" $color="#64748b" $fontWeight={600}>
+              <Typography.Text $fontSize="14px" $color="#64748b" $fontWeight={600}>
                 {t("email")}
               </Typography.Text>
               <div className="flex items-center justify-between gap-2 p-2 rounded-xl bg-slate-50 border border-slate-200/80">
@@ -227,7 +227,7 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
             />
           ) : (
             <Flex vertical gap={4}>
-              <Typography.Text $fontSize="13px" $color="#64748b" $fontWeight={600}>
+              <Typography.Text $fontSize="14px" $color="#64748b" $fontWeight={600}>
                 {t("hometown")}
               </Typography.Text>
               <Typography.Text
@@ -250,7 +250,7 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
             />
           ) : (
             <Flex vertical gap={8}>
-              <Typography.Text $fontSize="13px" $color="#64748b" $fontWeight={600}>
+              <Typography.Text $fontSize="14px" $color="#64748b" $fontWeight={600}>
                 {t("socials")}
               </Typography.Text>
               {canSee("socials") ? (

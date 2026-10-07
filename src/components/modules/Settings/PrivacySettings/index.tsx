@@ -190,11 +190,11 @@ function PrivacySettings({ isUserProfileLoading, userData, onRetry }: IProps) {
                         >
                           <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }}>
                             {isVisible ? (
-                              <EyeOutlined style={{ color: "#0066CC", fontSize: 15 }} />
+                              <EyeOutlined style={{ color: "#0066CC", fontSize: 16 }} />
                             ) : (
-                              <LockOutlined style={{ color: "#64748b", fontSize: 15 }} />
+                              <LockOutlined style={{ color: "#64748b", fontSize: 16 }} />
                             )}
-                            <span style={{ fontWeight: 500, fontSize: 13, color: isVisible ? "#0f172a" : "#475569" }}>
+                            <span style={{ fontWeight: 500, fontSize: 14, color: isVisible ? "#0f172a" : "#475569" }}>
                               {t(field.label)}
                             </span>
                           </div>

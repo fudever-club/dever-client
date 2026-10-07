@@ -82,7 +82,7 @@ export const SensitiveNote = styled.p`
   align-items: flex-start;
   margin: 0;
   color: #475569;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
 `;
 
@@ -102,5 +102,5 @@ export const ActionRow = styled.div`
 
 export const LiveRegion = styled.span`
   color: #475569;
-  font-size: 13px;
+  font-size: 14px;
 `;

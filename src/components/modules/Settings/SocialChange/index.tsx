@@ -175,7 +175,7 @@ function SocialChange({
                         size={42}
                       />
                       <div style={{ minWidth: 0, flex: 1, display: "flex", flexDirection: "column", gap: 3 }}>
-                        <Typography.Text strong style={{ fontSize: 15, color: "#0F172A", lineHeight: 1.2 }}>
+                        <Typography.Text strong style={{ fontSize: 16, color: "#0F172A", lineHeight: 1.2 }}>
                           {item.socialId?.name || "Mạng xã hội"}
                         </Typography.Text>
                         <a
@@ -184,7 +184,7 @@ function SocialChange({
                           rel="noopener noreferrer"
                           style={{
                             color: "#0066CC",
-                            fontSize: 13,
+                            fontSize: 14,
                             display: "inline-flex",
                             alignItems: "center",
                             gap: 6,

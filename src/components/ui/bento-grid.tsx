@@ -68,7 +68,7 @@ export const BentoCard = ({
       </div>
 
       {badge && (
-        <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 border border-slate-200/90 px-3 py-1 text-xs font-black text-slate-700 shadow-2xs">
+        <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 border border-slate-200/90 px-3 py-1 text-xs font-extrabold text-slate-700 shadow-2xs">
           {badge}
         </span>
       )}
@@ -77,7 +77,7 @@ export const BentoCard = ({
     {/* Bottom Content Area */}
     <div className="relative z-10 mt-auto flex flex-col gap-2.5 pt-4">
       <div>
-        <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight m-0 group-hover:text-[#0066CC] transition-colors">
+        <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight m-0 group-hover:text-[#0066CC] transition-colors">
           {name}
         </h3>
         <p className="max-w-md text-xs sm:text-sm text-slate-600 font-medium leading-relaxed m-0 mt-1 line-clamp-2">
@@ -86,7 +86,7 @@ export const BentoCard = ({
       </div>
 
       {/* Action CTA Bar */}
-      <div className="flex items-center gap-1.5 pt-1 text-xs font-black text-[#0066CC] group-hover:text-[#004C99]">
+      <div className="flex items-center gap-1.5 pt-1 text-xs font-extrabold text-[#0066CC] group-hover:text-[#004C99]">
         <span>{cta}</span>
         <ArrowRight className="h-3.5 w-3.5 transform-gpu transition-transform duration-300 motion-safe:group-hover:translate-x-1.5" />
       </div>

@@ -116,10 +116,10 @@ export class ErrorBoundary extends Component<Props, State> {
               <WarningOutlined />
             </div>
             <div>
-              <h4 style={{ margin: "0 0 4px 0", color: "#1e293b", fontSize: "15px", fontWeight: 600 }}>
+              <h4 style={{ margin: "0 0 4px 0", color: "#1e293b", fontSize: "16px", fontWeight: 600 }}>
                 {this.props.title || "Phần nội dung này tạm thời bị gián đoạn"}
               </h4>
-              <p style={{ margin: 0, color: "#64748b", fontSize: "13px" }}>
+              <p style={{ margin: 0, color: "#64748b", fontSize: "14px" }}>
                 {this.props.description || "Đã xảy ra lỗi khi tải module này. Vui lòng thử lại."}
               </p>
             </div>

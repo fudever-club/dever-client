@@ -102,12 +102,12 @@ export const SwitchHitArea = styled.span`
 `;
 
 export const TopicsLabel = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #334155;
 `;
 
 export const LiveRegion = styled.span`
   color: #475569;
-  font-size: 13px;
+  font-size: 14px;
 `;

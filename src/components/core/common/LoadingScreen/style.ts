@@ -86,7 +86,7 @@ export const CenterBadge = styled.div`
   justify-content: center;
   color: #0066CC;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.8);
   animation: ${pulseGlow} 2s ease-in-out infinite;
@@ -100,7 +100,7 @@ export const CenterBadge = styled.div`
 
 export const BrandTitle = styled.h2`
   font-size: 18px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   background: linear-gradient(135deg, #004C99 0%, #0066CC 50%, #0080FF 100%);
@@ -117,7 +117,7 @@ export const BrandTitle = styled.h2`
 `;
 
 export const StatusText = styled.p`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #64748B;
   margin: 0 0 20px 0;

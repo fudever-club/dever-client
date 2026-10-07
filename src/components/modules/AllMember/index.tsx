@@ -191,7 +191,7 @@ function AllMemberModule() {
           <S.HeadFilter>
             <S.RowCustom gutter={16}>
               <Col xs={24} md={6}>
-                <Typography.Title level={5}>{t("position")}</Typography.Title>
+                <span style={{ display: "block", marginBottom: 8, fontSize: 12, fontWeight: 600, color: "#334155", textTransform: "uppercase", letterSpacing: "0.06em" }}>{t("position")}</span>
                 <Select
                   placeholder={t("enterPosition")}
                   allowClear
@@ -207,7 +207,7 @@ function AllMemberModule() {
                 </Select>
               </Col>
               <Col xs={24} md={6}>
-                <Typography.Title level={5}>{t("department")}</Typography.Title>
+                <span style={{ display: "block", marginBottom: 8, fontSize: 12, fontWeight: 600, color: "#334155", textTransform: "uppercase", letterSpacing: "0.06em" }}>{t("department")}</span>
                 <Select
                   placeholder={t("enterDepartment")}
                   allowClear
@@ -226,7 +226,7 @@ function AllMemberModule() {
                 </Select>
               </Col>
               <Col xs={24} md={6}>
-                <Typography.Title level={5}>{t("major")}</Typography.Title>
+                <span style={{ display: "block", marginBottom: 8, fontSize: 12, fontWeight: 600, color: "#334155", textTransform: "uppercase", letterSpacing: "0.06em" }}>{t("major")}</span>
                 <Select
                   placeholder={t("enterMajor")}
                   allowClear
@@ -242,7 +242,7 @@ function AllMemberModule() {
                 </Select>
               </Col>
               <Col xs={24} md={6}>
-                <Typography.Title level={5}>{t("generation")}</Typography.Title>
+                <span style={{ display: "block", marginBottom: 8, fontSize: 12, fontWeight: 600, color: "#334155", textTransform: "uppercase", letterSpacing: "0.06em" }}>{t("generation")}</span>
                 <Select
                   placeholder={t("enterGeneration")}
                   allowClear

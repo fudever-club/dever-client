@@ -124,7 +124,7 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
               <span>THƯ MỜI DANH DỰ TỪ BAN CHỦ NHIỆM</span>
             </div>
 
-            <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white mt-2">
+            <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white mt-2">
               Hội Đồng Cố Vấn &amp; Mạng Lưới Cựu Thành Viên
             </h2>
 

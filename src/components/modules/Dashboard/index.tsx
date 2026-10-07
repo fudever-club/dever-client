@@ -137,7 +137,7 @@ function Dashboard() {
           onClose={handlePromoClose}
           className="!rounded-3xl !border-blue-200/80 !bg-gradient-to-r !from-[#003B73] !via-[#004C99] !to-[#0066CC] !text-white shadow-lg [&_.ant-alert-message]:!text-white [&_.ant-alert-description]:!text-blue-100 [&_.ant-alert-close-icon]:!text-white"
           message={
-            <span className="font-black text-sm sm:text-base">
+            <span className="font-extrabold text-sm sm:text-base">
               Cộng đồng DEVER Open Source &amp; Hội đồng Cố vấn (+150 EXP)
             </span>
           }
@@ -268,7 +268,7 @@ function Dashboard() {
       <section className="space-y-4 pt-2">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 className="text-lg sm:text-xl font-black text-slate-900 m-0 flex items-center gap-2">
+            <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 m-0 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-[#0066CC]" /> Mới từ Hệ Sinh Thái DEVER
             </h2>
             <p className="text-xs text-slate-500 mt-0.5 m-0">
@@ -311,12 +311,12 @@ function Dashboard() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-[#0066CC] text-xs font-black border border-blue-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-[#0066CC] text-xs font-extrabold border border-blue-100">
                     <Calendar className="w-3.5 h-3.5" /> Sự kiện sắp tới
                   </span>
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066CC] motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
-                <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
+                <h4 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
                   {eventsQuery.data?.data?.[0]?.title || "Chưa có sự kiện nào"}
                 </h4>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
@@ -332,12 +332,12 @@ function Dashboard() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-black border border-amber-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-extrabold border border-amber-100">
                     <BookOpen className="w-3.5 h-3.5" /> Kho tài liệu
                   </span>
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-700 motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
-                <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
+                <h4 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
                   {resourcesQuery.data?.data?.[0]?.title || "Chưa có tài liệu nào"}
                 </h4>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
@@ -353,12 +353,12 @@ function Dashboard() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-black border border-purple-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-extrabold border border-purple-100">
                     <FileText className="w-3.5 h-3.5" /> Bài viết công nghệ
                   </span>
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-700 motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
-                <h4 className="font-black text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
+                <h4 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
                   {blogsQuery.data?.data?.[0]?.title || "Chưa có bài viết nào"}
                 </h4>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
@@ -380,7 +380,7 @@ function Dashboard() {
               <Shield className="w-5 h-5 text-[#0066CC]" />
             </div>
             <div>
-              <h4 className="text-sm font-black text-slate-900 m-0">Công cụ quản trị viên</h4>
+              <h4 className="text-sm font-extrabold text-slate-900 m-0">Công cụ quản trị viên</h4>
               <p className="text-xs text-slate-500 m-0">
                 Xuất bản bài viết kỹ thuật hoặc quản lý sự kiện cho CLB.
               </p>
@@ -390,7 +390,7 @@ function Dashboard() {
             type="primary"
             onClick={() => router.push(`/${locale}/create-blog`)}
             icon={<Edit3 className="w-3.5 h-3.5" />}
-            className="inline-flex items-center gap-2 !rounded-xl text-xs font-black shadow-md shadow-blue-500/20 self-start sm:self-center min-h-[44px]"
+            className="inline-flex items-center gap-2 !rounded-xl text-xs font-extrabold shadow-md shadow-blue-500/20 self-start sm:self-center min-h-[44px]"
           >
             Đăng bài chia sẻ
           </Button>

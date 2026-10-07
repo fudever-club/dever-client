@@ -349,7 +349,7 @@ export default function FundModule() {
             <ThunderboltOutlined />
             <span>{t("badge", "CỔNG ĐÓNG QUỸ FU-DEVER")}</span>
           </div>
-          <Title level={2} className="!mb-1 text-slate-900 font-black tracking-tight">
+          <Title level={2} className="!mb-1 text-slate-900 font-extrabold tracking-tight">
             {t("heading", "Quỹ Hoạt Động & Phát Triển CLB")}
           </Title>
           <Text type="secondary" className="text-sm">
@@ -399,7 +399,7 @@ export default function FundModule() {
         <div className="rounded-3xl border border-blue-100 bg-gradient-to-r from-blue-50 via-white to-white p-6 shadow-md">
           <div className="flex flex-col gap-1">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <Title level={4} className="!mb-0 text-slate-900 font-extrabold">
+              <Title level={3} className="!mb-0 text-slate-900 font-extrabold">
                 {stats.title}
               </Title>
               {stats.semester && (
@@ -437,7 +437,7 @@ export default function FundModule() {
               <Tag color="success" className="font-extrabold text-xs px-2.5 py-0.5 rounded-full">
                 {t("approvedTag", "✓ ĐÃ HOÀN THÀNH NGHĨA VỤ QUỸ")}
               </Tag>
-              <h3 className="text-xl font-black text-slate-900 mt-1">{t("approvedTitle", "Chúc mừng! Bạn đã hoàn thành đóng quỹ kỳ này")}</h3>
+              <h3 className="text-xl font-extrabold text-slate-900 mt-1">{t("approvedTitle", "Chúc mừng! Bạn đã hoàn thành đóng quỹ kỳ này")}</h3>
               <p className="text-xs text-slate-600 font-medium mt-0.5">
                 {t("approvedMetaPeriod", "Kỳ quỹ:")} <b>{activeCampaign?.title}</b> • {t("approvedMetaConfirmed", "Số tiền đã xác nhận:")} <b>{(activePayment.amount || 100000).toLocaleString("vi-VN")} đ</b>
               </p>
@@ -464,7 +464,7 @@ export default function FundModule() {
               <Tag color="warning" className="font-extrabold text-xs px-2.5 py-0.5 rounded-full">
                 {t("pendingTag", "⏳ ĐANG CHỜ ĐỐI SOÁT")}
               </Tag>
-              <h3 className="text-xl font-black text-slate-900 mt-1">{t("pendingTitle", "Minh chứng của bạn đang được Ban Quản Trị kiểm tra")}</h3>
+              <h3 className="text-xl font-extrabold text-slate-900 mt-1">{t("pendingTitle", "Minh chứng của bạn đang được Ban Quản Trị kiểm tra")}</h3>
               <p className="text-xs text-slate-600 font-medium mt-0.5">
                 {t("pendingMetaPrefix", "Đã nộp lúc:")} <b>{dayjs(activePayment.createdAt).format("HH:mm DD/MM/YYYY")}</b>. {t("pendingMetaSuffix", "Ban Quản Trị sẽ duyệt ngay khi tiền về tài khoản.")}
               </p>
@@ -611,7 +611,7 @@ export default function FundModule() {
                   <div className="flex items-center justify-between py-1 border-b border-blue-100/80">
                     <span className="text-slate-500 font-medium text-xs">{t("accNumber", "Số tài khoản nhận:")}</span>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-lg font-black text-slate-900 tracking-wider">
+                      <span className="font-mono text-lg font-extrabold text-slate-900 tracking-wider">
                         {qrAccNumber}
                       </span>
                       <Tooltip title={t("copyAccTitle", "Sao chép số tài khoản")}>
@@ -630,7 +630,7 @@ export default function FundModule() {
                   {/* Account Holder */}
                   <div className="flex items-center justify-between py-1 border-b border-blue-100/80">
                     <span className="text-slate-500 font-medium text-xs">{t("accHolder", "Chủ tài khoản (Thủ Quỹ):")}</span>
-                    <span className="font-black text-sm text-slate-900 uppercase tracking-wide">
+                    <span className="font-extrabold text-sm text-slate-900 uppercase tracking-wide">
                       {qrAccHolder}
                     </span>
                   </div>
@@ -639,7 +639,7 @@ export default function FundModule() {
                   <div className="flex items-center justify-between py-1 border-b border-blue-100/80">
                     <span className="text-slate-500 font-medium text-xs">{t("amountLabel", "Mức thu kỳ này:")}</span>
                     <div className="flex items-center gap-2">
-                      <span className="font-black text-[#0066CC] text-base">
+                      <span className="font-extrabold text-[#0066CC] text-base">
                         {qrAmount.toLocaleString("vi-VN")} đ
                       </span>
                       <Tooltip title={t("copyAmountTitle", "Sao chép số tiền")}>
@@ -781,7 +781,7 @@ export default function FundModule() {
                   loading={submitting || uploadingImage}
                   disabled={!proofImageUrl}
                   onClick={handleSubmitPayment}
-                  className="bg-[#0066CC] hover:bg-[#004C99] rounded-2xl font-black text-sm shadow-xl shadow-blue-600/25 active:scale-[0.98] transition-all h-14 text-white flex items-center justify-center gap-2"
+                  className="bg-[#0066CC] hover:bg-[#004C99] rounded-2xl font-extrabold text-sm shadow-xl shadow-blue-600/25 active:scale-[0.98] transition-all h-14 text-white flex items-center justify-center gap-2"
                 >
                   <span>{t("confirmSubmit", "Xác Nhận Đã Chuyển Khoản & Nộp Minh Chứng")}</span>
                   <ArrowRightOutlined />

@@ -67,7 +67,7 @@ function Card({ data, top, isTop1 }: CardProps) {
               padding: "3px 12px",
               borderRadius: "9999px",
               fontSize: "11px",
-              fontWeight: 900,
+              fontWeight: 800,
               border: "1px solid #FDE68A",
               letterSpacing: "0.02em",
             }}
@@ -84,7 +84,7 @@ function Card({ data, top, isTop1 }: CardProps) {
               color: "#475569",
               padding: "2px 10px",
               borderRadius: "9999px",
-              fontSize: "10px",
+              fontSize: "11px",
               fontWeight: 800,
               border: "1px solid #E2E8F0",
             }}
@@ -101,7 +101,7 @@ function Card({ data, top, isTop1 }: CardProps) {
               color: "#C2410C",
               padding: "2px 10px",
               borderRadius: "9999px",
-              fontSize: "10px",
+              fontSize: "11px",
               fontWeight: 800,
               border: "1px solid #FED7AA",
             }}
@@ -152,7 +152,7 @@ function Card({ data, top, isTop1 }: CardProps) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontWeight: 900,
+              fontWeight: 800,
               fontSize: isGold ? "22px" : "18px",
               border: isGold
                 ? "3.5px solid #F59E0B"
@@ -179,7 +179,7 @@ function Card({ data, top, isTop1 }: CardProps) {
               ? "linear-gradient(135deg, #94A3B8 0%, #64748B 100%)"
               : "linear-gradient(135deg, #F97316 0%, #EA580C 100%)",
             color: "#FFFFFF",
-            fontWeight: 900,
+            fontWeight: 800,
             fontSize: isGold ? "12px" : "11px",
             display: "flex",
             alignItems: "center",
@@ -196,7 +196,7 @@ function Card({ data, top, isTop1 }: CardProps) {
       <div style={{ width: "100%", minWidth: 0, padding: "0 4px", boxSizing: "border-box" }}>
         <h3
           style={{
-            fontSize: isGold ? "15px" : "14px",
+            fontSize: isGold ? "16px" : "14px",
             fontWeight: 800,
             color: "#0F172A",
             margin: "0 0 3px 0",
