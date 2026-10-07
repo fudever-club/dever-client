@@ -53,6 +53,7 @@ import { useLocale } from "next-intl";
 import { useTranslation } from "@/app/i18n/client";
 import { useAppSelector } from "@/hooks/redux-toolkit";
 import webStorageClient from "@/utils/webStorageClient";
+import PageHero from "@/components/ui/PageHero";
 import { apiClient } from "@/utils/apiClient";
 import { compressImage } from "@/utils/imageCompressor";
 import {
@@ -281,10 +282,10 @@ function RichMarkdownRenderer({ content }: { content: string }) {
           <PenTool size={28} />
         </div>
         <p style={{ fontSize: "16px", fontWeight: "700", color: "#334155", marginBottom: "6px" }}>
-          Nội dung xem trước thời gian thực sẽ hiển thị tại đây
+          Gõ Markdown bên trái để xem bài render bên phải
         </p>
         <p style={{ fontSize: "14px", color: "#64748B", maxWidth: "480px", margin: "0 auto" }}>
-          Hỗ trợ đầy đủ khối Code đa ngôn ngữ, Khung ghi chú (Callouts), Sơ đồ Mermaid, Bảng biểu và Ảnh chất lượng cao.
+          Dán đoạn code trong ```ngôn ngữ, chèn khung ghi chú bằng &gt; [!NOTE], vẽ sơ đồ bằng ```mermaid hoặc chèn ảnh bằng ![mô tả](link https).
         </p>
       </div>
     );
@@ -889,11 +890,11 @@ export default function CreateBlogModule() {
       const json = (res.data as any) || {};
       if (res.ok && json.status === "success") {
         if (actionType === "submit") {
-          message.success("🎉 Bài viết đã được gửi tới Ban Chuyên Môn xét duyệt!");
+          message.success("Bài viết đã được gửi tới Ban Chuyên Môn xét duyệt!");
         } else if (actionType === "publish") {
-          message.success("🚀 Bài viết đã được xuất bản trực tiếp lên Landing Page!");
+          message.success("Bài viết đã được xuất bản trực tiếp lên Landing Page!");
         } else {
-          message.success("💾 Bản nháp bài viết đã được lưu an toàn!");
+          message.success("Bản nháp bài viết đã được lưu an toàn!");
         }
 
         localStorage.removeItem("dever_blog_draft_v3");
@@ -938,48 +939,12 @@ export default function CreateBlogModule() {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#F8FAFC", padding: "24px 32px", display: "flex", flexDirection: "column", gap: "24px" }}>
       {/* Top Header Banner in DEVER Deep Blue */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #0066CC 0%, #0080FF 50%, #00B4D8 100%)",
-          borderRadius: "24px",
-          padding: "28px 36px",
-          color: "#FFFFFF",
-          boxShadow: "0 12px 30px -4px rgba(0, 102, 204, 0.25)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: "16px",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "4px 12px",
-              borderRadius: "9999px",
-              backgroundColor: "rgba(255, 255, 255, 0.18)",
-              backdropFilter: "blur(8px)",
-              fontSize: "12px",
-              fontWeight: 700,
-              width: "fit-content",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-            }}
-          >
-            <Sparkles size={14} color="#FDE047" /> DEVER Studio Blog Writer
-          </div>
-          <h1 style={{ fontSize: "28px", fontWeight: 800, margin: 0, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
-            {editingBlogId ? "Chỉnh Sửa Bài Viết Chuyên Môn" : "Soạn Thảo & Chia Sẻ Kiến Thức Kỹ Thuật"}
-          </h1>
-          <p style={{ fontSize: "14px", color: "#E0F2FE", margin: 0, fontWeight: 500 }}>
-            Chia sẻ kinh nghiệm lập trình, kiến trúc hệ thống, thuật toán và dự án thực tế cùng các thành viên CLB FU-DEVER.
-          </p>
-        </div>
-
-        {/* Tab Switcher Button */}
-        <div>
+      <PageHero
+        icon={<Sparkles size={14} color="#FFFFFF" />}
+        eyebrow="DEVER STUDIO BLOG WRITER"
+        title={editingBlogId ? "Chỉnh sửa bài viết: sửa tiêu đề, nội dung và ảnh bìa" : "Soạn bài mới: viết Markdown, xem trước và gửi duyệt"}
+        subtitle="Khung soạn 2 cột có xem trước trực tiếp, chèn khối code/Mermaid/bảng/ảnh R2, tự lưu nháp sau 2 giây và kiểm tra đủ tiêu đề, nội dung, chuyên mục, tag trước khi bấm Gửi duyệt."
+        action={
           <button
             type="button"
             onClick={() => setActiveTab(activeTab === "editor" ? "my-blogs" : "editor")}
@@ -995,8 +960,7 @@ export default function CreateBlogModule() {
               fontSize: "14px",
               fontWeight: 800,
               cursor: "pointer",
-              boxShadow: "0 4px 14px rgba(0, 0, 0, 0.1)",
-              transition: "transform 0.2s ease",
+              minHeight: 44,
             }}
           >
             {activeTab === "editor" ? (
@@ -1009,8 +973,8 @@ export default function CreateBlogModule() {
               </>
             )}
           </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* Main Tabs Container */}
       {activeTab === "editor" ? (
@@ -1350,6 +1314,16 @@ export default function CreateBlogModule() {
               ) : (
                 <div
                   onClick={() => coverFileRef.current?.click()}
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Tải ảnh bìa bài viết từ máy tính"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      coverFileRef.current?.click();
+                    }
+                  }}
+                  className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0066CC]"
                   style={{
                     width: "100%",
                     height: "160px",

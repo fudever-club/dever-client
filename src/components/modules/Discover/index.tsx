@@ -18,8 +18,11 @@ import {
   useGetResourcesQuery,
 } from "@/store/queries/ecosystem";
 import MentorshipSection from "@/components/modules/Mentorship";
+import PageHero from "@/components/ui/PageHero";
+import { useLocale } from "next-intl";
 
 function Discover() {
+  const locale = useLocale();
   const events = useGetEventsQuery();
   const resources = useGetResourcesQuery();
   const blogs = useGetBlogsQuery();
@@ -28,46 +31,12 @@ function Discover() {
   return (
     <main style={{ maxWidth: "1280px", margin: "0 auto", paddingBottom: "48px", display: "flex", flexDirection: "column", gap: "28px" }}>
       {/* Header Banner */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #004C99 0%, #0066CC 55%, #0080FF 100%)",
-          borderRadius: "24px",
-          padding: "32px",
-          color: "#FFFFFF",
-          boxShadow: "0 12px 32px -4px rgba(0, 102, 204, 0.25)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "700px", position: "relative", zIndex: 1 }}>
-          <div>
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                borderRadius: "9999px",
-                backgroundColor: "rgba(255, 255, 255, 0.2)",
-                padding: "4px 14px",
-                fontSize: "11px",
-                fontWeight: 800,
-                border: "1px solid rgba(255, 255, 255, 0.35)",
-                backdropFilter: "blur(4px)",
-              }}
-            >
-              <CompassOutlined style={{ color: "#FFD700" }} /> KHÁM PHÁ HỆ SINH THÁI DEVER
-            </span>
-          </div>
-
-          <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.02em", margin: 0, lineHeight: 1.2 }}>
-            Tài Nguyên, Sự Kiện & Cơ Hội Học Tập
-          </h1>
-
-          <p style={{ fontSize: "14px", color: "rgba(255, 255, 255, 0.9)", margin: 0, lineHeight: 1.6 }}>
-            Cập nhật liên tục các buổi Workshop, tài liệu chuyên môn, bài viết kỹ thuật và dự án nghiên cứu phát triển mở cho toàn bộ thành viên.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        icon={<CompassOutlined />}
+        eyebrow="KHÁM PHÁ HỆ SINH THÁI DEVER"
+        title="Tài nguyên, sự kiện và nhóm học tập theo lịch Ban tổ chức"
+        subtitle="Lịch workshop kèm link đăng ký, tài liệu có nút mở file, bài blog kỹ thuật của thành viên và Project Lab đang tuyển — mỗi nhóm hiển thị tối đa 3 mục lấy trực tiếp từ API hệ sinh thái."
+      />
 
       {/* Mentor & Cố vấn: mentor grid + my requests tabs */}
       <MentorshipSection />
@@ -80,6 +49,9 @@ function Discover() {
         error={events.isError}
         items={events.data?.data ?? []}
         empty="Chưa có sự kiện mới được công bố."
+        emptyHint="Workshop và lịch sinh hoạt CLB được cập nhật theo tuần. Quay lại sau hoặc về bảng điều khiển để xem hoạt động khác."
+        emptyCtaLabel="Về bảng điều khiển"
+        emptyCtaHref={`/${locale}/dashboard`}
         retry={events.refetch}
         renderItem={(item, index) => (
           <Col xs={24} md={8} key={item._id || index}>
@@ -136,6 +108,9 @@ function Discover() {
         error={resources.isError}
         items={resources.data?.data ?? []}
         empty="Chưa có tài liệu được xuất bản."
+        emptyHint="Slide workshop, cẩm nang ôn thi và source code mẫu sẽ xuất hiện tại đây khi ban chuyên môn đăng tải."
+        emptyCtaLabel="Cập nhật hồ sơ"
+        emptyCtaHref={`/${locale}/settings`}
         retry={resources.refetch}
         renderItem={(item, index) => (
           <Col xs={24} md={8} key={item._id || index}>
@@ -154,7 +129,7 @@ function Discover() {
               }}
             >
               <div>
-                <Tag color="cyan" style={{ borderRadius: "6px", fontWeight: 700, fontSize: "11px", marginBottom: "8px" }}>
+                <Tag color="blue" style={{ borderRadius: "6px", fontWeight: 700, fontSize: "11px", marginBottom: "8px" }}>
                   {item.type || "Tài liệu"}
                 </Tag>
                 <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#1E293B", margin: "4px 0" }}>
@@ -189,6 +164,9 @@ function Discover() {
         error={blogs.isError}
         items={blogs.data?.data ?? []}
         empty="Chưa có bài viết được xuất bản."
+        emptyHint="Bạn có thể là người đầu tiên chia sẻ kiến thức với CLB. Bài viết mới sẽ xuất hiện tại đây sau khi được duyệt."
+        emptyCtaLabel="Soạn bài viết"
+        emptyCtaHref={`/${locale}/create-blog`}
         retry={blogs.refetch}
         renderItem={(item, index) => (
           <Col xs={24} md={8} key={item._id || index}>
@@ -207,7 +185,7 @@ function Discover() {
               }}
             >
               <div>
-                <Tag color="geekblue" style={{ borderRadius: "6px", fontWeight: 700, fontSize: "11px", marginBottom: "8px" }}>
+                <Tag color="blue" style={{ borderRadius: "6px", fontWeight: 700, fontSize: "11px", marginBottom: "8px" }}>
                   {item.category || "DEVER Blog"}
                 </Tag>
                 <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#1E293B", margin: "4px 0" }}>
@@ -230,6 +208,9 @@ function Discover() {
         error={labs.isError}
         items={labs.data?.data ?? []}
         empty="Chưa có dự án đang tuyển thành viên."
+        emptyHint="Dự án mở tuyển thành viên sẽ xuất hiện tại đây. Theo dõi bảng vàng để xem các đóng góp nổi bật."
+        emptyCtaLabel="Xem bảng vàng"
+        emptyCtaHref={`/${locale}/hall-of-fame`}
         retry={labs.refetch}
         renderItem={(item, index) => (
           <Col xs={24} md={8} key={item._id || index}>
@@ -249,7 +230,7 @@ function Discover() {
             >
               <div>
                 <Tag
-                  color={item.status === "open" ? "green" : "default"}
+                  color={item.status === "open" ? "blue" : "default"}
                   style={{ borderRadius: "6px", fontWeight: 700, fontSize: "11px", marginBottom: "8px" }}
                 >
                   {item.status === "open" ? "Đang tuyển" : item.status || "Project Lab"}
@@ -288,6 +269,9 @@ type FeedSectionProps = {
   error: boolean;
   items: any[];
   empty: string;
+  emptyHint?: string;
+  emptyCtaLabel?: string;
+  emptyCtaHref?: string;
   renderItem: (item: any, index: number) => ReactNode;
   retry: () => void;
 };
@@ -299,6 +283,9 @@ function FeedSection({
   error,
   items,
   empty,
+  emptyHint,
+  emptyCtaLabel,
+  emptyCtaHref,
   renderItem,
   retry,
 }: FeedSectionProps) {
@@ -330,7 +317,18 @@ function FeedSection({
         />
       ) : items.length === 0 ? (
         <div style={{ backgroundColor: "#FFFFFF", borderRadius: "20px", padding: "32px", textAlign: "center", border: "1px solid #E2E8F0" }}>
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={empty} />
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={emptyHint ? `${empty} ${emptyHint}` : empty}
+          >
+            {emptyCtaLabel && emptyCtaHref ? (
+              <a href={emptyCtaHref}>
+                <Button type="primary" style={{ borderRadius: "10px", fontWeight: 700, minHeight: 44 }}>
+                  {emptyCtaLabel}
+                </Button>
+              </a>
+            ) : null}
+          </Empty>
         </div>
       ) : (
         <Row gutter={[16, 16]}>{items.slice(0, 3).map(renderItem)}</Row>

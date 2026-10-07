@@ -6,7 +6,6 @@ import {
   BookOpen,
   Calendar,
   CheckCircle2,
-  Code2,
   Compass,
   Edit3,
   ExternalLink,
@@ -135,7 +134,7 @@ function Dashboard() {
           showIcon
           closable
           onClose={handlePromoClose}
-          className="!rounded-3xl !border-blue-200/80 !bg-gradient-to-r !from-[#003B73] !via-[#004C99] !to-[#0066CC] !text-white shadow-lg [&_.ant-alert-message]:!text-white [&_.ant-alert-description]:!text-blue-100 [&_.ant-alert-close-icon]:!text-white"
+          className="!rounded-3xl !border-blue-200 !bg-white shadow-sm [&_.ant-alert-message]:!text-slate-900 [&_.ant-alert-description]:!text-slate-600 [&_.ant-alert-close-icon]:!text-slate-400"
           message={
             <span className="font-extrabold text-sm sm:text-base">
               Cộng đồng DEVER Open Source &amp; Hội đồng Cố vấn (+150 EXP)
@@ -143,7 +142,7 @@ function Dashboard() {
           }
           description={
             <div className="flex flex-col gap-3">
-              <p className="m-0 text-xs text-blue-100 max-w-2xl">
+              <p className="m-0 text-xs text-slate-600 max-w-2xl">
                 Trân trọng kính mời các thế hệ Cựu thành viên đồng hành định hướng, chia sẻ
                 dự án cá nhân &amp; mã nguồn mở lên hệ sinh thái FU-DEVER để nhận điểm danh
                 vọng và mở khóa huy hiệu Core Contributor.
@@ -153,19 +152,17 @@ function Dashboard() {
                   type="primary"
                   size="middle"
                   onClick={() => setAdvisoryOpen(true)}
-                  className="!bg-amber-400 hover:!bg-amber-300 !text-slate-900 !border-amber-400 font-extrabold !rounded-xl shadow-md min-h-[44px]"
+                  className="!rounded-xl font-bold min-h-[44px]"
                 >
                   Nhận Thư Mời &amp; Đồng Hành
                 </Button>
-                <Button
-                  type="primary"
-                  size="middle"
-                  icon={<Code2 className="w-4 h-4" />}
+                <button
+                  type="button"
                   onClick={() => setSubmitProjectOpen(true)}
-                  className="font-extrabold !rounded-xl shadow-md shadow-blue-500/20 min-h-[44px]"
+                  className="text-xs font-bold text-[#0066CC] hover:underline min-h-[44px] px-2"
                 >
-                  + Đóng Góp Dự Án
-                </Button>
+                  Hoặc đóng góp dự án mã nguồn mở
+                </button>
               </div>
             </div>
           }
@@ -320,7 +317,7 @@ function Dashboard() {
                   {eventsQuery.data?.data?.[0]?.title || "Chưa có sự kiện nào"}
                 </h4>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
-                  {eventsQuery.data?.data?.[0]?.date || "Danh sách sự kiện sẽ hiển thị tại đây khi có dữ liệu."}
+                  {eventsQuery.data?.data?.[0]?.date || "Workshop, buổi chia sẻ và lịch sinh hoạt CLB cập nhật theo tuần."}
                 </p>
               </div>
             </div>
@@ -332,16 +329,16 @@ function Dashboard() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-extrabold border border-amber-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-[#0066CC] text-xs font-extrabold border border-blue-100">
                     <BookOpen className="w-3.5 h-3.5" /> Kho tài liệu
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-700 motion-safe:group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066CC] motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
                 <h4 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
                   {resourcesQuery.data?.data?.[0]?.title || "Chưa có tài liệu nào"}
                 </h4>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
-                  {resourcesQuery.data?.data?.[0]?.type || "Kho tài liệu sẽ hiển thị tại đây khi có dữ liệu."}
+                  {resourcesQuery.data?.data?.[0]?.type || "Slide workshop, cẩm nang ôn thi và source code mẫu từ các ban."}
                 </p>
               </div>
             </div>
@@ -353,10 +350,10 @@ function Dashboard() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-extrabold border border-purple-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-[#0066CC] text-xs font-extrabold border border-blue-100">
                     <FileText className="w-3.5 h-3.5" /> Bài viết công nghệ
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-700 motion-safe:group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066CC] motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
                 <h4 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
                   {blogsQuery.data?.data?.[0]?.title || "Chưa có bài viết nào"}
@@ -364,7 +361,7 @@ function Dashboard() {
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
                   {labsQuery.data?.data?.length
                     ? `${labsQuery.data.data.length} dự án đang mở nhận thành viên.`
-                    : "Bài viết mới sẽ hiển thị tại đây khi có dữ liệu."}
+                    : "Bài viết kỹ thuật mới nhất từ thành viên và ban chuyên môn."}
                 </p>
               </div>
             </div>

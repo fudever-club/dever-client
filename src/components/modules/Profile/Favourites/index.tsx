@@ -61,7 +61,7 @@ function Favourites({ userData, isUserDataFetching }: IProps) {
                     <div>
                       {userData?.favourites.map((item, _) => (
                         <span key={_} style={{ display: "inline-block" }}>
-                          <S.TagCustom closable={false} color="purple">
+                          <S.TagCustom closable={false} color="blue">
                             {item}
                           </S.TagCustom>
                         </span>

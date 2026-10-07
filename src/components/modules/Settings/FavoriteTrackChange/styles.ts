@@ -83,6 +83,7 @@ export const PresetChip = styled.button<{ $active?: boolean }>`
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
+  min-height: 44px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
@@ -96,6 +97,11 @@ export const PresetChip = styled.button<{ $active?: boolean }>`
     border-color: #0066cc;
     color: #0066cc;
     transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid #0066cc;
+    outline-offset: 2px;
   }
 `;
 
@@ -122,8 +128,8 @@ export const PlayButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: #0066cc;
   color: #ffffff;
@@ -134,8 +140,13 @@ export const PlayButton = styled.button`
   transition: all 0.2s ease;
 
   &:hover {
-    background: #0080ff;
+    background: #004c99;
     transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
   }
 
   &:active {

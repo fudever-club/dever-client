@@ -123,7 +123,7 @@ function LeetCode({ userData, isUserDataFetching }: IProps) {
 
             <Flex align="center" gap={8}>
               <Tag
-                color="gold"
+                color="blue"
                 icon={<ThunderboltFilled />}
                 style={{ borderRadius: 16, padding: "2px 10px", fontWeight: 700, fontSize: 14 }}
               >
@@ -170,7 +170,7 @@ function LeetCode({ userData, isUserDataFetching }: IProps) {
                       border: "1px solid #E2E8F0",
                       transition: "all 0.2s ease",
                     }}
-                    className="hover:border-amber-300 hover:bg-amber-50/30"
+                    className="hover:border-blue-300 hover:bg-blue-50/50"
                   >
                     <Flex align="center" gap={10} style={{ minWidth: 0, flex: 1 }}>
                       <CheckCircleFilled style={{ color: "#10B981", fontSize: 16, flexShrink: 0 }} />
@@ -216,11 +216,11 @@ function LeetCode({ userData, isUserDataFetching }: IProps) {
                 padding: "20px 16px",
                 textAlign: "center",
                 borderRadius: 10,
-                background: "#FFFBEB",
-                border: "1px dashed #FDE68A",
+                background: "#EFF6FF",
+                border: "1px dashed #BFDBFE",
               }}
             >
-              <Typography.Text style={{ color: "#D97706", fontSize: 14, fontWeight: 500 }}>
+              <Typography.Text style={{ color: "#004C99", fontSize: 14, fontWeight: 500 }}>
                 Đã kết nối tài khoản @{leetcodeUsername} • Đang đồng bộ dữ liệu bài giải...
               </Typography.Text>
             </div>

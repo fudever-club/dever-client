@@ -37,9 +37,8 @@ export default function LevelProgressCard() {
 
   return (
     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white via-slate-50/90 to-blue-50/40 p-6 sm:p-7 border border-slate-200/90 shadow-sm transition-all hover:shadow-md">
-      {/* Subtle Ambient Decorative Glows */}
+      {/* Subtle Ambient Decorative Glow */}
       <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-gradient-to-br from-blue-400/10 to-cyan-400/15 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-20 left-1/3 h-52 w-52 rounded-full bg-gradient-to-tr from-amber-300/10 to-orange-400/10 blur-3xl" />
 
       <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
         {/* Left: Level Icon, Title & EXP Stats */}
@@ -84,7 +83,7 @@ export default function LevelProgressCard() {
           {/* Streak Flame Pill */}
           <div className="flex items-center gap-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 px-3.5 py-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white shadow-xs">
-              <Flame className="w-4 h-4 fill-white animate-pulse" />
+              <Flame className="w-4 h-4 fill-white" />
             </div>
             <div>
               <span className="block text-xs font-bold text-amber-800 uppercase tracking-wider">
@@ -114,7 +113,7 @@ export default function LevelProgressCard() {
               </>
             ) : (
               <>
-                <Sparkles className="w-4 h-4 text-yellow-300 animate-spin" />
+                <Sparkles className="w-4 h-4 text-yellow-300" />
                 <span>Điểm Danh +EXP</span>
               </>
             )}

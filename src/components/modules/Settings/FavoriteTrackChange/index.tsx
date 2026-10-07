@@ -308,7 +308,7 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
 
               <Space>
                 {isPlaying && (
-                  <Tag color="cyan" style={{ border: "none", animation: "pulse 2s infinite" }}>
+                  <Tag color="blue" style={{ border: "none" }}>
                     <SoundOutlined /> Đang phát thử
                   </Tag>
                 )}

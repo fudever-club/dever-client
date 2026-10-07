@@ -428,14 +428,14 @@ export default function FundModule() {
 
       {/* 3-Way Status Notification Card */}
       {activePayment?.status === "approved" && (
-        <div className="rounded-3xl border-2 border-emerald-400 bg-gradient-to-r from-emerald-50 via-teal-50 to-white p-6 shadow-xl shadow-emerald-500/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30 shrink-0">
+            <div className="h-16 w-16 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0">
               <SafetyCertificateOutlined style={{ fontSize: "32px" }} />
             </div>
             <div>
-              <Tag color="success" className="font-extrabold text-xs px-2.5 py-0.5 rounded-full">
-                {t("approvedTag", "✓ ĐÃ HOÀN THÀNH NGHĨA VỤ QUỸ")}
+              <Tag color="success" icon={<CheckCircleOutlined />} className="font-bold text-xs px-2.5 py-0.5 rounded-full">
+                {t("approvedTag", "Hoàn thành nghĩa vụ quỹ")}
               </Tag>
               <h3 className="text-xl font-extrabold text-slate-900 mt-1">{t("approvedTitle", "Chúc mừng! Bạn đã hoàn thành đóng quỹ kỳ này")}</h3>
               <p className="text-xs text-slate-600 font-medium mt-0.5">
@@ -455,14 +455,14 @@ export default function FundModule() {
       )}
 
       {activePayment?.status === "pending" && (
-        <div className="rounded-3xl border-2 border-amber-300 bg-gradient-to-r from-amber-50 via-orange-50 to-white p-6 shadow-xl shadow-amber-500/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 text-white flex items-center justify-center shadow-lg shadow-amber-500/30 shrink-0">
+            <div className="h-16 w-16 rounded-2xl bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center shrink-0">
               <ClockCircleOutlined style={{ fontSize: "32px" }} />
             </div>
             <div>
-              <Tag color="warning" className="font-extrabold text-xs px-2.5 py-0.5 rounded-full">
-                {t("pendingTag", "⏳ ĐANG CHỜ ĐỐI SOÁT")}
+              <Tag color="warning" icon={<ClockCircleOutlined />} className="font-bold text-xs px-2.5 py-0.5 rounded-full">
+                {t("pendingTag", "Đang chờ đối soát")}
               </Tag>
               <h3 className="text-xl font-extrabold text-slate-900 mt-1">{t("pendingTitle", "Minh chứng của bạn đang được Ban Quản Trị kiểm tra")}</h3>
               <p className="text-xs text-slate-600 font-medium mt-0.5">
@@ -508,7 +508,7 @@ export default function FundModule() {
           <Col xs={24} lg={13}>
             <div className="rounded-3xl border border-slate-200/90 bg-white shadow-xl overflow-hidden flex flex-col justify-between h-full">
               {/* Card Header Bar */}
-              <div className="bg-gradient-to-r from-[#003B73] via-[#004C99] to-[#0066CC] p-5 text-white flex items-center justify-between">
+              <div className="bg-[#004C99] p-5 text-white flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20">
                     <BankOutlined className="text-xl text-amber-300" />
@@ -520,7 +520,7 @@ export default function FundModule() {
                     <span className="text-xs text-blue-100 font-mono">{t("bankAccountLabel", "Tài khoản Thủ Quỹ Chính Thức")}</span>
                   </div>
                 </div>
-                <Tag color="gold" className="font-bold text-xs px-2.5 py-0.5 rounded-full border-0 shadow-sm">
+                <Tag className="!bg-white !text-[#004C99] !border-white font-bold text-xs px-2.5 py-0.5 rounded-full shadow-sm">
                   {activeCampaign.semester || "Fall 2026"}
                 </Tag>
               </div>
@@ -533,19 +533,19 @@ export default function FundModule() {
                   <div className="inline-flex p-1 bg-white rounded-xl border border-slate-200 shadow-sm text-xs font-bold">
                     <button
                       onClick={() => setQrMode("vietqr")}
-                      className={`px-3.5 py-1.5 rounded-lg transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg transition-all inline-flex items-center gap-1 ${
                         qrMode === "vietqr" ? "bg-[#0066CC] text-white shadow-md" : "text-slate-600 hover:text-slate-900"
                       }`}
                     >
-                      {t("qrStandard", "⚡ Mã VietQR Chuẩn HD")}
+                      <ThunderboltOutlined />{t("qrStandard", "Mã VietQR chuẩn HD")}
                     </button>
                     <button
                       onClick={() => setQrMode("custom")}
-                      className={`px-3.5 py-1.5 rounded-lg transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg transition-all inline-flex items-center gap-1 ${
                         qrMode === "custom" ? "bg-[#0066CC] text-white shadow-md" : "text-slate-600 hover:text-slate-900"
                       }`}
                     >
-                      {t("qrCustom", "🖼️ Ảnh Gốc Thủ Quỹ")}
+                      <FileImageOutlined />{t("qrCustom", "Ảnh gốc thủ quỹ")}
                     </button>
                   </div>
 

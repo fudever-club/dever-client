@@ -23,6 +23,7 @@ import {
 import { Trophy as TrophyLucide } from "lucide-react";
 import { useGetHallOfFameQuery } from "@/store/queries/gamification";
 import SubmitProjectModal from "@/components/ui/SubmitProjectModal";
+import PageHero from "@/components/ui/PageHero";
 import { useAppSelector } from "@/hooks/redux-toolkit";
 
 const { Title, Text, Paragraph } = Typography;
@@ -188,55 +189,18 @@ export default function HallOfFameClientPage() {
   return (
     <main style={{ maxWidth: "1280px", margin: "0 auto", paddingBottom: "48px", display: "flex", flexDirection: "column", gap: "24px" }}>
       {/* Header Banner */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #004C99 0%, #0066CC 55%, #0080FF 100%)",
-          borderRadius: "24px",
-          padding: "32px",
-          color: "#FFFFFF",
-          boxShadow: "0 12px 32px -4px rgba(0, 102, 204, 0.25)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "20px", position: "relative", zIndex: 1 }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "700px" }}>
-            <div>
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  borderRadius: "9999px",
-                  backgroundColor: "rgba(255, 255, 255, 0.2)",
-                  padding: "4px 14px",
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  letterSpacing: "0.05em",
-                  border: "1px solid rgba(255, 255, 255, 0.35)",
-                  backdropFilter: "blur(4px)",
-                }}
-              >
-                <CrownOutlined style={{ color: "#FFD700" }} /> ĐẤU TRƯỜNG & DANH VỌNG DEVER
-              </span>
-            </div>
-
-            <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.02em", margin: 0, lineHeight: 1.2 }}>
-              Bảng Vàng Danh Dự (Hall of Fame)
-            </h1>
-
-            <p style={{ fontSize: "14px", color: "rgba(255, 255, 255, 0.9)", margin: 0, lineHeight: 1.6 }}>
-              Vinh danh những thành viên xuất sắc nhất của FU-DEVER qua chuỗi ngày rèn luyện thuật toán,
-              xuất bản bài viết kỹ thuật và đóng góp dự án mã nguồn mở.
-            </p>
-          </div>
-
+      <PageHero
+        icon={<CrownOutlined />}
+        eyebrow="ĐẤU TRƯỜNG & DANH VỌNG DEVER"
+        title="Bảng vàng danh dự (Hall of Fame)"
+        subtitle="Top 3 theo tổng EXP, bảng xếp hạng Level/EXP/chuỗi điểm danh/số huy hiệu và danh sách huy hiệu kèm điều kiện nhận. Nút “Đóng góp Dự án” gửi project cộng 150 EXP chờ Ban chuyên môn duyệt."
+        action={
           <button
             onClick={() => setSubmitProjectOpen(true)}
             style={{
-              background: "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
-              color: "#FFFFFF",
-              border: "none",
+              background: "#FFFFFF",
+              color: "#004C99",
+              border: "1px solid #BFDBFE",
               padding: "12px 24px",
               borderRadius: "16px",
               fontWeight: 700,
@@ -245,15 +209,15 @@ export default function HallOfFameClientPage() {
               display: "flex",
               alignItems: "center",
               gap: "8px",
-              boxShadow: "0 6px 20px rgba(245, 158, 11, 0.4)",
+              boxShadow: "0 2px 8px rgba(0, 76, 153, 0.08)",
               transition: "transform 0.2s ease",
               minHeight: 44,
             }}
           >
             <PlusOutlined /> Đóng góp Dự án (+150 EXP)
           </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* Top 3 Podium Cards — mobile order 1-2-3, desktop order 2-1-3 (same as Leetcode/Main $orderMobile/$orderDesktop) */}
       {podium.first && (

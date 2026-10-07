@@ -175,10 +175,12 @@ function AllMemberModule() {
                   size="large"
                   type={isShowMenu ? "primary" : "default"}
                   onClick={() => setIsShowMenu(!isShowMenu)}
+                  aria-label={isShowMenu ? "Đóng bộ lọc thành viên" : "Mở bộ lọc thành viên"}
+                  style={{ minWidth: 44, minHeight: 44 }}
                 >
                   <Image
                     src={isShowMenu ? FilterIconWhite : FilterIcon}
-                    alt="icon"
+                    alt="Lọc danh sách thành viên"
                     width={22}
                     height={22}
                   />

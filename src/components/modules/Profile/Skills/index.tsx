@@ -62,7 +62,7 @@ function Skills({ userData, isUserDataFetching }: IProps) {
                     <div>
                       {userData?.skills.map((item, _) => (
                         <span key={_} style={{ display: "inline-block" }}>
-                          <S.TagCustom closable={false} color="green">
+                          <S.TagCustom closable={false} color="blue">
                             {item}
                           </S.TagCustom>
                         </span>

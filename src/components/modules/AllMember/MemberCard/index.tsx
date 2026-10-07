@@ -82,13 +82,12 @@ function MemberCard({ dataSource }: IProps) {
                 position: "absolute",
                 top: "10px",
                 left: "10px",
-                backgroundColor: "rgba(0, 102, 204, 0.85)",
+                backgroundColor: "rgba(0, 102, 204, 0.9)",
                 color: "#FFFFFF",
                 padding: "2px 10px",
                 borderRadius: "8px",
                 fontSize: "12px",
                 fontWeight: 800,
-                backdropFilter: "blur(4px)",
               }}
             >
               Gen {dataSource.gen}

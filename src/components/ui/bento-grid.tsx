@@ -57,7 +57,7 @@ export const BentoCard = ({
     )}
   >
     {/* Ambient Background Graphic Layer */}
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-80 group-hover:opacity-100 transition-all duration-500">
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-100 transition-all duration-500">
       {background}
     </div>
 
