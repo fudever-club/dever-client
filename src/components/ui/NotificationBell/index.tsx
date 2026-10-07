@@ -246,8 +246,17 @@ export default function NotificationBell() {
             {filteredNotifications.map((item: any) => (
               <div
                 key={item._id}
+                role="button"
+                tabIndex={0}
+                aria-label={item.title}
                 onClick={() => handleItemClick(item)}
-                className={`group relative flex cursor-pointer items-start gap-3 rounded-xl p-2.5 transition-all duration-200 hover:bg-slate-50 active:scale-[0.99] ${
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleItemClick(item);
+                  }
+                }}
+                className={`group relative flex cursor-pointer items-start gap-3 rounded-xl p-2.5 transition-all duration-200 hover:bg-slate-50 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-1 ${
                   !item.isRead ? "bg-blue-50/40" : ""
                 }`}
               >

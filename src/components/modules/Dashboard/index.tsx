@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
@@ -302,9 +303,9 @@ function Dashboard() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Event Card */}
-            <div
-              onClick={() => router.push(`/${locale}/discover`)}
-              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+            <Link
+              href={`/${locale}/discover`}
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
@@ -320,12 +321,12 @@ function Dashboard() {
                   {eventsQuery.data?.data?.[0]?.date || "Workshop, buổi chia sẻ và lịch sinh hoạt CLB cập nhật theo tuần."}
                 </p>
               </div>
-            </div>
+            </Link>
 
             {/* Resource Card */}
-            <div
-              onClick={() => router.push(`/${locale}/discover`)}
-              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+            <Link
+              href={`/${locale}/discover`}
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
@@ -341,12 +342,12 @@ function Dashboard() {
                   {resourcesQuery.data?.data?.[0]?.type || "Slide workshop, cẩm nang ôn thi và source code mẫu từ các ban."}
                 </p>
               </div>
-            </div>
+            </Link>
 
             {/* Tech Blog Card */}
-            <div
-              onClick={() => router.push(`/${locale}/discover`)}
-              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+            <Link
+              href={`/${locale}/discover`}
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
@@ -364,7 +365,7 @@ function Dashboard() {
                     : "Bài viết kỹ thuật mới nhất từ thành viên và ban chuyên môn."}
                 </p>
               </div>
-            </div>
+            </Link>
           </div>
         )}
       </section>

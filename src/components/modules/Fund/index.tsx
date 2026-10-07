@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import {
   Card,
   Tag,
@@ -552,18 +553,51 @@ export default function FundModule() {
                   {/* QR Image Frame - Large & Crisp */}
                   <div className="relative group p-3 bg-white rounded-2xl shadow-xl border-2 border-slate-200 max-w-[320px] w-full">
                     {qrMode === "vietqr" ? (
-                      <img
-                        src={vietQrImageUrl}
-                        alt="VietQR HD Napas247"
-                        className="w-full h-auto object-contain rounded-xl cursor-pointer hover:scale-[1.02] transition-transform duration-200"
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        aria-label={t("qrZoomAria", "Phóng to mã QR")}
                         onClick={() => setQrZoomModalOpen(true)}
-                      />
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setQrZoomModalOpen(true);
+                          }
+                        }}
+                        className="relative aspect-square w-full cursor-pointer overflow-hidden rounded-xl bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
+                      >
+                        <Image
+                          src={vietQrImageUrl}
+                          alt="VietQR HD Napas247"
+                          fill
+                          sizes="(max-width: 640px) 100vw, 320px"
+                          loading="lazy"
+                          unoptimized={vietQrImageUrl.startsWith("http")}
+                          className="object-contain hover:scale-[1.02] transition-transform duration-200"
+                        />
+                      </div>
                     ) : (
-                      <div className="overflow-hidden rounded-xl bg-slate-900 max-h-80 flex items-center justify-center cursor-pointer" onClick={() => setQrZoomModalOpen(true)}>
-                        <img
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        aria-label={t("qrZoomAria", "Phóng to mã QR")}
+                        onClick={() => setQrZoomModalOpen(true)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setQrZoomModalOpen(true);
+                          }
+                        }}
+                        className="relative aspect-square w-full cursor-pointer overflow-hidden rounded-xl bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
+                      >
+                        <Image
                           src={customQrImageUrl}
                           alt="Ảnh Gốc Thủ Quỹ"
-                          className="w-full h-auto object-contain hover:scale-105 transition-transform duration-200"
+                          fill
+                          sizes="(max-width: 640px) 100vw, 320px"
+                          loading="lazy"
+                          unoptimized={customQrImageUrl.startsWith("http")}
+                          className="object-contain hover:scale-105 transition-transform duration-200"
                         />
                       </div>
                     )}
@@ -693,23 +727,32 @@ export default function FundModule() {
 
                 {/* Upload Component Box */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-800 block">
-                    {t("uploadLabel", "1. Tải lên ảnh chụp biên lai chuyển khoản (Bill Banking)")} <span className="text-rose-500">*</span>
+                  <label htmlFor="fund-proof-upload" className="text-xs font-bold text-slate-800 block">
+                    {t("uploadLabel", "1. Tải lên ảnh chụp biên lai chuyển khoản (Bill Banking)")}{" "}
+                    <span aria-hidden="true" className="text-rose-500">*</span>
+                    <span className="sr-only">{t("requiredSr", "(bắt buộc)")}</span>
                   </label>
 
                   <Upload.Dragger
+                    id="fund-proof-upload"
+                    aria-required="true"
                     beforeUpload={handleUploadFile}
                     showUploadList={false}
                     className="p-5 rounded-2xl border-dashed border-2 border-slate-300 hover:border-[#0066CC] transition-colors bg-slate-50/60"
                   >
                     {proofImageUrl ? (
                       <div className="space-y-3 text-center">
-                        <img
-                          src={proofImageUrl}
-                          alt="Uploaded Bill Preview"
-                          className="w-full h-auto object-contain max-h-52 mx-auto rounded-xl shadow-md border border-slate-200"
-                          style={{ maxWidth: "100%" }}
-                        />
+                        <div className="relative mx-auto h-52 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-md">
+                          <Image
+                            src={proofImageUrl}
+                            alt="Uploaded Bill Preview"
+                            fill
+                            sizes="(max-width: 640px) 100vw, 400px"
+                            loading="lazy"
+                            unoptimized={proofImageUrl.startsWith("http")}
+                            className="object-contain"
+                          />
+                        </div>
                         <div className="flex items-center justify-center gap-2 flex-wrap">
                           <span className="text-xs text-emerald-600 font-bold">{t("uploadSuccess", "✓ Đã tải ảnh biên lai thành công")}</span>
                           <Button
@@ -744,10 +787,11 @@ export default function FundModule() {
 
                 {/* Transaction Code */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-800 block">
+                  <label htmlFor="fund-transaction-code" className="text-xs font-bold text-slate-800 block">
                     {t("txnLabel", "2. Mã giao dịch ngân hàng (Mã FT / Số tham chiếu):")}
                   </label>
                   <Input
+                    id="fund-transaction-code"
                     placeholder={t("txnPlaceholder", "Ví dụ: FT2412345678...")}
                     value={transactionCode}
                     onChange={(e) => setTransactionCode(e.target.value)}
@@ -758,10 +802,11 @@ export default function FundModule() {
 
                 {/* Member Notes */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-800 block">
+                  <label htmlFor="fund-member-note" className="text-xs font-bold text-slate-800 block">
                     {t("noteLabel", "3. Lời nhắn / Ghi chú thêm (Tùy chọn):")}
                   </label>
                   <TextArea
+                    id="fund-member-note"
                     rows={2}
                     placeholder={t("notePlaceholder", "Ghi chú thêm nếu bạn nộp hộ hoặc chuyển từ tài khoản khác...")}
                     value={memberNote}
@@ -893,12 +938,17 @@ export default function FundModule() {
       >
         <div className="py-4 flex flex-col items-center justify-center space-y-4">
           <div className="p-4 bg-white rounded-3xl shadow-2xl border-2 border-blue-200 max-w-[500px] w-full" style={{ maxWidth: "min(500px, 100%)" }}>
-            <img
-              src={vietQrImageUrl}
-              alt="QR Code Zoom Khổng Lồ"
-              className="w-full h-auto object-contain rounded-2xl"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
+            <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-white">
+              <Image
+                src={vietQrImageUrl}
+                alt="QR Code Zoom Khổng Lồ"
+                fill
+                sizes="(max-width: 640px) 95vw, 500px"
+                loading="lazy"
+                unoptimized={vietQrImageUrl.startsWith("http")}
+                className="object-contain"
+              />
+            </div>
           </div>
           
           <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 w-full max-w-[500px] text-left text-xs space-y-1.5">
@@ -937,12 +987,17 @@ export default function FundModule() {
         className="rounded-2xl text-center"
       >
         {activePayment?.proofImageUrl && (
-          <img
-            src={activePayment.proofImageUrl}
-            alt="Bill Proof"
-            className="w-full h-auto object-contain mx-auto rounded-xl shadow-md border border-slate-200 mt-3"
-            style={{ maxWidth: "100%", maxHeight: "70vh" }}
-          />
+          <div className="relative mx-auto mt-3 h-[60vh] max-h-[560px] min-h-[280px] w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-md">
+            <Image
+              src={activePayment.proofImageUrl}
+              alt="Bill Proof"
+              fill
+              sizes="(max-width: 640px) 95vw, 520px"
+              loading="lazy"
+              unoptimized={activePayment.proofImageUrl.startsWith("http")}
+              className="object-contain"
+            />
+          </div>
         )}
         <div className="flex justify-center pt-4">
           <Button

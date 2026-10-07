@@ -175,4 +175,10 @@ export const MenuIcon = styled.div`
   &:active {
     transform: scale(0.95);
   }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0066cc;
+    background-color: rgba(0, 102, 204, 0.08);
+  }
 `;

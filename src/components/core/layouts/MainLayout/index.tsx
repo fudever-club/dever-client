@@ -185,7 +185,17 @@ const MainLayout = ({
                     <Flex
                       align="center"
                       gap={12}
+                      role="button"
+                      tabIndex={0}
+                      aria-label="Đến danh bạ thành viên"
                       onClick={() => router?.push(`/${localActive}/members`)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          router?.push(`/${localActive}/members`);
+                        }
+                      }}
+                      className="cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
                     >
                       <Image
                         alt=""
@@ -222,7 +232,17 @@ const MainLayout = ({
                     <Flex
                       align="center"
                       gap={12}
+                      role="button"
+                      tabIndex={0}
+                      aria-label="Đến danh bạ thành viên"
                       onClick={() => router?.push(`/${localActive}/members`)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          router?.push(`/${localActive}/members`);
+                        }
+                      }}
+                      className="cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
                     >
                       <Image
                         alt=""
@@ -286,7 +306,17 @@ const MainLayout = ({
               </Popover>
               {screens.xs && (
                 <S.MenuIcon
+                  role="button"
+                  tabIndex={0}
+                  aria-label={collapsedMobile ? "Mở menu điều hướng" : "Đóng menu điều hướng"}
+                  aria-expanded={!collapsedMobile}
                   onClick={() => setCollapsedMobile(!collapsedMobile)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setCollapsedMobile(!collapsedMobile);
+                    }
+                  }}
                 >
                   {collapsedMobile ? (
                     <MenuFoldOutlined style={{ fontSize: "24px" }} />

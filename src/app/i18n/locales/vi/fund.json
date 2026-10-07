@@ -54,6 +54,7 @@
   "submitBoxTitle": "Nộp Minh Chứng Đóng Quỹ",
   "step": "Bước 2 / 2",
   "uploadLabel": "1. Tải lên ảnh chụp biên lai chuyển khoản (Bill Banking)",
+  "requiredSr": "(bắt buộc)",
   "uploadSuccess": "✓ Đã tải ảnh biên lai thành công",
   "changeImage": "Đổi ảnh",
   "uploadPlaceholderTitle": "Kéo thả hoặc nhấp để chọn ảnh biên lai",

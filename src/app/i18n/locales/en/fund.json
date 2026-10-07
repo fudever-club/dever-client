@@ -54,6 +54,7 @@
   "submitBoxTitle": "Submit Fund Proof",
   "step": "Step 2 / 2",
   "uploadLabel": "1. Upload your transfer receipt screenshot (banking bill)",
+  "requiredSr": "(required)",
   "uploadSuccess": "✓ Receipt image uploaded",
   "changeImage": "Change image",
   "uploadPlaceholderTitle": "Drag & drop or click to select your receipt",
