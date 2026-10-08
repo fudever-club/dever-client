@@ -10,7 +10,6 @@ import { PublicMemberInfo } from "@/helpers/types/userTypes";
 import { useTranslation } from "@/app/i18n/client";
 import Typography from "@/components/core/common/Typography";
 import { useRouter } from "next-nprogress-bar";
-import { useLocale } from "next-intl";
 
 interface IProps {
   dataSource: PublicMemberInfo;
@@ -18,7 +17,7 @@ interface IProps {
 
 function MemberCard({ dataSource }: IProps) {
   const params = useParams();
-  const locale = useLocale();
+  const locale = params?.locale as string;
   const { t } = useTranslation(params?.locale as string, "allMember");
   const [imgError, setImgError] = useState(false);
 

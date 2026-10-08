@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Avatar, Flex } from "antd";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useLocale } from "next-intl";
 import { useRouter } from "next-nprogress-bar";
 
 import Divider from "@/components/core/common/Divider";
@@ -20,7 +19,7 @@ import themeColors from "@/style/themes/default/colors";
 function DropdownMenu() {
   const params = useParams();
   const router = useRouter();
-  const locale = useLocale();
+  const locale = params?.locale as string;
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [avatarError, setAvatarError] = useState(false);
 

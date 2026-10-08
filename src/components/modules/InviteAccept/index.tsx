@@ -13,7 +13,6 @@ import {
 } from "antd";
 import { useRouter } from "next-nprogress-bar";
 import { useParams, useSearchParams } from "next/navigation";
-import { useLocale } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 
 import Button from "@/components/core/common/Button";
@@ -58,7 +57,7 @@ function formatExpiry(expiresAt: string, locale: string) {
 function InviteAcceptModule() {
   const router = useRouter();
   const params = useParams();
-  const locale = useLocale();
+  const locale = params?.locale as string;
   const searchParams = useSearchParams();
 
   const token = params?.token as string | undefined;

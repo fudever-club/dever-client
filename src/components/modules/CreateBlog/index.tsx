@@ -48,8 +48,7 @@ import {
   X,
   Plus,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useParams, useRouter } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
 import { useAppSelector } from "@/hooks/redux-toolkit";
 import webStorageClient from "@/utils/webStorageClient";
@@ -560,7 +559,8 @@ export default function CreateBlogModule() {
   const [myBlogsError, setMyBlogsError] = useState(false);
 
   const router = useRouter();
-  const locale = useLocale();
+  const params = useParams();
+  const locale = params?.locale as string;
   const { t: tChecklist } = useTranslation(locale, "blogChecklist");
   const { userInfo } = useAppSelector((state: any) => state.auth);
 

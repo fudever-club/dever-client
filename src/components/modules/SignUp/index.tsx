@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Flex } from "antd";
 import { useParams } from "next/navigation";
-import { useLocale } from "next-intl";
 
 import { useTranslation } from "@/app/i18n/client";
 import Typography from "@/components/core/common/Typography";
@@ -15,7 +14,7 @@ import * as S from "../SignIn/styles";
 
 function SignUpModule() {
   const params = useParams();
-  const locale = useLocale();
+  const locale = params?.locale as string;
   const { t } = useTranslation(params?.locale as string, "signUp");
 
   return (

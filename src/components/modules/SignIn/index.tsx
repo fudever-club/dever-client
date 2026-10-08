@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Checkbox, Col, Flex, Form, FormProps, Input, message } from "antd";
 import { useRouter } from "next-nprogress-bar";
 import { useParams, useSearchParams } from "next/navigation";
-import { useLocale } from "next-intl";
 
 import Button from "@/components/core/common/Button";
 import SelectLanguage from "@/components/core/layouts/MainLayout/SelectLanguage";
@@ -29,7 +28,7 @@ type FieldType = {
 function SignInModule() {
   const router = useRouter();
   const params = useParams();
-  const locale = useLocale();
+  const locale = params?.locale as string;
   const searchParams = useSearchParams();
 
   const { t } = useTranslation(params?.locale as string, "signIn");

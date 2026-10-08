@@ -23,7 +23,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { Progress, Skeleton, Empty, Alert, Button } from "antd";
-import { useLocale } from "next-intl";
+import { useParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 
 import { useAppSelector } from "@/hooks/redux-toolkit";
@@ -55,7 +55,8 @@ const profileFields = [
 ];
 
 function Dashboard() {
-  const locale = useLocale();
+  const params = useParams();
+  const locale = params?.locale as string;
   const router = useRouter();
   const [advisoryOpen, setAdvisoryOpen] = React.useState<boolean>(false);
   const [submitProjectOpen, setSubmitProjectOpen] = React.useState<boolean>(false);

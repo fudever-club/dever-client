@@ -1,7 +1,6 @@
 "use client";
 
 import { Alert, Button, Flex, Grid, Layout, Popover, Result } from "antd";
-import { useLocale } from "next-intl";
 import { AppProgressBar, useRouter } from "next-nprogress-bar";
 import Image from "next/image";
 import { useParams, usePathname } from "next/navigation";
@@ -42,7 +41,7 @@ const MainLayout = ({
 }>) => {
   const params = useParams();
   const router = useRouter();
-  const localActive = useLocale();
+  const localActive = params?.locale as string;
   const pathname = usePathname();
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();

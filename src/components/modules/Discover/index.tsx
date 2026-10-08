@@ -20,10 +20,11 @@ import {
 import MentorshipSection from "@/components/modules/Mentorship";
 import PageHero from "@/components/ui/PageHero";
 import themeColors from "@/style/themes/default/colors";
-import { useLocale } from "next-intl";
+import { useParams } from "next/navigation";
 
 function Discover() {
-  const locale = useLocale();
+  const params = useParams();
+  const locale = params?.locale as string;
   const events = useGetEventsQuery();
   const resources = useGetResourcesQuery();
   const blogs = useGetBlogsQuery();
