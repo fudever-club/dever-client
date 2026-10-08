@@ -33,6 +33,7 @@ import {
   useMarkAllNotificationsAsReadMutation,
   useDeleteNotificationMutation,
 } from "@/store/queries/notifications";
+import themeColors from "@/style/themes/default/colors";
 
 const { Text } = Typography;
 
@@ -178,7 +179,7 @@ export default function NotificationBell() {
         <div className="flex items-center gap-2">
           <span className="font-semibold text-slate-800 text-base">Thông báo</span>
           {unreadCount > 0 && (
-            <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-[#0066CC]">
+            <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-primary">
               {unreadCount} mới
             </span>
           )}
@@ -191,7 +192,7 @@ export default function NotificationBell() {
             loading={isMarkingAll}
             disabled={isMarkingAll}
             onClick={handleMarkAllRead}
-            className="!text-xs !text-[#0066CC] hover:!bg-blue-50 min-h-[44px]"
+            className="!text-xs !text-primary hover:!bg-blue-50 min-h-[44px]"
           >
             Đọc tất cả
           </Button>
@@ -233,7 +234,7 @@ export default function NotificationBell() {
             <Empty
               image={Empty.PRESENTED_IMAGE_SIMPLE}
               description={
-                <span className="text-xs text-slate-400">
+                <span className="text-xs text-slate-500">
                   {activeTab === "unread"
                     ? "Bạn không có thông báo chưa đọc nào"
                     : "Chưa có thông báo nào từ hệ thống"}
@@ -256,7 +257,7 @@ export default function NotificationBell() {
                     handleItemClick(item);
                   }
                 }}
-                className={`group relative flex cursor-pointer items-start gap-3 rounded-xl p-2.5 transition-all duration-200 hover:bg-slate-50 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-1 ${
+                className={`group relative flex cursor-pointer items-start gap-3 rounded-xl p-2.5 transition-all duration-200 hover:bg-slate-50 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 ${
                   !item.isRead ? "bg-blue-50/40" : ""
                 }`}
               >
@@ -273,18 +274,18 @@ export default function NotificationBell() {
                       {item.title}
                     </p>
                     {!item.isRead && (
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#0066CC]" />
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                     )}
                   </div>
                   <p className="text-xs leading-relaxed text-slate-500 line-clamp-2 mt-0.5">
                     {item.message}
                   </p>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-slate-500">
                       {formatTimeAgo(item.createdAt)}
                     </span>
                     {item.link && (
-                      <span className="inline-flex items-center gap-0.5 text-xs text-[#0066CC] font-medium opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 sm:focus-visible:opacity-100 transition-opacity">
+                      <span className="inline-flex items-center gap-0.5 text-xs text-primary font-medium opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 sm:focus-visible:opacity-100 transition-opacity">
                         Xem chi tiết <ExternalLink className="h-2.5 w-2.5" />
                       </span>
                     )}
@@ -298,7 +299,7 @@ export default function NotificationBell() {
                   disabled={deletingId === item._id || isDeleting}
                   aria-label="Xóa thông báo"
                   aria-busy={deletingId === item._id}
-                  className="absolute right-1 top-2 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-slate-400 opacity-100 transition-all hover:bg-slate-100 hover:text-rose-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60 sm:right-2 sm:top-3 sm:p-1 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 sm:focus-visible:opacity-100"
+                  className="absolute right-1 top-2 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-slate-400 opacity-100 transition-all hover:bg-slate-100 hover:text-rose-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60 sm:right-2 sm:top-3 sm:p-1 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 sm:focus-visible:opacity-100"
                 >
                   <Trash2 className="h-4 w-4 sm:h-3 sm:w-3" />
                 </button>
@@ -328,7 +329,7 @@ export default function NotificationBell() {
           styles={{
             root: { cursor: "pointer" },
             indicator: {
-              backgroundColor: "#0066CC",
+              backgroundColor: themeColors.primary,
               boxShadow: "0 0 0 2px #fff",
               fontSize: "11px",
               height: "16px",
@@ -342,7 +343,7 @@ export default function NotificationBell() {
             shape="circle"
             size="large"
             aria-label="Thông báo"
-            className="flex items-center justify-center text-slate-700 hover:text-[#0066CC] hover:bg-slate-100 transition-all duration-200 active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
+            className="flex items-center justify-center text-slate-700 hover:text-primary hover:bg-slate-100 transition-all duration-200 active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             icon={<Bell className="h-5 w-5" />}
           />
         </Badge>

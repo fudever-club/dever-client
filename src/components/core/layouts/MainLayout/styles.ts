@@ -158,8 +158,8 @@ export const AvatarCustom = styled(Avatar)`
 `;
 
 export const MenuIcon = styled.div`
-  min-width: 40px;
-  min-height: 40px;
+  min-width: 44px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,7 +178,7 @@ export const MenuIcon = styled.div`
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0066cc;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px ${(props) => props.theme.colors.primary};
     background-color: rgba(0, 102, 204, 0.08);
   }
 `;

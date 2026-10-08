@@ -14,6 +14,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useGetMyGamificationStatsQuery } from "@/store/queries/gamification";
+import themeColors from "@/style/themes/default/colors";
 
 function getBadgeIcon(id: string, color: string) {
   switch (id) {
@@ -63,7 +64,7 @@ const DEFAULT_BADGES = [
     id: "core_contributor",
     title: "Core Contributor",
     description: "Đóng góp dự án mã nguồn mở và sáng kiến kỹ thuật trong hệ sinh thái FU-DEVER.",
-    color: "#0066CC",
+    color: themeColors.primary,
     bgColor: "#EFF6FF",
     requirement: "Đóng góp dự án Open Source hoặc Project Lab",
     isUnlocked: true,
@@ -90,8 +91,8 @@ export default function BadgeShowcaseGrid() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-50 text-[#0066CC] border border-blue-100">
-              <Award className="w-4 h-4 text-[#0066CC]" />
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-50 text-primary border border-blue-100">
+              <Award className="w-4 h-4 text-primary" />
             </div>
             <h3 className="text-base sm:text-lg font-extrabold text-slate-900 m-0">
               Bộ Sưu Tập Huy Hiệu Kỹ Thuật (3D Badges)
@@ -102,8 +103,8 @@ export default function BadgeShowcaseGrid() {
           </p>
         </div>
 
-        <div className="inline-flex items-center gap-1.5 self-start sm:self-center px-3 py-1 rounded-full bg-blue-50/90 border border-blue-200/80 text-xs font-extrabold text-[#0066CC]">
-          <Sparkles className="w-3.5 h-3.5 text-[#0066CC]" />
+        <div className="inline-flex items-center gap-1.5 self-start sm:self-center px-3 py-1 rounded-full bg-blue-50/90 border border-blue-200/80 text-xs font-extrabold text-primary">
+          <Sparkles className="w-3.5 h-3.5 text-primary" />
           <span>Đã đạt: {unlockedCount} / {badges.length}</span>
         </div>
       </div>
@@ -116,8 +117,8 @@ export default function BadgeShowcaseGrid() {
             title={
               <div className="p-1">
                 <div className="font-bold text-sm text-white mb-1">{badge.title}</div>
-                <div className="text-xs text-slate-300 mb-2 leading-relaxed">{badge.description}</div>
-                <div className="text-xs text-sky-300 border-t border-slate-700/80 pt-1.5 font-medium">
+                <div className="text-xs text-slate-100 mb-2 leading-relaxed">{badge.description}</div>
+                <div className="text-xs text-sky-200 border-t border-slate-700/80 pt-1.5 font-medium">
                   Điều kiện: {badge.requirement}
                 </div>
               </div>

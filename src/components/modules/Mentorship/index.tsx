@@ -27,6 +27,7 @@ import { apiClient } from "@/utils/apiClient";
 import { endpointMentorship } from "@/helpers/enpoints";
 import { useTranslation } from "@/app/i18n/client";
 import MentorRequestModal from "./MentorRequestModal";
+import themeColors from "@/style/themes/default/colors";
 import {
   getMentorIdOf,
   getMentorNameOf,
@@ -103,7 +104,7 @@ function MentorsTab({
         message={t("mentorsErrorTitle", "Không thể tải danh sách mentor.")}
         description={t("mentorsErrorDesc", "Kiểm tra kết nối mạng rồi thử lại.")}
         action={
-          <Button size="small" icon={<ReloadOutlined />} onClick={onRetry}>
+          <Button size="small" icon={<ReloadOutlined />} onClick={onRetry} style={{ minHeight: 44 }}>
             {t("retry", "Thử lại")}
           </Button>
         }
@@ -172,7 +173,7 @@ function MentorsTab({
                   icon={<SendOutlined />}
                   disabled={hasPending}
                   onClick={() => onConnect(mentor)}
-                  style={{ borderRadius: 10, background: "#0066CC", fontWeight: 700 }}
+                  style={{ borderRadius: 10, background: themeColors.primary, fontWeight: 700 }}
                 >
                   {hasPending ? t("pendingRequest", "Đã có yêu cầu đang chờ") : t("connect", "Xin kết nối")}
                 </Button>
@@ -214,7 +215,7 @@ function MyRequestsTab({
         message={t("requestsErrorTitle", "Không thể tải yêu cầu của bạn.")}
         description={t("requestsErrorDesc", "Vui lòng đăng nhập rồi thử lại.")}
         action={
-          <Button size="small" icon={<ReloadOutlined />} onClick={onRetry}>
+          <Button size="small" icon={<ReloadOutlined />} onClick={onRetry} style={{ minHeight: 44 }}>
             {t("retry", "Thử lại")}
           </Button>
         }
@@ -346,7 +347,7 @@ export default function MentorshipSection() {
         styles={{ body: { padding: 24 } }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-          <span style={{ fontSize: 22, color: "#0066CC" }}>
+          <span style={{ fontSize: 22, color: themeColors.primary }}>
             <CrownOutlined />
           </span>
           <h2 style={{ fontSize: 18, fontWeight: 800, color: "#0F172A", margin: 0 }}>

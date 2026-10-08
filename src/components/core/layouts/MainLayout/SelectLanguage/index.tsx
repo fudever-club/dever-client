@@ -41,9 +41,9 @@ function SelectLanguage() {
             <Image
               src={EnglandFlag}
               alt="flag"
-              width={200}
-              height={200}
-              priority
+              width={48}
+              height={48}
+              sizes="48px"
             />
           }
           size="small"
@@ -59,9 +59,9 @@ function SelectLanguage() {
             <Image
               src={VietnamFlag}
               alt="flag"
-              width={200}
-              height={200}
-              priority
+              width={48}
+              height={48}
+              sizes="48px"
             />
           }
           size="small"
@@ -90,9 +90,9 @@ function SelectLanguage() {
             <Image
               src={localActive === "en" ? EnglandFlag : VietnamFlag}
               alt="bell"
-              width={200}
-              height={200}
-              priority
+              width={48}
+              height={48}
+              sizes="48px"
             />
           }
           size="small"

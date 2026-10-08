@@ -123,8 +123,9 @@ function Dashboard() {
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-7 pb-12 font-sans">
-      {/* 1. Command Center Hero Gamification Banner — sticky on mobile */}
-      <div className="sticky top-16 z-20 lg:static lg:z-auto">
+      <h1 className="sr-only">Bảng điều khiển thành viên</h1>
+      {/* 1. Command Center Hero Gamification Banner — sticky chỉ desktop, mobile giữ tĩnh gọn */}
+      <div className="lg:sticky lg:top-16 lg:z-20">
         <LevelProgressCard />
       </div>
 
@@ -160,7 +161,7 @@ function Dashboard() {
                 <button
                   type="button"
                   onClick={() => setSubmitProjectOpen(true)}
-                  className="text-xs font-bold text-[#0066CC] hover:underline min-h-[44px] px-2"
+                  className="text-xs font-bold text-primary hover:underline min-h-[44px] px-2"
                 >
                   Hoặc đóng góp dự án mã nguồn mở
                 </button>
@@ -267,7 +268,7 @@ function Dashboard() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 m-0 flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-[#0066CC]" /> Mới từ Hệ Sinh Thái DEVER
+              <Sparkles className="w-5 h-5 text-primary" /> Mới từ Hệ Sinh Thái DEVER
             </h2>
             <p className="text-xs text-slate-500 mt-0.5 m-0">
               Sự kiện sắp diễn ra, tài liệu học tập và bài viết công nghệ mới nhất.
@@ -275,9 +276,9 @@ function Dashboard() {
           </div>
           <Button
             onClick={() => router.push(`/${locale}/discover`)}
-            className="inline-flex items-center gap-1.5 self-start sm:self-center !rounded-xl !border-slate-200 text-xs font-bold !text-slate-700 hover:!border-[#0066CC] hover:!text-[#0066CC] shadow-xs min-h-[44px]"
+            className="inline-flex items-center gap-1.5 self-start sm:self-center !rounded-xl !border-slate-200 text-xs font-bold !text-slate-700 hover:border-primary! hover:text-primary! shadow-xs min-h-[44px]"
           >
-            <Compass className="w-3.5 h-3.5 text-[#0066CC]" /> Khám phá tất cả
+            <Compass className="w-3.5 h-3.5 text-primary" /> Khám phá tất cả
           </Button>
         </div>
 
@@ -305,18 +306,18 @@ function Dashboard() {
             {/* Event Card */}
             <Link
               href={`/${locale}/discover`}
-              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-[#0066CC] text-xs font-extrabold border border-blue-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-primary text-xs font-extrabold border border-blue-100">
                     <Calendar className="w-3.5 h-3.5" /> Sự kiện sắp tới
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066CC] motion-safe:group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-primary motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
-                <h4 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
+                <h3 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-primary transition-colors">
                   {eventsQuery.data?.data?.[0]?.title || "Chưa có sự kiện nào"}
-                </h4>
+                </h3>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
                   {eventsQuery.data?.data?.[0]?.date || "Workshop, buổi chia sẻ và lịch sinh hoạt CLB cập nhật theo tuần."}
                 </p>
@@ -326,18 +327,18 @@ function Dashboard() {
             {/* Resource Card */}
             <Link
               href={`/${locale}/discover`}
-              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-[#0066CC] text-xs font-extrabold border border-blue-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-primary text-xs font-extrabold border border-blue-100">
                     <BookOpen className="w-3.5 h-3.5" /> Kho tài liệu
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066CC] motion-safe:group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-primary motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
-                <h4 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
+                <h3 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-primary transition-colors">
                   {resourcesQuery.data?.data?.[0]?.title || "Chưa có tài liệu nào"}
-                </h4>
+                </h3>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
                   {resourcesQuery.data?.data?.[0]?.type || "Slide workshop, cẩm nang ôn thi và source code mẫu từ các ban."}
                 </p>
@@ -347,18 +348,18 @@ function Dashboard() {
             {/* Tech Blog Card */}
             <Link
               href={`/${locale}/discover`}
-              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-[#0066CC] text-xs font-extrabold border border-blue-100">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-primary text-xs font-extrabold border border-blue-100">
                     <FileText className="w-3.5 h-3.5" /> Bài viết công nghệ
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066CC] motion-safe:group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-primary motion-safe:group-hover:translate-x-0.5 transition-all" />
                 </div>
-                <h4 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-[#0066CC] transition-colors">
+                <h3 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-primary transition-colors">
                   {blogsQuery.data?.data?.[0]?.title || "Chưa có bài viết nào"}
-                </h4>
+                </h3>
                 <p className="text-xs text-slate-500 mb-0 line-clamp-2">
                   {labsQuery.data?.data?.length
                     ? `${labsQuery.data.data.length} dự án đang mở nhận thành viên.`
@@ -374,11 +375,11 @@ function Dashboard() {
       {userInfo.isAdmin && (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-3xl bg-gradient-to-r from-blue-50/90 via-slate-50 to-white border border-blue-200/70 shadow-xs">
           <div className="flex items-center gap-3.5">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-[#0066CC] shadow-xs border border-blue-100">
-              <Shield className="w-5 h-5 text-[#0066CC]" />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-primary shadow-xs border border-blue-100">
+              <Shield className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h4 className="text-sm font-extrabold text-slate-900 m-0">Công cụ quản trị viên</h4>
+              <h3 className="text-sm font-extrabold text-slate-900 m-0">Công cụ quản trị viên</h3>
               <p className="text-xs text-slate-500 m-0">
                 Xuất bản bài viết kỹ thuật hoặc quản lý sự kiện cho CLB.
               </p>

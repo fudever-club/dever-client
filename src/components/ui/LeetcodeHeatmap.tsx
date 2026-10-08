@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import { CodeOutlined, FireOutlined } from "@ant-design/icons";
 
 import { LeetcodeSubmission } from "@/helpers/types/leetcodeTypes";
+import themeColors from "@/style/themes/default/colors";
 
 interface LeetcodeHeatmapProps {
   submissions: LeetcodeSubmission[];
@@ -25,12 +26,12 @@ const levelColors = [
   { bg: "#F1F5F9", border: "#E2E8F0" }, // 0
   { bg: "#BFDBFE", border: "#93C5FD" }, // 1
   { bg: "#60A5FA", border: "#3B82F6" }, // 2
-  { bg: "#0066CC", border: "#0052A3" }, // 3
-  { bg: "#004C99", border: "#003366" }, // 4
+  { bg: themeColors.primary, border: "#0052A3" }, // 3
+  { bg: themeColors.primaryDark, border: "#003366" }, // 4
 ];
 
 export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
-  const { weeks, totalAC, streakDays } = useMemo(() => {
+  const { weeks, totalAC, streakDays, bestWeekCount } = useMemo(() => {
     const activityByDay = new Map<string, number>();
 
     submissions.forEach((submission) => {
@@ -63,10 +64,17 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
       streak += 1;
     }
 
+    const weeks = Array.from({ length: 52 }, (_, index) => days.slice(index * 7, index * 7 + 7));
+    const bestWeekCount = weeks.reduce(
+      (max, week) => Math.max(max, week.reduce((sum, day) => sum + day.count, 0)),
+      0,
+    );
+
     return {
-      weeks: Array.from({ length: 52 }, (_, index) => days.slice(index * 7, index * 7 + 7)),
+      weeks,
       totalAC: submissions.length,
       streakDays: streak,
+      bestWeekCount,
     };
   }, [submissions]);
 
@@ -104,7 +112,7 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
               backgroundColor: "rgba(0, 102, 204, 0.1)",
               border: "1px solid rgba(0, 102, 204, 0.2)",
               padding: "8px",
-              color: "#0066CC",
+              color: themeColors.primary,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -144,7 +152,7 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
               display: "inline-flex",
               alignItems: "center",
               borderRadius: "8px",
-              backgroundColor: "#0066CC",
+              backgroundColor: themeColors.primary,
               padding: "4px 14px",
               fontSize: "12px",
               fontWeight: 800,
@@ -156,6 +164,11 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
           </span>
         </div>
       </div>
+
+      {/* Tóm tắt đọc được cho mọi người dùng (heatmap chỉ là ảnh trang trí, không click được) */}
+      <p style={{ fontSize: "12px", color: "#475569", margin: 0 }}>
+        Tổng {totalAC} bài AC • Chuỗi {streakDays} ngày liên tiếp • Tuần đỉnh {bestWeekCount} bài
+      </p>
 
       {/* Heatmap Grid & Legend */}
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -176,7 +189,7 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
               padding: "4px 2px",
             }}
             role="img"
-            aria-label={`Biểu đồ hoạt động LeetCode 52 tuần: tổng ${totalAC} bài AC, chuỗi ${streakDays} ngày liên tiếp`}
+            aria-label={`Biểu đồ hoạt động LeetCode 52 tuần: tổng ${totalAC} bài AC, chuỗi ${streakDays} ngày liên tiếp, tuần đỉnh ${bestWeekCount} bài`}
           >
             {weeks.map((week, weekIndex) => (
               <div
@@ -205,7 +218,6 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
                         border: `1px solid ${colors.border}`,
                         flexShrink: 0,
                         boxSizing: "border-box",
-                        cursor: "pointer",
                       }}
                     />
                   );

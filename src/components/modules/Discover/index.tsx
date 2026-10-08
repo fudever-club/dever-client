@@ -19,6 +19,7 @@ import {
 } from "@/store/queries/ecosystem";
 import MentorshipSection from "@/components/modules/Mentorship";
 import PageHero from "@/components/ui/PageHero";
+import themeColors from "@/style/themes/default/colors";
 import { useLocale } from "next-intl";
 
 function Discover() {
@@ -92,7 +93,7 @@ function Discover() {
                     </Button>
                   </a>
                 ) : (
-                  <span style={{ fontSize: "12px", color: "#94A3B8" }}>Chưa mở đăng ký</span>
+                  <span style={{ fontSize: "12px", color: "#64748B" }}>Chưa mở đăng ký</span>
                 )}
               </div>
             </div>
@@ -148,7 +149,7 @@ function Discover() {
                     </Button>
                   </a>
                 ) : (
-                  <span style={{ fontSize: "12px", color: "#94A3B8" }}>Chưa có đường dẫn tải</span>
+                  <span style={{ fontSize: "12px", color: "#64748B" }}>Chưa có đường dẫn tải</span>
                 )}
               </div>
             </div>
@@ -251,7 +252,7 @@ function Discover() {
                     </Button>
                   </a>
                 ) : (
-                  <span style={{ fontSize: "12px", color: "#94A3B8" }}>Chưa có kênh liên hệ</span>
+                  <span style={{ fontSize: "12px", color: "#64748B" }}>Chưa có kênh liên hệ</span>
                 )}
               </div>
             </div>
@@ -292,7 +293,7 @@ function FeedSection({
   return (
     <section aria-label={title} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <span style={{ fontSize: "20px", color: "#0066CC" }}>{icon}</span>
+        <span style={{ fontSize: "20px", color: themeColors.primary }}>{icon}</span>
         <h2 style={{ fontSize: "18px", fontWeight: 800, color: "#1E293B", margin: 0 }}>
           {title}
         </h2>
@@ -313,7 +314,7 @@ function FeedSection({
           type="error"
           showIcon
           message={`Không thể tải ${title.toLowerCase()}.`}
-          action={<Button size="small" onClick={retry}>Thử lại</Button>}
+          action={<Button size="small" onClick={retry} style={{ minHeight: 44 }}>Thử lại</Button>}
         />
       ) : items.length === 0 ? (
         <div style={{ backgroundColor: "#FFFFFF", borderRadius: "20px", padding: "32px", textAlign: "center", border: "1px solid #E2E8F0" }}>

@@ -2,6 +2,8 @@
 
 import React, { ReactNode } from "react";
 
+import themeColors from "@/style/themes/default/colors";
+
 interface PageHeroProps {
   title: ReactNode;
   subtitle?: ReactNode;
@@ -12,13 +14,13 @@ interface PageHeroProps {
 
 /**
  * PageHero — banner đầu trang dùng chung cho Discover / Hall of Fame / CreateBlog.
- * Nền đặc #0066CC (không gradient, không blur). Icon luôn trắng để đủ tương phản.
+ * Nền đặc token primary (không gradient, không blur). Icon luôn trắng để đủ tương phản.
  */
 export default function PageHero({ title, subtitle, icon, eyebrow, action }: PageHeroProps) {
   return (
     <div
       style={{
-        backgroundColor: "#0066CC",
+        backgroundColor: themeColors.primary,
         borderRadius: "24px",
         padding: "32px",
         color: "#FFFFFF",

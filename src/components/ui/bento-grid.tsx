@@ -52,7 +52,7 @@ export const BentoCard = ({
     className={cn(
       "group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-white p-5 sm:p-7 border border-slate-200/90 transition-all duration-300 block text-left no-underline min-h-[16rem] sm:min-h-0",
       "shadow-[0_4px_20px_-2px_rgba(0,102,204,0.04)] hover:shadow-[0_14px_36px_-4px_rgba(0,102,204,0.14)] hover:border-blue-400 motion-safe:hover:-translate-y-1 cursor-pointer",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2 focus-visible:border-blue-400",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:border-blue-400",
       className
     )}
   >
@@ -63,7 +63,7 @@ export const BentoCard = ({
 
     {/* Top Row: Icon Capsule + Optional Badge */}
     <div className="relative z-10 flex items-center justify-between gap-3 w-full">
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#0066CC] border border-blue-100/90 shadow-xs transform-gpu transition-all duration-300 ease-in-out motion-safe:group-hover:scale-110 group-hover:bg-[#0066CC] group-hover:text-white">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-primary border border-blue-100/90 shadow-xs transform-gpu transition-all duration-300 ease-in-out motion-safe:group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
         <Icon className="h-6 w-6" />
       </div>
 
@@ -77,7 +77,7 @@ export const BentoCard = ({
     {/* Bottom Content Area */}
     <div className="relative z-10 mt-auto flex flex-col gap-2.5 pt-4">
       <div>
-        <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight m-0 group-hover:text-[#0066CC] transition-colors">
+        <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight m-0 group-hover:text-primary transition-colors">
           {name}
         </h3>
         <p className="max-w-md text-xs sm:text-sm text-slate-600 font-medium leading-relaxed m-0 mt-1 line-clamp-2">
@@ -86,7 +86,7 @@ export const BentoCard = ({
       </div>
 
       {/* Action CTA Bar */}
-      <div className="flex items-center gap-1.5 pt-1 text-xs font-extrabold text-[#0066CC] group-hover:text-[#004C99]">
+      <div className="flex items-center gap-1.5 pt-1 text-xs font-extrabold text-primary group-hover:text-primary-dark">
         <span>{cta}</span>
         <ArrowRight className="h-3.5 w-3.5 transform-gpu transition-transform duration-300 motion-safe:group-hover:translate-x-1.5" />
       </div>

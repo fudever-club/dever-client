@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* Token màu thương hiệu DEVER (Tailwind v4): dùng class primary* thay cho hex hardcode.
+   Giá trị giữ nguyên: primary #0066CC, primary-dark #004C99, primary-light #0080FF. */
+@theme {
+  --color-primary: #0066CC;
+  --color-primary-dark: #004C99;
+  --color-primary-light: #0080FF;
+}
+
 @layer base {
   button {
     background: transparent;
@@ -20,12 +28,26 @@
   border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-/* Respect users who prefer reduced motion. */
+/* Giảm chuyển động có chủ đích (thay cho kill 0.01ms toàn cục):
+   giữ đổi màu/trạng thái, bỏ translate/scale/blur khi reduce; skeleton static khi reduce. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow !important;
+  }
+  .animate-ping,
+  .animate-pulse,
+  .animate-spin,
+  .animate-bounce,
+  .ant-skeleton.ant-skeleton-active *,
+  .ant-skeleton.ant-skeleton-active *::before,
+  .ant-skeleton.ant-skeleton-active *::after {
+    animation: none !important;
   }
 }

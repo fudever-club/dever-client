@@ -49,6 +49,7 @@ import { apiClient } from "@/utils/apiClient";
 import { endpointFund } from "@/helpers/enpoints";
 import { useTranslation } from "@/app/i18n/client";
 import dayjs from "dayjs";
+import themeColors from "@/style/themes/default/colors";
 
 const { Title, Text, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -346,7 +347,7 @@ export default function FundModule() {
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#0066CC] text-xs font-bold mb-2 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-primary text-xs font-bold mb-2 shadow-sm">
             <ThunderboltOutlined />
             <span>{t("badge", "CỔNG ĐÓNG QUỸ FU-DEVER")}</span>
           </div>
@@ -363,7 +364,7 @@ export default function FundModule() {
             fetchData();
             fetchPublicStats();
           }}
-          className="rounded-xl text-xs font-bold self-start sm:self-auto h-10 px-4 shadow-sm border-slate-200 hover:border-[#0066CC]"
+          className="rounded-xl text-xs font-bold self-start sm:self-auto h-10 px-4 shadow-sm border-slate-200 hover:border-primary"
         >
           {t("refresh", "Làm mới")}
         </Button>
@@ -411,7 +412,7 @@ export default function FundModule() {
             </div>
             <Text type="secondary" className="text-xs">
               {t("statsPaid", "Đã đóng")} <b className="text-slate-800">{stats.paidCount}/{stats.totalMembers}</b> {t("statsMembersSuffix", "thành viên")}
-              {" • "}{t("statsAmountLabel", "Mức thu")} <b className="text-[#0066CC]">{(stats.amount ?? 0).toLocaleString("vi-VN")} đ</b>
+              {" • "}{t("statsAmountLabel", "Mức thu")} <b className="text-primary">{(stats.amount ?? 0).toLocaleString("vi-VN")} đ</b>
               {" • "}{t("statsCollectedLabel", "Đã thu")} <b className="text-slate-800">{(stats.totalMoneyCollected ?? 0).toLocaleString("vi-VN")} đ</b>
               {stats.deadline && (
                 <>{" • "}{t("statsDeadlineLabel", "Hạn chót")} <b className="text-slate-800">{dayjs(stats.deadline).format("DD/MM/YYYY")}</b></>
@@ -420,7 +421,7 @@ export default function FundModule() {
             <Progress
               percent={typeof stats.percent === "number" ? stats.percent : 0}
               status="active"
-              strokeColor={{ from: "#0066CC", to: "#0080FF" }}
+              strokeColor={{ from: themeColors.primary, to: themeColors.primaryLight }}
               aria-label={`Tiến độ đóng quỹ ${typeof stats.percent === "number" ? stats.percent : 0}%`}
             />
           </div>
@@ -509,7 +510,7 @@ export default function FundModule() {
           <Col xs={24} lg={13}>
             <div className="rounded-3xl border border-slate-200/90 bg-white shadow-xl overflow-hidden flex flex-col justify-between h-full">
               {/* Card Header Bar */}
-              <div className="bg-[#004C99] p-5 text-white flex items-center justify-between">
+              <div className="bg-primary-dark p-5 text-white flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20">
                     <BankOutlined className="text-xl text-amber-300" />
@@ -521,7 +522,7 @@ export default function FundModule() {
                     <span className="text-xs text-blue-100 font-mono">{t("bankAccountLabel", "Tài khoản Thủ Quỹ Chính Thức")}</span>
                   </div>
                 </div>
-                <Tag className="!bg-white !text-[#004C99] !border-white font-bold text-xs px-2.5 py-0.5 rounded-full shadow-sm">
+                <Tag className="!bg-white !text-primary-dark !border-white font-bold text-xs px-2.5 py-0.5 rounded-full shadow-sm">
                   {activeCampaign.semester || "Fall 2026"}
                 </Tag>
               </div>
@@ -532,19 +533,19 @@ export default function FundModule() {
                 <div className="flex flex-col items-center justify-center text-center space-y-4 bg-gradient-to-b from-slate-50 to-blue-50/40 p-6 rounded-2xl border border-slate-200/90 shadow-inner">
                   {/* QR Mode Switcher */}
                   <div className="inline-flex p-1 bg-white rounded-xl border border-slate-200 shadow-sm text-xs font-bold">
-                    <button
-                      onClick={() => setQrMode("vietqr")}
-                      className={`px-3.5 py-1.5 rounded-lg transition-all inline-flex items-center gap-1 ${
-                        qrMode === "vietqr" ? "bg-[#0066CC] text-white shadow-md" : "text-slate-600 hover:text-slate-900"
-                      }`}
+                      <button
+                        onClick={() => setQrMode("vietqr")}
+                        className={`px-3.5 py-1.5 min-h-[44px] rounded-lg transition-all inline-flex items-center gap-1 ${
+                          qrMode === "vietqr" ? "bg-primary text-white shadow-md" : "text-slate-600 hover:text-slate-900"
+                        }`}
                     >
                       <ThunderboltOutlined />{t("qrStandard", "Mã VietQR chuẩn HD")}
                     </button>
-                    <button
-                      onClick={() => setQrMode("custom")}
-                      className={`px-3.5 py-1.5 rounded-lg transition-all inline-flex items-center gap-1 ${
-                        qrMode === "custom" ? "bg-[#0066CC] text-white shadow-md" : "text-slate-600 hover:text-slate-900"
-                      }`}
+                      <button
+                        onClick={() => setQrMode("custom")}
+                        className={`px-3.5 py-1.5 min-h-[44px] rounded-lg transition-all inline-flex items-center gap-1 ${
+                          qrMode === "custom" ? "bg-primary text-white shadow-md" : "text-slate-600 hover:text-slate-900"
+                        }`}
                     >
                       <FileImageOutlined />{t("qrCustom", "Ảnh gốc thủ quỹ")}
                     </button>
@@ -564,7 +565,7 @@ export default function FundModule() {
                             setQrZoomModalOpen(true);
                           }
                         }}
-                        className="relative aspect-square w-full cursor-pointer overflow-hidden rounded-xl bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
+                        className="relative aspect-square w-full cursor-pointer overflow-hidden rounded-xl bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                       >
                         <Image
                           src={vietQrImageUrl}
@@ -588,7 +589,7 @@ export default function FundModule() {
                             setQrZoomModalOpen(true);
                           }
                         }}
-                        className="relative aspect-square w-full cursor-pointer overflow-hidden rounded-xl bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
+                        className="relative aspect-square w-full cursor-pointer overflow-hidden rounded-xl bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                       >
                         <Image
                           src={customQrImageUrl}
@@ -618,7 +619,7 @@ export default function FundModule() {
                       type="primary"
                       icon={<ZoomInOutlined />}
                       onClick={() => setQrZoomModalOpen(true)}
-                      className="rounded-xl text-xs font-bold bg-[#0066CC] h-11 min-h-[44px] shadow-sm"
+                      className="rounded-xl text-xs font-bold bg-primary h-11 min-h-[44px] shadow-sm"
                     >
                       {t("qrZoom", "Phóng To Mã QR")}
                     </Button>
@@ -673,7 +674,7 @@ export default function FundModule() {
                   <div className="flex items-center justify-between py-1 border-b border-blue-100/80">
                     <span className="text-slate-500 font-medium text-xs">{t("amountLabel", "Mức thu kỳ này:")}</span>
                     <div className="flex items-center gap-2">
-                      <span className="font-extrabold text-[#0066CC] text-base">
+                      <span className="font-extrabold text-primary text-base">
                         {qrAmount.toLocaleString("vi-VN")} đ
                       </span>
                       <Tooltip title={t("copyAmountTitle", "Sao chép số tiền")}>
@@ -719,7 +720,7 @@ export default function FundModule() {
               <div className="space-y-5">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                   <div className="flex items-center gap-2">
-                    <UploadOutlined className="text-xl text-[#0066CC]" />
+                    <UploadOutlined className="text-xl text-primary" />
                     <h3 className="font-extrabold text-slate-900 text-base m-0">{t("submitBoxTitle", "Nộp Minh Chứng Đóng Quỹ")}</h3>
                   </div>
                   <Tag color="blue" className="font-bold text-xs">{t("step", "Bước 2 / 2")}</Tag>
@@ -738,7 +739,7 @@ export default function FundModule() {
                     aria-required="true"
                     beforeUpload={handleUploadFile}
                     showUploadList={false}
-                    className="p-5 rounded-2xl border-dashed border-2 border-slate-300 hover:border-[#0066CC] transition-colors bg-slate-50/60"
+                    className="p-5 rounded-2xl border-dashed border-2 border-slate-300 hover:border-primary transition-colors bg-slate-50/60"
                   >
                     {proofImageUrl ? (
                       <div className="space-y-3 text-center">
@@ -773,12 +774,12 @@ export default function FundModule() {
                       </div>
                     ) : (
                       <div className="space-y-3 py-6 text-center">
-                        <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#0066CC] flex items-center justify-center mx-auto shadow-inner">
+                        <div className="w-14 h-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center mx-auto shadow-inner">
                           <FileImageOutlined style={{ fontSize: "28px" }} />
                         </div>
                         <div>
                           <p className="text-sm font-bold text-slate-800 m-0">{t("uploadPlaceholderTitle", "Kéo thả hoặc nhấp để chọn ảnh biên lai")}</p>
-                          <p className="text-xs text-slate-400 m-0 mt-1">{t("uploadPlaceholderDesc", "Hỗ trợ PNG, JPG, JPEG (tối đa 10MB)")}</p>
+                          <p className="text-xs text-slate-500 m-0 mt-1">{t("uploadPlaceholderDesc", "Hỗ trợ PNG, JPG, JPEG (tối đa 10MB)")}</p>
                         </div>
                       </div>
                     )}
@@ -826,7 +827,7 @@ export default function FundModule() {
                   loading={submitting || uploadingImage}
                   disabled={!proofImageUrl}
                   onClick={handleSubmitPayment}
-                  className="bg-[#0066CC] hover:bg-[#004C99] rounded-2xl font-extrabold text-sm shadow-xl shadow-blue-600/25 active:scale-[0.98] transition-all h-14 text-white flex items-center justify-center gap-2"
+                  className="bg-primary hover:bg-primary-dark rounded-2xl font-extrabold text-sm shadow-xl shadow-blue-600/25 active:scale-[0.98] transition-all h-14 text-white flex items-center justify-center gap-2"
                 >
                   <span>{t("confirmSubmit", "Xác Nhận Đã Chuyển Khoản & Nộp Minh Chứng")}</span>
                   <ArrowRightOutlined />
@@ -841,7 +842,7 @@ export default function FundModule() {
       <div className="rounded-3xl border border-slate-200/80 shadow-md bg-white p-6">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
           <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2 m-0">
-            <DollarOutlined className="text-[#0066CC]" /> {t("historyTitle", "Lịch Sử Đóng Quỹ Của Bạn")}
+            <DollarOutlined className="text-primary" /> {t("historyTitle", "Lịch Sử Đóng Quỹ Của Bạn")}
           </h3>
           <span className="text-xs text-slate-500 font-medium">{t("historyTotal", `Tổng cộng ${history.length} lần đóng`, { count: history.length })}</span>
         </div>
@@ -886,7 +887,7 @@ export default function FundModule() {
               dataIndex: "amount",
               key: "amount",
               render: (amount: number) => (
-                <Text strong className="text-xs text-[#0066CC]">
+                <Text strong className="text-xs text-primary">
                   {(amount || 100000).toLocaleString("vi-VN")} đ
                 </Text>
               ),
@@ -953,7 +954,7 @@ export default function FundModule() {
           
           <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 w-full max-w-[500px] text-left text-xs space-y-1.5">
             <p className="m-0 text-slate-700">{t("qrModalBankPrefix", "Ngân hàng:")} <b>TPBank (Ngân hàng TMCP Tiên Phong)</b></p>
-            <p className="m-0 text-slate-700">{t("qrModalAccPrefix", "Số tài khoản:")} <b className="font-mono text-sm text-[#0066CC]">{qrAccNumber}</b></p>
+            <p className="m-0 text-slate-700">{t("qrModalAccPrefix", "Số tài khoản:")} <b className="font-mono text-sm text-primary">{qrAccNumber}</b></p>
             <p className="m-0 text-slate-700">{t("qrModalHolderPrefix", "Chủ tài khoản:")} <b>{qrAccHolder}</b></p>
             <p className="m-0 text-slate-700">{t("qrModalAmountPrefix", "Số tiền:")} <b>{qrAmount.toLocaleString("vi-VN")} đ</b></p>
           </div>
@@ -965,7 +966,7 @@ export default function FundModule() {
               target="_blank"
               rel="noreferrer"
             >
-              <Button type="primary" icon={<DownloadOutlined />} className="rounded-xl font-bold bg-[#0066CC] h-11 min-h-[44px] px-5">
+              <Button type="primary" icon={<DownloadOutlined />} className="rounded-xl font-bold bg-primary h-11 min-h-[44px] px-5">
                 {t("qrModalDownload", "Tải Ảnh QR Về Điện Thoại")}
               </Button>
             </a>
