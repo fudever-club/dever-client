@@ -124,8 +124,9 @@ function Dashboard() {
   return (
     <main className="mx-auto w-full max-w-7xl space-y-7 pb-12 font-sans">
       <h1 className="sr-only">Bảng điều khiển thành viên</h1>
-      {/* 1. Command Center Hero Gamification Banner — sticky chỉ desktop, mobile giữ tĩnh gọn */}
-      <div className="lg:sticky lg:top-16 lg:z-20">
+      {/* 1. Command Center Hero Gamification Banner — static flow: sticky
+          caused underlying content to slide underneath (transparent gaps). */}
+      <div>
         <LevelProgressCard />
       </div>
 
