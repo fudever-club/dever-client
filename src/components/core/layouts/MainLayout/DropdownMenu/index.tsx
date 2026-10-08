@@ -65,7 +65,7 @@ function DropdownMenu() {
           src={
             <Image
               src={safeMenuAvatar}
-              alt="avatar"
+              alt="Ảnh đại diện của bạn"
               width={36}
               height={36}
               unoptimized={safeMenuAvatar.endsWith('.svg') || safeMenuAvatar.startsWith('data:')}

@@ -68,18 +68,20 @@ function ContactChange({ isUserProfileLoading, userData }: IProps) {
             <Form.Item<IUpdateData>
               label={t("phonenumber")}
               name="phone"
+              htmlFor="settings-phone"
               wrapperCol={{ span: 24 }}
               rules={[{ required: true, message: t("cantBeEmpty") }]}
             >
-              <Input placeholder={t("enterPhoneNumber")} />
+              <Input id="settings-phone" placeholder={t("enterPhoneNumber")} />
             </Form.Item>
             <Form.Item<IUpdateData>
               label={t("nickname")}
               name="nickname"
+              htmlFor="settings-nickname"
               wrapperCol={{ span: 24 }}
               rules={[{ required: true, message: t("cantBeEmpty") }]}
             >
-              <Input placeholder={t("enterNickname")} />
+              <Input id="settings-nickname" placeholder={t("enterNickname")} />
             </Form.Item>
             
             <S.FormItemNotMB>

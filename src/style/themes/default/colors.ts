@@ -8,6 +8,13 @@ const themeColors = {
 
   secondary: "#e2e8f0",
 
+  // Neutral text tokens (slate-500 #64748B). Dùng cho chữ xám có nghĩa
+  // thay vì slate-400/#94A3B8 để đạt WCAG AA trên nền sáng.
+  muted: "#64748B",
+  // Chỉ dùng trên nền tối (ví dụ header code editor): #94A3B8 trên nền
+  // tối vẫn đạt AA, làm tối hơn sẽ gây tụt tương phản.
+  mutedOnDark: "#94A3B8",
+
   backgroundPrimary: "#fafafa",
   backgroundSecondary: "#ffffff",
 

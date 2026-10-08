@@ -234,10 +234,11 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
             {/* Form Inputs Grid */}
             <S.FormGrid>
               <S.FieldWrapper>
-                <Typography.Text strong style={{ fontSize: 14 }}>
+                <label htmlFor="settings-track-title" style={{ fontSize: 14, fontWeight: 600 }}>
                   {t("trackSongTitle")}
-                </Typography.Text>
+                </label>
                 <Input
+                  id="settings-track-title"
                   size="large"
                   placeholder={t("trackSongTitlePlaceholder")}
                   value={title}
@@ -247,10 +248,11 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
               </S.FieldWrapper>
 
               <S.FieldWrapper>
-                <Typography.Text strong style={{ fontSize: 14 }}>
+                <label htmlFor="settings-track-artist" style={{ fontSize: 14, fontWeight: 600 }}>
                   {t("trackArtist")}
-                </Typography.Text>
+                </label>
                 <Input
+                  id="settings-track-artist"
                   size="large"
                   placeholder={t("trackArtistPlaceholder")}
                   value={artist}
@@ -261,9 +263,9 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
 
               <S.FullWidthField>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <Typography.Text strong style={{ fontSize: 14 }}>
+                  <label htmlFor="settings-track-url" style={{ fontSize: 14, fontWeight: 600 }}>
                     {t("trackAudioUrl")}
-                  </Typography.Text>
+                  </label>
                   <Upload
                     customRequest={handleUploadAudio}
                     showUploadList={false}
@@ -280,6 +282,7 @@ function FavoriteTrackChange({ isUserProfileLoading, userData }: IProps) {
                   </Upload>
                 </div>
                 <Input
+                  id="settings-track-url"
                   size="large"
                   prefix={<LinkOutlined style={{ color: "#94A3B8" }} />}
                   placeholder={t("trackAudioUrlPlaceholder")}

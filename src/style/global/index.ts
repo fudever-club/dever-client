@@ -66,7 +66,7 @@ const scrollApp = css`
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #94A3B8;
+    background-color: ${themes?.default?.colors?.muted || "#64748B"};
   }
 `;
 

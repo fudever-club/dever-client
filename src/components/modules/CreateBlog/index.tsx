@@ -54,6 +54,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { useAppSelector } from "@/hooks/redux-toolkit";
 import webStorageClient from "@/utils/webStorageClient";
 import PageHero from "@/components/ui/PageHero";
+import themeColors from "@/style/themes/default/colors";
 import { apiClient } from "@/utils/apiClient";
 import { compressImage } from "@/utils/imageCompressor";
 import {
@@ -118,7 +119,7 @@ const CALLOUT_PRESETS = [
     icon: Lightbulb,
     badgeBg: "#EFF6FF",
     badgeBorder: "#93C5FD",
-    badgeColor: "#0066CC",
+    badgeColor: themeColors.primary,
     syntax: "> [!NOTE]\n> ",
     desc: "Khung thông tin bổ sung, giải thích ngữ cảnh kỹ thuật",
   },
@@ -224,7 +225,8 @@ function CodeBlockWithCopy({ code, language }: { code: string; language: string 
           borderBottom: "1px solid #1E293B",
           fontSize: "12px",
           fontFamily: "monospace",
-          color: "#94A3B8",
+          // Sáng trên nền tối #161B22: giữ #94A3B8 (đạt AA), làm tối hơn sẽ tụt tương phản.
+          color: themeColors.mutedOnDark,
         }}
       >
         <span style={{ display: "flex", alignItems: "center", gap: "6px", fontWeight: "bold", color: "#60A5FA" }}>
@@ -265,14 +267,14 @@ function CodeBlockWithCopy({ code, language }: { code: string; language: string 
 function RichMarkdownRenderer({ content }: { content: string }) {
   if (!content.trim()) {
     return (
-      <div style={{ padding: "80px 20px", textAlign: "center", color: "#94A3B8" }}>
+      <div style={{ padding: "80px 20px", textAlign: "center", color: themeColors.muted }}>
         <div
           style={{
             width: "56px",
             height: "56px",
             borderRadius: "20px",
             backgroundColor: "#EFF6FF",
-            color: "#0066CC",
+            color: themeColors.primary,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -284,7 +286,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
         <p style={{ fontSize: "16px", fontWeight: "700", color: "#334155", marginBottom: "6px" }}>
           Gõ Markdown bên trái để xem bài render bên phải
         </p>
-        <p style={{ fontSize: "14px", color: "#64748B", maxWidth: "480px", margin: "0 auto" }}>
+        <p style={{ fontSize: "14px", color: themeColors.muted, maxWidth: "480px", margin: "0 auto" }}>
           Dán đoạn code trong ```ngôn ngữ, chèn khung ghi chú bằng &gt; [!NOTE], vẽ sơ đồ bằng ```mermaid hoặc chèn ảnh bằng ![mô tả](link https).
         </p>
       </div>
@@ -352,7 +354,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
           style={{
             fontSize: "20px",
             fontWeight: "700",
-            color: "#0066CC",
+            color: themeColors.primary,
             borderBottom: "1px solid #F1F5F9",
             paddingBottom: "6px",
             marginTop: "20px",
@@ -391,8 +393,8 @@ function RichMarkdownRenderer({ content }: { content: string }) {
       const isCaution = line.includes("CAUTION");
 
       const bgColor = isCaution ? "#FFF1F2" : isWarning ? "#FFFBEB" : isTip ? "#ECFDF5" : "#EFF6FF";
-      const borderColor = isCaution ? "#F43F5E" : isWarning ? "#F59E0B" : isTip ? "#10B981" : "#0066CC";
-      const textColor = isCaution ? "#9F1239" : isWarning ? "#92400E" : isTip ? "#065F46" : "#004C99";
+      const borderColor = isCaution ? "#F43F5E" : isWarning ? "#F59E0B" : isTip ? "#10B981" : themeColors.primary;
+      const textColor = isCaution ? "#9F1239" : isWarning ? "#92400E" : isTip ? "#065F46" : themeColors.primaryDark;
 
       elements.push(
         <div
@@ -471,7 +473,7 @@ function RichMarkdownRenderer({ content }: { content: string }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={imgSrc} alt={altText} style={{ width: "100%", maxHeight: "380px", objectFit: "cover" }} />
           {altText && altText !== "Hình ảnh minh họa" && (
-            <p style={{ textAlign: "center", fontSize: "11px", color: "#64748B", padding: "6px 12px", margin: 0, backgroundColor: "#F8FAFC", borderTop: "1px solid #F1F5F9", fontWeight: 600 }}>
+            <p style={{ textAlign: "center", fontSize: "11px", color: themeColors.muted, padding: "6px 12px", margin: 0, backgroundColor: "#F8FAFC", borderTop: "1px solid #F1F5F9", fontWeight: 600 }}>
               📷 {altText}
             </p>
           )}
@@ -953,7 +955,7 @@ export default function CreateBlogModule() {
               alignItems: "center",
               gap: "8px",
               backgroundColor: "#FFFFFF",
-              color: "#0066CC",
+              color: themeColors.primary,
               border: "none",
               borderRadius: "16px",
               padding: "12px 24px",
@@ -965,11 +967,11 @@ export default function CreateBlogModule() {
           >
             {activeTab === "editor" ? (
               <>
-                <BookOpen size={16} color="#0066CC" /> Bài viết của tôi
+                <BookOpen size={16} color={themeColors.primary} /> Bài viết của tôi
               </>
             ) : (
               <>
-                <Edit3 size={16} color="#0066CC" /> Quay lại Soạn thảo
+                <Edit3 size={16} color={themeColors.primary} /> Quay lại Soạn thảo
               </>
             )}
           </button>
@@ -1009,8 +1011,8 @@ export default function CreateBlogModule() {
                   fontWeight: 700,
                   cursor: "pointer",
                   border: "none",
-                  backgroundColor: viewMode === "split" ? "#0066CC" : "transparent",
-                  color: viewMode === "split" ? "#FFFFFF" : "#64748B",
+                  backgroundColor: viewMode === "split" ? themeColors.primary : "transparent",
+                  color: viewMode === "split" ? "#FFFFFF" : themeColors.muted,
                   boxShadow: viewMode === "split" ? "0 2px 8px rgba(0, 102, 204, 0.25)" : "none",
                 }}
               >
@@ -1029,8 +1031,8 @@ export default function CreateBlogModule() {
                   fontWeight: 700,
                   cursor: "pointer",
                   border: "none",
-                  backgroundColor: viewMode === "focus" ? "#0066CC" : "transparent",
-                  color: viewMode === "focus" ? "#FFFFFF" : "#64748B",
+                  backgroundColor: viewMode === "focus" ? themeColors.primary : "transparent",
+                  color: viewMode === "focus" ? "#FFFFFF" : themeColors.muted,
                   boxShadow: viewMode === "focus" ? "0 2px 8px rgba(0, 102, 204, 0.25)" : "none",
                 }}
               >
@@ -1049,8 +1051,8 @@ export default function CreateBlogModule() {
                   fontWeight: 700,
                   cursor: "pointer",
                   border: "none",
-                  backgroundColor: viewMode === "preview" ? "#0066CC" : "transparent",
-                  color: viewMode === "preview" ? "#FFFFFF" : "#64748B",
+                  backgroundColor: viewMode === "preview" ? themeColors.primary : "transparent",
+                  color: viewMode === "preview" ? "#FFFFFF" : themeColors.muted,
                   boxShadow: viewMode === "preview" ? "0 2px 8px rgba(0, 102, 204, 0.25)" : "none",
                 }}
               >
@@ -1059,7 +1061,7 @@ export default function CreateBlogModule() {
             </div>
 
             {/* Live Metrics & Auto-Save Badge */}
-            <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "14px", color: "#64748B", fontWeight: 600 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "14px", color: themeColors.muted, fontWeight: 600 }}>
               {lastSaved && (
                 <span
                   style={{
@@ -1079,7 +1081,7 @@ export default function CreateBlogModule() {
                 </span>
               )}
               <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                <FileText size={14} color="#0066CC" /> {wordCount} từ ({charCount} ký tự)
+                <FileText size={14} color={themeColors.primary} /> {wordCount} từ ({charCount} ký tự)
               </span>
               <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                 <Clock size={14} color="#8B5CF6" /> {readTimeEstimate}
@@ -1109,13 +1111,13 @@ export default function CreateBlogModule() {
                   color: "#0F172A",
                 }}
               >
-                <CheckCircle2 size={16} color={readiness.isReady ? "#059669" : "#94A3B8"} />
+                  <CheckCircle2 size={16} color={readiness.isReady ? "#059669" : themeColors.muted} />
                 {tChecklist("title", "Sẵn sàng gửi duyệt")}
                 <span
                   style={{
                     fontSize: "12px",
                     fontWeight: 700,
-                    color: readiness.isReady ? "#059669" : "#64748B",
+                    color: readiness.isReady ? "#059669" : themeColors.muted,
                   }}
                 >
                   ({readiness.items.filter((item) => item.met).length}/{readiness.items.length})
@@ -1141,7 +1143,7 @@ export default function CreateBlogModule() {
                       gap: "6px",
                       fontSize: "12px",
                       fontWeight: 600,
-                      color: item.met ? "#059669" : "#64748B",
+                      color: item.met ? "#059669" : themeColors.muted,
                     }}
                   >
                     {item.met ? (
@@ -1160,11 +1162,11 @@ export default function CreateBlogModule() {
                           flexShrink: 0,
                         }}
                       >
-                        <X size={9} color="#94A3B8" />
+                        <X size={9} color={themeColors.muted} />
                       </span>
                     )}
                     {readinessLabel(item.id)}
-                    <span style={{ fontWeight: 700, color: item.met ? "#059669" : "#94A3B8" }}>
+                    <span style={{ fontWeight: 700, color: item.met ? "#059669" : themeColors.muted }}>
                       ({readinessDetail(item.id)})
                     </span>
                   </li>
@@ -1194,7 +1196,7 @@ export default function CreateBlogModule() {
                   onClick={() => handleSaveOrPublish("publish")}
                   loading={loading}
                   style={{
-                    backgroundColor: "#0066CC",
+                    backgroundColor: themeColors.primary,
                     borderRadius: "14px",
                     fontWeight: 700,
                     height: "40px",
@@ -1222,7 +1224,7 @@ export default function CreateBlogModule() {
                       onClick={() => handleSaveOrPublish("submit")}
                       loading={loading}
                       style={{
-                        backgroundColor: "#0066CC",
+                        backgroundColor: themeColors.primary,
                         borderRadius: "14px",
                         fontWeight: 700,
                         height: "40px",
@@ -1256,7 +1258,7 @@ export default function CreateBlogModule() {
               {coverUrl ? (
                 <div style={{ position: "relative", width: "100%", height: "240px", borderRadius: "18px", overflow: "hidden", border: "1px solid #CBD5E1" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={coverUrl} alt="Cover Preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src={coverUrl} alt="Xem trước ảnh bìa bài viết" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   <div
                     style={{
                       position: "absolute",
@@ -1280,7 +1282,7 @@ export default function CreateBlogModule() {
                         gap: "6px",
                         padding: "6px 14px",
                         borderRadius: "10px",
-                        backgroundColor: "#0066CC",
+                        backgroundColor: themeColors.primary,
                         color: "#FFFFFF",
                         border: "none",
                         fontSize: "12px",
@@ -1323,7 +1325,7 @@ export default function CreateBlogModule() {
                       coverFileRef.current?.click();
                     }
                   }}
-                  className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0066CC]"
+                  className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                   style={{
                     width: "100%",
                     height: "160px",
@@ -1345,7 +1347,7 @@ export default function CreateBlogModule() {
                       height: "48px",
                       borderRadius: "50%",
                       backgroundColor: "#DBEAFE",
-                      color: "#0066CC",
+                      color: themeColors.primary,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -1356,7 +1358,7 @@ export default function CreateBlogModule() {
                   <p style={{ fontSize: "14px", fontWeight: 700, color: "#1E293B", margin: 0 }}>
                     {uploadingCover ? "Đang tải ảnh lên..." : "Tải ảnh bìa bài viết"}
                   </p>
-                  <p style={{ fontSize: "12px", color: "#64748B", margin: 0 }}>
+                  <p style={{ fontSize: "12px", color: themeColors.muted, margin: 0 }}>
                     Kéo thả hoặc bấm để chọn ảnh từ máy tính (JPEG, PNG, WebP)
                   </p>
                 </div>
@@ -1440,8 +1442,8 @@ export default function CreateBlogModule() {
                         fontSize: "12px",
                         fontWeight: 700,
                         cursor: "pointer",
-                        border: isSelected ? "1px solid #0066CC" : "1px solid #E2E8F0",
-                        backgroundColor: isSelected ? "#0066CC" : "#F8FAFC",
+                        border: isSelected ? `1px solid ${themeColors.primary}` : "1px solid #E2E8F0",
+                        backgroundColor: isSelected ? themeColors.primary : "#F8FAFC",
                         color: isSelected ? "#FFFFFF" : "#475569",
                         transition: "all 0.15s ease",
                       }}
@@ -1533,14 +1535,14 @@ export default function CreateBlogModule() {
                     padding: "7px 14px",
                     borderRadius: "12px",
                     backgroundColor: "#EFF6FF",
-                    color: "#0066CC",
+                    color: themeColors.primary,
                     border: "1px solid #BFDBFE",
                     fontSize: "12px",
                     fontWeight: 700,
                     cursor: "pointer",
                   }}
                 >
-                  <div style={{ padding: "4px", borderRadius: "8px", backgroundColor: "#0066CC", color: "#FFFFFF", display: "flex" }}>
+                  <div style={{ padding: "4px", borderRadius: "8px", backgroundColor: themeColors.primary, color: "#FFFFFF", display: "flex" }}>
                     <TableIcon size={14} />
                   </div>
                   Tạo Bảng Biểu
@@ -1675,11 +1677,11 @@ export default function CreateBlogModule() {
                   gap: "12px",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #F1F5F9", paddingBottom: "10px", fontSize: "12px", fontWeight: 700, color: "#64748B" }}>
-                  <span style={{ display: "flex", alignItems: "center", gap: "6px", color: "#0066CC" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #F1F5F9", paddingBottom: "10px", fontSize: "12px", fontWeight: 700, color: themeColors.muted }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: "6px", color: themeColors.primary }}>
                     <Edit3 size={15} /> Khung Soạn Thảo Markdown (Hỗ trợ dán ảnh Ctrl + V)
                   </span>
-                  <span style={{ fontSize: "11px", color: "#94A3B8", fontWeight: 500 }}>
+                  <span style={{ fontSize: "11px", color: themeColors.muted, fontWeight: 600 }}>
                     Markdown & Blocks
                   </span>
                 </div>
@@ -1720,7 +1722,7 @@ export default function CreateBlogModule() {
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #F1F5F9", paddingBottom: "12px" }}>
-                  <span style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", fontWeight: 800, color: "#0066CC", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", fontWeight: 800, color: themeColors.primary, textTransform: "uppercase", letterSpacing: "0.05em" }}>
                     <Eye size={16} /> Xem Trước Trực Tiếp (Live Landing Page Render)
                   </span>
                   <Tag color="blue" style={{ borderRadius: "8px", fontWeight: 700, fontSize: "11px", padding: "2px 10px" }}>
@@ -1739,7 +1741,7 @@ export default function CreateBlogModule() {
                   {coverUrl && (
                     <div style={{ borderRadius: "18px", overflow: "hidden", border: "1px solid #E2E8F0", maxHeight: "280px" }}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={coverUrl} alt="Cover Preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      <img src={coverUrl} alt="Xem trước ảnh bìa bài viết" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     </div>
                   )}
 
@@ -1766,9 +1768,9 @@ export default function CreateBlogModule() {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #F1F5F9", paddingBottom: "16px" }}>
             <div>
               <h2 style={{ fontSize: "18px", fontWeight: 800, color: "#0F172A", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
-                <BookOpen size={20} color="#0066CC" /> Danh Sách Bài Viết Của Tôi
+                <BookOpen size={20} color={themeColors.primary} /> Danh Sách Bài Viết Của Tôi
               </h2>
-              <p style={{ fontSize: "14px", color: "#64748B", margin: "4px 0 0 0" }}>
+              <p style={{ fontSize: "14px", color: themeColors.muted, margin: "4px 0 0 0" }}>
                 Theo dõi trạng thái xét duyệt và xem góp ý chuyên môn từ Ban Quản Trị CLB.
               </p>
             </div>
@@ -1783,7 +1785,7 @@ export default function CreateBlogModule() {
                 setActiveTab("editor");
               }}
               style={{
-                backgroundColor: "#0066CC",
+                backgroundColor: themeColors.primary,
                 borderRadius: "14px",
                 fontWeight: 700,
                 height: "40px",
@@ -1795,8 +1797,8 @@ export default function CreateBlogModule() {
           </div>
 
           {loadingMyBlogs ? (
-            <div style={{ padding: "60px 20px", textAlign: "center", color: "#64748B" }}>
-              <RefreshCw size={24} color="#0066CC" className="animate-spin" style={{ margin: "0 auto 10px auto" }} />
+            <div style={{ padding: "60px 20px", textAlign: "center", color: themeColors.muted }}>
+              <RefreshCw size={24} color={themeColors.primary} className="animate-spin" style={{ margin: "0 auto 10px auto" }} />
               <p style={{ fontSize: "14px", fontWeight: 600 }}>Đang tải danh sách bài viết...</p>
             </div>
           ) : myBlogsError ? (
@@ -1804,7 +1806,7 @@ export default function CreateBlogModule() {
               <p style={{ fontSize: "14px", fontWeight: 700, color: "#DC2626", margin: "0 0 6px 0" }}>
                 Không thể tải danh sách bài viết
               </p>
-              <p style={{ fontSize: "14px", color: "#64748B", margin: "0 0 12px 0" }}>
+              <p style={{ fontSize: "14px", color: themeColors.muted, margin: "0 0 12px 0" }}>
                 Vui lòng kiểm tra kết nối và thử lại.
               </p>
               <Button type="primary" onClick={() => fetchMyBlogs()}>
@@ -1817,7 +1819,7 @@ export default function CreateBlogModule() {
               <p style={{ fontSize: "16px", fontWeight: 700, color: "#1E293B", margin: "0 0 6px 0" }}>
                 Bạn chưa có bài viết nào
               </p>
-              <p style={{ fontSize: "14px", color: "#64748B", margin: 0 }}>
+              <p style={{ fontSize: "14px", color: themeColors.muted, margin: 0 }}>
                 Hãy bắt đầu chia sẻ bài viết kỹ thuật đầu tiên để đóng góp cho cộng đồng FU-DEVER!
               </p>
             </div>
@@ -1843,7 +1845,7 @@ export default function CreateBlogModule() {
                       <Tag color={b.status === "published" ? "success" : b.status === "pending_review" ? "processing" : b.status === "changes_requested" ? "warning" : "default"} style={{ borderRadius: "9999px", fontWeight: 700, padding: "2px 10px" }}>
                         {b.status === "published" ? "🟢 Đã Xuất Bản" : b.status === "pending_review" ? "🟡 Đang Chờ Duyệt" : b.status === "changes_requested" ? "🟠 Cần Chỉnh Sửa" : "⚪ Bản Nháp"}
                       </Tag>
-                      <span style={{ fontSize: "12px", color: "#64748B", fontWeight: 600 }}>
+                      <span style={{ fontSize: "12px", color: themeColors.muted, fontWeight: 600 }}>
                         {b.category}
                       </span>
                     </div>
@@ -1885,7 +1887,7 @@ export default function CreateBlogModule() {
       {/* 1. VISUAL MODAL: Table Builder */}
       <Modal
         title={
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#0066CC", fontWeight: 800 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", color: themeColors.primary, fontWeight: 800 }}>
             <TableIcon size={18} /> Trình Tạo Bảng Biểu Trực Quan (Visual Table Builder)
           </div>
         }
@@ -1895,11 +1897,11 @@ export default function CreateBlogModule() {
         okText="Chèn Bảng Vào Bài Viết"
         cancelText="Hủy"
         width="min(600px, 95vw)"
-        okButtonProps={{ style: { backgroundColor: "#0066CC", borderRadius: "12px", fontWeight: 700 } }}
+        okButtonProps={{ style: { backgroundColor: themeColors.primary, borderRadius: "12px", fontWeight: 700 } }}
         cancelButtonProps={{ style: { borderRadius: "12px" } }}
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "16px", padding: "12px 0" }}>
-          <p style={{ fontSize: "14px", color: "#64748B", margin: 0 }}>
+          <p style={{ fontSize: "14px", color: themeColors.muted, margin: 0 }}>
             Tự động tạo bảng Markdown chuẩn định dạng mà không cần gõ thủ công ký tự `|---|---|`.
           </p>
 
@@ -1928,7 +1930,7 @@ export default function CreateBlogModule() {
 
           {/* Grid Preview */}
           <div style={{ padding: "14px", backgroundColor: "#F8FAFC", borderRadius: "16px", border: "1px solid #E2E8F0" }}>
-            <p style={{ fontSize: "11px", fontWeight: 700, color: "#94A3B8", textTransform: "uppercase", margin: "0 0 10px 0" }}>
+            <p style={{ fontSize: "11px", fontWeight: 700, color: themeColors.muted, textTransform: "uppercase", margin: "0 0 10px 0" }}>
               Xem trước cấu trúc bảng:
             </p>
             <div
@@ -1939,12 +1941,12 @@ export default function CreateBlogModule() {
               }}
             >
               {Array.from({ length: tableCols }).map((_, c) => (
-                <div key={`h-${c}`} style={{ padding: "8px", backgroundColor: "#0066CC", color: "#FFFFFF", fontSize: "11px", fontWeight: 800, textAlign: "center", borderRadius: "8px" }}>
+                <div key={`h-${c}`} style={{ padding: "8px", backgroundColor: themeColors.primary, color: "#FFFFFF", fontSize: "11px", fontWeight: 800, textAlign: "center", borderRadius: "8px" }}>
                   Cột {c + 1}
                 </div>
               ))}
               {Array.from({ length: tableCols * 2 }).map((_, r) => (
-                <div key={`d-${r}`} style={{ padding: "8px", backgroundColor: "#FFFFFF", color: "#64748B", fontSize: "11px", textAlign: "center", borderRadius: "8px", border: "1px solid #E2E8F0" }}>
+                <div key={`d-${r}`} style={{ padding: "8px", backgroundColor: "#FFFFFF", color: themeColors.muted, fontSize: "11px", textAlign: "center", borderRadius: "8px", border: "1px solid #E2E8F0" }}>
                   Ô dữ liệu
                 </div>
               ))}
@@ -2054,7 +2056,7 @@ export default function CreateBlogModule() {
                       <IconComp size={16} color={item.badgeColor} />
                       {item.title}
                     </div>
-                    <p style={{ fontSize: "12px", color: "#64748B", margin: 0, lineHeight: "1.4" }}>
+                    <p style={{ fontSize: "12px", color: themeColors.muted, margin: 0, lineHeight: "1.4" }}>
                       {item.desc}
                     </p>
                   </div>
@@ -2091,7 +2093,7 @@ export default function CreateBlogModule() {
         width="min(680px, 95vw)"
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "14px", padding: "12px 0" }}>
-          <p style={{ fontSize: "14px", color: "#64748B", margin: 0 }}>
+          <p style={{ fontSize: "14px", color: themeColors.muted, margin: 0 }}>
             Chọn sơ đồ mẫu để hệ thống tự động render trực quan trong bài viết:
           </p>
 
@@ -2114,7 +2116,7 @@ export default function CreateBlogModule() {
                   <h4 style={{ fontSize: "14px", fontWeight: 800, color: "#0F172A", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
                     <Workflow size={16} color="#0891B2" /> {preset.title}
                   </h4>
-                  <p style={{ fontSize: "12px", color: "#64748B", margin: "4px 0 0 0" }}>{preset.desc}</p>
+                  <p style={{ fontSize: "12px", color: themeColors.muted, margin: "4px 0 0 0" }}>{preset.desc}</p>
                 </div>
                 <Button
                   type="primary"

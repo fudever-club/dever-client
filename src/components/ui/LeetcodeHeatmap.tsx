@@ -173,6 +173,9 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
       {/* Heatmap Grid & Legend */}
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         <div
+          tabIndex={0}
+          role="region"
+          aria-label="Biểu đồ hoạt động LeetCode 52 tuần. Vuốt ngang hoặc dùng phím mũi tên để xem chi tiết từng ngày."
           style={{
             width: "100%",
             overflowX: "auto",
@@ -237,8 +240,8 @@ export default function LeetcodeHeatmap({ submissions }: LeetcodeHeatmapProps) {
             gap: "8px",
             borderTop: "1px solid #F1F5F9",
             paddingTop: "8px",
-            fontSize: "11px",
-            color: "#94A3B8",
+            fontSize: "12px",
+            color: themeColors.muted,
             fontWeight: 600,
           }}
         >

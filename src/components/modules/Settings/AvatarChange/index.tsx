@@ -119,7 +119,7 @@ function AvatarChange({ isProfileFetching, userData }: IProps) {
                 src={effectiveAvatar}
                 width={500}
                 height={500}
-                alt="avatar"
+                alt="Ảnh đại diện của bạn"
                 onError={() => setImgError(true)}
                 style={{
                   objectFit: "cover",

@@ -181,30 +181,33 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
                   <Form.Item
                     label={t("firstname")}
                     name="firstname"
+                    htmlFor="settings-firstname"
                     wrapperCol={{ span: 24 }}
                     rules={[{ required: true, message: t("cantBeEmpty") }]}
                   >
-                    <Input placeholder={t("enterFirstname")} />
+                    <Input id="settings-firstname" placeholder={t("enterFirstname")} />
                   </Form.Item>
                 </Col>
                 <Col className="gutter-row" span={handleFillGridEntryScreen()}>
                   <Form.Item
                     label={t("lastname")}
                     name="lastname"
+                    htmlFor="settings-lastname"
                     wrapperCol={{ span: 24 }}
                     rules={[{ required: true, message: t("cantBeEmpty") }]}
                   >
-                    <Input placeholder={t("enterLastname")} />
+                    <Input id="settings-lastname" placeholder={t("enterLastname")} />
                   </Form.Item>
                 </Col>
                 <Col className="gutter-row" span={handleFillGridEntryScreen()}>
                   <Form.Item
                     label={t("studentId")}
                     name="MSSV"
+                    htmlFor="settings-mssv"
                     wrapperCol={{ span: 24 }}
                     rules={[{ required: true, message: t("cantBeEmpty") }]}
                   >
-                    <Input placeholder={t("enterStudentId")} />
+                    <Input id="settings-mssv" placeholder={t("enterStudentId")} />
                   </Form.Item>
                 </Col>
                 
@@ -212,10 +215,12 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
                   <Form.Item
                     label={t("birthday")}
                     name="dob"
+                    htmlFor="settings-dob"
                     wrapperCol={{ span: 24 }}
                     rules={[{ required: true, message: t("cantBeEmpty") }]}
                   >
                     <S.DatePickerCustom
+                      id="settings-dob"
                       format={"DD/MM/YYYY"}
                       size="large"
                       placeholder={t("enterBirthday")}
@@ -227,40 +232,45 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
                   <Form.Item
                     label={t("gen")}
                     name="gen"
+                    htmlFor="settings-gen"
                     wrapperCol={{ span: 24 }}
                     rules={[{ required: true, message: t("cantBeEmpty") }]}
                   >
-                    <InputNumber style={{width: "100%"}} size="middle" min={1} max={10} placeholder={t("enterGen")} />
+                    <InputNumber id="settings-gen" style={{width: "100%"}} size="middle" min={1} max={10} placeholder={t("enterGen")} />
                   </Form.Item>
                 </Col>
                 <Col className="gutter-row" span={handleFillGridEntryScreen()}>
                   <Form.Item
                     label={t("hometown")}
                     name="hometown"
+                    htmlFor="settings-hometown"
                     wrapperCol={{ span: 24 }}
                     rules={[{ required: true, message: t("cantBeEmpty") }]}
                   >
-                    <Input placeholder={t("enterHometown")}/>
+                    <Input id="settings-hometown" placeholder={t("enterHometown")}/>
                   </Form.Item>
                 </Col>
                 <Col className="gutter-row" span={handleFillGridEntryScreen()}>
                   <Form.Item
                     label={t("job")}
                     name="job"
+                    htmlFor="settings-job"
                     wrapperCol={{ span: 24 }}
                     rules={[{ required: true, message: t("cantBeEmpty") }]}
                   >
-                    <Input placeholder={t("enterJob")}/>
+                    <Input id="settings-job" placeholder={t("enterJob")}/>
                   </Form.Item>
                 </Col>
                 <Col className="gutter-row" span={handleFillGridEntryScreen()}>
                   <Form.Item
                     label={t("position")}
                     name="positionId"
+                    htmlFor="settings-position"
                     wrapperCol={{ span: 24 }}
                     rules={[{ required: true, message: t("cantBeEmpty") }]}
                   >
                     <S.SelectCustom
+                      id="settings-position"
                       disabled
                       size="large"
                       placeholder={t("enterPosition")}
@@ -277,10 +287,12 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
                   <Form.Item
                     label={t("department")}
                     name="departments"
+                    htmlFor="settings-departments"
                     wrapperCol={{ span: 24 }}
                     rules={[{ required: true, message: t("cantBeEmpty") }]}
                   >
                     <S.SelectCustom
+                      id="settings-departments"
                       disabled
                       mode="multiple"
                       allowClear
@@ -299,10 +311,11 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
                   <Form.Item
                     label={t("major")}
                     name="majorId"
+                    htmlFor="settings-major"
                     wrapperCol={{ span: 24 }}
                     rules={[{ required: true, message: t("cantBeEmpty") }]}
                   >
-                    <S.SelectCustom size="large" placeholder={t("enterMajor")}>
+                    <S.SelectCustom id="settings-major" size="large" placeholder={t("enterMajor")}>
                       {majorEnums.map((item: UserEnum, index: number) => (
                         <Select.Option value={item._id} key={index}>
                           {t(item.constant)}
@@ -315,18 +328,20 @@ function GeneralChange({ isUserProfileLoading, userData }: IProps) {
                   <Form.Item
                     label={t("school")}
                     name="school"
+                    htmlFor="settings-school"
                     wrapperCol={{ span: 24 }}
                   >
-                    <Input placeholder={t("enterSchool")}/>
+                    <Input id="settings-school" placeholder={t("enterSchool")}/>
                   </Form.Item>
                 </Col>
                 <Col className="gutter-row" span={handleFillGridEntryScreen()}>
                   <Form.Item
                     label={t("workspace")}
                     name="workplace"
+                    htmlFor="settings-workplace"
                     wrapperCol={{ span: 24 }}
                   >
-                    <Input placeholder={t("enterWorkspace")} />
+                    <Input id="settings-workplace" placeholder={t("enterWorkspace")} />
                   </Form.Item>
                 </Col>
               </Row>

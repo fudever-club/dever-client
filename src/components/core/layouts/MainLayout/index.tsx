@@ -195,7 +195,7 @@ const MainLayout = ({
                           router?.push(`/${localActive}/members`);
                         }
                       }}
-                      className="cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
+                      className="cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                     >
                       <Image
                         alt=""
@@ -242,7 +242,7 @@ const MainLayout = ({
                           router?.push(`/${localActive}/members`);
                         }
                       }}
-                      className="cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066CC] focus-visible:ring-offset-2"
+                      className="cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                     >
                       <Image
                         alt=""
@@ -293,7 +293,7 @@ const MainLayout = ({
                     src={
                       <Image
                         src={safeHeaderAvatar}
-                        alt="avatar"
+                        alt="Ảnh đại diện của bạn"
                         width={40}
                         height={40}
                         unoptimized={safeHeaderAvatar.endsWith('.svg') || safeHeaderAvatar.startsWith('data:')}

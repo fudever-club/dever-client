@@ -64,10 +64,12 @@ function PasswordChange({ isUserProfileLoading, userData }: IProps) {
               <Form.Item
                 label={t("currentPassword")}
                 name="oldPassword"
+                htmlFor="settings-old-password"
                 wrapperCol={{ span: 24 }}
                 rules={[{ required: true, message: t("cantBeEmpty") }]}
               >
                 <Input.Password
+                  id="settings-old-password"
                   autoComplete="oldPassword"
                   placeholder={t("enterCurrentPassword")}
                   iconRender={(visible) =>
@@ -79,6 +81,7 @@ function PasswordChange({ isUserProfileLoading, userData }: IProps) {
               <Form.Item
                 label={t("newPassword")}
                 name="newPassword"
+                htmlFor="settings-new-password"
                 wrapperCol={{ span: 24 }}
                 rules={[
                   { required: true, message: t("cantBeEmpty") },
@@ -90,6 +93,7 @@ function PasswordChange({ isUserProfileLoading, userData }: IProps) {
                 hasFeedback
               >
                 <Input.Password
+                  id="settings-new-password"
                   autoComplete="newPassword"
                   placeholder={t("enterNewPassword")}
                   iconRender={(visible) =>
@@ -101,6 +105,7 @@ function PasswordChange({ isUserProfileLoading, userData }: IProps) {
               <Form.Item
                 label={t("confirmNewPassword")}
                 name="confirmNewPassword"
+                htmlFor="settings-confirm-new-password"
                 wrapperCol={{ span: 24 }}
                 rules={[
                   { required: true, message: t("cantBeEmpty") },
@@ -116,6 +121,7 @@ function PasswordChange({ isUserProfileLoading, userData }: IProps) {
                 hasFeedback
               >
                 <Input.Password
+                  id="settings-confirm-new-password"
                   autoComplete="confirmNewPassword"
                   placeholder={t("enterConfirmNewPassword")}
                   iconRender={(visible) =>

@@ -255,10 +255,12 @@ function SocialChange({
                     <Form.Item
                       label={t("platform")}
                       name={"socialId"}
+                      htmlFor="settings-social-platform"
                       wrapperCol={{ span: 24 }}
                       rules={[{ required: true, message: t("cantBeEmpty") }]}
                     >
                       <S.SelectCustom
+                        id="settings-social-platform"
                         size="large"
                         placeholder={t("selectPlatfrorm")}
                         style={{ borderRadius: 8, width: "100%" }}
@@ -279,6 +281,7 @@ function SocialChange({
                     <Form.Item
                       label={t("accountLink")}
                       name={"url"}
+                      htmlFor="settings-social-url"
                       wrapperCol={{ span: 24 }}
                       rules={[
                         { required: true, message: t("cantBeEmpty") },
@@ -286,6 +289,7 @@ function SocialChange({
                       ]}
                     >
                       <Input
+                        id="settings-social-url"
                         size="large"
                         placeholder="https://facebook.com/username hoặc https://linkedin.com/in/..."
                         style={{ borderRadius: 8 }}

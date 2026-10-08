@@ -24,6 +24,7 @@ import { Trophy as TrophyLucide } from "lucide-react";
 import { useGetHallOfFameQuery } from "@/store/queries/gamification";
 import SubmitProjectModal from "@/components/ui/SubmitProjectModal";
 import PageHero from "@/components/ui/PageHero";
+import themeColors from "@/style/themes/default/colors";
 import { useAppSelector } from "@/hooks/redux-toolkit";
 
 const { Title, Text, Paragraph } = Typography;
@@ -66,7 +67,7 @@ export default function HallOfFameClientPage() {
                 : index === 2
                 ? "linear-gradient(135deg, #D97706 0%, #B45309 100%)"
                 : "#F1F5F9",
-            color: index < 3 ? "#FFFFFF" : "#64748B",
+            color: index < 3 ? "#FFFFFF" : themeColors.muted,
             boxShadow: index === 0 ? "0 4px 10px rgba(245, 158, 11, 0.3)" : "none",
           }}
         >
@@ -95,7 +96,7 @@ export default function HallOfFameClientPage() {
                 </Tag>
               )}
             </div>
-            <span style={{ fontSize: "12px", color: "#94A3B8", display: "block", marginTop: "2px" }}>
+            <span style={{ fontSize: "12px", color: themeColors.muted, display: "block", marginTop: "2px" }}>
               {record.position} • {record.department}
             </span>
           </div>
@@ -116,7 +117,7 @@ export default function HallOfFameClientPage() {
             fontSize: "12px",
             fontWeight: 700,
             backgroundColor: "#EFF6FF",
-            color: "#0066CC",
+            color: themeColors.primary,
             border: "1px solid #BFDBFE",
           }}
         >
@@ -132,7 +133,7 @@ export default function HallOfFameClientPage() {
           <span style={{ fontWeight: 700, color: "#1E293B", fontSize: "14px" }}>
             Level {record.level}
           </span>
-          <p style={{ fontSize: "12px", color: "#0066CC", fontWeight: 700, margin: 0 }}>
+          <p style={{ fontSize: "12px", color: themeColors.primary, fontWeight: 700, margin: 0 }}>
             {record.exp} EXP
           </p>
         </div>
@@ -199,7 +200,7 @@ export default function HallOfFameClientPage() {
             onClick={() => setSubmitProjectOpen(true)}
             style={{
               background: "#FFFFFF",
-              color: "#004C99",
+              color: themeColors.primaryDark,
               border: "1px solid #BFDBFE",
               padding: "12px 24px",
               borderRadius: "16px",
@@ -272,7 +273,7 @@ export default function HallOfFameClientPage() {
                     style={{
                       fontSize: "12px",
                       fontWeight: 700,
-                      color: "#0066CC",
+                      color: themeColors.primary,
                       backgroundColor: "#EFF6FF",
                       padding: "2px 10px",
                       borderRadius: "9999px",
@@ -287,7 +288,7 @@ export default function HallOfFameClientPage() {
                   <span style={{ fontSize: "12px", fontWeight: 700, color: "#475569", backgroundColor: "#F1F5F9", padding: "4px 12px", borderRadius: "10px" }}>
                     Level {podium.second.level}
                   </span>
-                  <span style={{ fontSize: "12px", fontWeight: 800, color: "#0066CC", backgroundColor: "#EFF6FF", padding: "4px 12px", borderRadius: "10px", border: "1px solid #BFDBFE", display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                  <span style={{ fontSize: "12px", fontWeight: 800, color: themeColors.primary, backgroundColor: "#EFF6FF", padding: "4px 12px", borderRadius: "10px", border: "1px solid #BFDBFE", display: "inline-flex", alignItems: "center", gap: "4px" }}>
                     <ThunderboltOutlined /> {podium.second.exp} EXP
                   </span>
                 </div>
@@ -434,7 +435,7 @@ export default function HallOfFameClientPage() {
                     style={{
                       fontSize: "12px",
                       fontWeight: 700,
-                      color: "#0066CC",
+                      color: themeColors.primary,
                       backgroundColor: "#EFF6FF",
                       padding: "2px 10px",
                       borderRadius: "9999px",
@@ -449,7 +450,7 @@ export default function HallOfFameClientPage() {
                   <span style={{ fontSize: "12px", fontWeight: 700, color: "#475569", backgroundColor: "#F1F5F9", padding: "4px 12px", borderRadius: "10px" }}>
                     Level {podium.third.level}
                   </span>
-                  <span style={{ fontSize: "12px", fontWeight: 800, color: "#0066CC", backgroundColor: "#EFF6FF", padding: "4px 12px", borderRadius: "10px", border: "1px solid #BFDBFE", display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                  <span style={{ fontSize: "12px", fontWeight: 800, color: themeColors.primary, backgroundColor: "#EFF6FF", padding: "4px 12px", borderRadius: "10px", border: "1px solid #BFDBFE", display: "inline-flex", alignItems: "center", gap: "4px" }}>
                     <ThunderboltOutlined /> {podium.third.exp} EXP
                   </span>
                 </div>
@@ -470,7 +471,7 @@ export default function HallOfFameClientPage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
-          <TrophyOutlined style={{ fontSize: "20px", color: "#0066CC" }} />
+          <TrophyOutlined style={{ fontSize: "20px", color: themeColors.primary }} />
           <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#1E293B", margin: 0 }}>
             Bảng Xếp Hạng Điểm Danh Vọng
           </h3>
@@ -509,7 +510,7 @@ export default function HallOfFameClientPage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
-          <SafetyCertificateOutlined style={{ fontSize: "20px", color: "#0066CC" }} />
+          <SafetyCertificateOutlined style={{ fontSize: "20px", color: themeColors.primary }} />
           <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#1E293B", margin: 0 }}>
             Hệ Thống Huy Hiệu Kỹ Thuật (3D Badges)
           </h3>
@@ -544,13 +545,13 @@ export default function HallOfFameClientPage() {
                     boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
                   }}
                 >
-                  <TrophyLucide size={22} color="#0066CC" aria-hidden="true" />
+                  <TrophyLucide size={22} color={themeColors.primary} aria-hidden="true" />
                 </div>
                 <div>
                   <h4 style={{ fontSize: "14px", fontWeight: 800, color: "#1E293B", margin: "0 0 4px 0" }}>
                     {b.title}
                   </h4>
-                  <p style={{ fontSize: "12px", color: "#64748B", margin: 0, lineHeight: 1.5 }}>
+                  <p style={{ fontSize: "12px", color: themeColors.muted, margin: 0, lineHeight: 1.5 }}>
                     {b.description}
                   </p>
                 </div>

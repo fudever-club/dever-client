@@ -42,7 +42,7 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
     <Modal
       title={
         <div className="flex items-center gap-2 text-slate-900 font-bold text-lg">
-          <Code2 className="h-5 w-5 text-[#0066CC]" /> Đóng Góp Dự Án Mã Nguồn Mở
+          <Code2 className="h-5 w-5 text-primary" /> Đóng Góp Dự Án Mã Nguồn Mở
         </div>
       }
       open={open}
@@ -54,7 +54,7 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
       className="rounded-3xl"
     >
       <div className="mb-4 text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200">
-        <span className="font-semibold text-[#0066CC] flex items-center gap-1 mb-0.5">
+        <span className="font-semibold text-primary flex items-center gap-1 mb-0.5">
           <Sparkles className="h-3.5 w-3.5" /> Phần thưởng đóng góp:
         </span>
         Nhận ngay <strong>+150 EXP</strong> và mở khóa huy hiệu <strong>Core Contributor</strong> khi dự án được Ban Quản Trị duyệt xuất bản lên hệ sinh thái FU-DEVER.
@@ -64,17 +64,20 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
         <Form.Item
           label={<span className="text-xs font-bold text-slate-700">Tên Dự Án</span>}
           name="title"
+          htmlFor="submit-project-title"
           rules={[{ required: true, message: "Vui lòng nhập tên dự án" }]}
         >
-          <Input placeholder="Ví dụ: fptu-timetable-extension" className="rounded-xl py-2 text-xs" />
+          <Input id="submit-project-title" placeholder="Ví dụ: fptu-timetable-extension" className="rounded-xl py-2 text-xs" />
         </Form.Item>
 
         <Form.Item
           label={<span className="text-xs font-bold text-slate-700">Mô Tả Ngắn</span>}
           name="description"
+          htmlFor="submit-project-description"
           rules={[{ required: true, message: "Vui lòng nhập mô tả dự án" }]}
         >
           <TextArea
+            id="submit-project-description"
             rows={3}
             placeholder="Mô tả mục đích dự án, công nghệ sử dụng và tính năng nổi bật..."
             className="rounded-xl text-xs"
@@ -84,13 +87,15 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
         <Form.Item
           label={<span className="text-xs font-bold text-slate-700">Đường Dẫn GitHub Repository</span>}
           name="githubUrl"
+          htmlFor="submit-project-github"
           rules={[
             { required: true, message: "Vui lòng nhập link GitHub repo" },
             { type: "url", message: "Đường dẫn không hợp lệ" },
           ]}
         >
           <Input
-            prefix={<GithubOutlined className="text-slate-400 mr-1" />}
+            id="submit-project-github"
+            prefix={<GithubOutlined className="text-slate-500 mr-1" />}
             placeholder="https://github.com/your-username/repo-name"
             className="rounded-xl py-2 text-xs"
           />
@@ -99,9 +104,11 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
         <Form.Item
           label={<span className="text-xs font-bold text-slate-700">Demo Link (Nếu có)</span>}
           name="demoUrl"
+          htmlFor="submit-project-demo"
         >
           <Input
-            prefix={<Globe className="h-3.5 w-3.5 text-slate-400 mr-1" />}
+            id="submit-project-demo"
+            prefix={<Globe className="h-3.5 w-3.5 text-slate-500 mr-1" />}
             placeholder="https://your-demo-website.vercel.app"
             className="rounded-xl py-2 text-xs"
           />
@@ -111,9 +118,10 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
           <Form.Item
             label={<span className="text-xs font-bold text-slate-700">Chuyên Mục</span>}
             name="category"
+            htmlFor="submit-project-category"
             initialValue="Web App"
           >
-            <Select className="rounded-xl text-xs">
+            <Select id="submit-project-category" className="rounded-xl text-xs">
               <Option value="Web App">Web App</Option>
               <Option value="Mobile App">Mobile App</Option>
               <Option value="CLI Tool">CLI Tool</Option>
@@ -126,9 +134,10 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
           <Form.Item
             label={<span className="text-xs font-bold text-slate-700">Tags (Ngăn cách bằng dấu phẩy)</span>}
             name="tags"
+            htmlFor="submit-project-tags"
             initialValue="React, TypeScript, OpenSource"
           >
-            <Input placeholder="React, TypeScript, Node.js" className="rounded-xl py-2 text-xs" />
+            <Input id="submit-project-tags" placeholder="React, TypeScript, Node.js" className="rounded-xl py-2 text-xs" />
           </Form.Item>
         </div>
 
@@ -137,7 +146,7 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
             type="default"
             onClick={onClose}
             disabled={isLoading}
-            className="rounded-xl text-xs font-semibold px-4 transition-all duration-200 active:scale-[0.98]"
+            className="rounded-xl text-xs font-semibold px-4 transition-colors duration-200 active:scale-[0.98]"
           >
             Hủy
           </Button>
@@ -147,7 +156,7 @@ export default function SubmitProjectModal({ open, onClose }: Props) {
             loading={isLoading}
             disabled={isLoading}
             icon={<Send className="h-3.5 w-3.5" />}
-            className="rounded-xl bg-[#0066CC] hover:!bg-[#004C99] text-xs font-bold px-5 transition-all duration-200 active:scale-[0.98] shadow-xs"
+            className="rounded-xl bg-primary hover:!bg-primary-dark text-xs font-bold px-5 transition-[background-color,transform] duration-200 active:scale-[0.98] shadow-xs"
           >
             Gửi Duyệt Dự Án
           </Button>

@@ -247,59 +247,56 @@ export default function NotificationBell() {
             {filteredNotifications.map((item: any) => (
               <div
                 key={item._id}
-                role="button"
-                tabIndex={0}
-                aria-label={item.title}
-                onClick={() => handleItemClick(item)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handleItemClick(item);
-                  }
-                }}
-                className={`group relative flex cursor-pointer items-start gap-3 rounded-xl p-2.5 transition-all duration-200 hover:bg-slate-50 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 ${
+                className={`group relative flex items-start gap-3 rounded-xl p-2.5 transition-[background-color,transform] duration-200 hover:bg-slate-50 active:scale-[0.99] ${
                   !item.isRead ? "bg-blue-50/40" : ""
                 }`}
               >
-                {renderIcon(item.type)}
-                <div className="flex-1 min-w-0 pr-6">
-                  <div className="flex items-center gap-1.5">
-                    <p
-                      className={`text-xs truncate ${
-                        !item.isRead
-                          ? "font-bold text-slate-900"
-                          : "font-medium text-slate-700"
-                      }`}
-                    >
-                      {item.title}
-                    </p>
-                    {!item.isRead && (
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                    )}
-                  </div>
-                  <p className="text-xs leading-relaxed text-slate-500 line-clamp-2 mt-0.5">
-                    {item.message}
-                  </p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-slate-500">
-                      {formatTimeAgo(item.createdAt)}
-                    </span>
-                    {item.link && (
-                      <span className="inline-flex items-center gap-0.5 text-xs text-primary font-medium opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 sm:focus-visible:opacity-100 transition-opacity">
-                        Xem chi tiết <ExternalLink className="h-2.5 w-2.5" />
+                <button
+                  type="button"
+                  onClick={() => handleItemClick(item)}
+                  aria-label={item.title}
+                  className="flex min-w-0 flex-1 cursor-pointer items-start gap-3 rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+                >
+                  {renderIcon(item.type)}
+                  <span className="flex-1 min-w-0 pr-6">
+                    <span className="flex items-center gap-1.5">
+                      <span
+                        className={`text-xs truncate ${
+                          !item.isRead
+                            ? "font-bold text-slate-900"
+                            : "font-medium text-slate-700"
+                        }`}
+                      >
+                        {item.title}
                       </span>
-                    )}
-                  </div>
-                </div>
+                      {!item.isRead && (
+                        <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                      )}
+                    </span>
+                    <span className="text-xs leading-relaxed text-slate-500 line-clamp-2 mt-0.5 block">
+                      {item.message}
+                    </span>
+                    <span className="flex items-center gap-2 mt-1">
+                      <span className="text-xs text-slate-500">
+                        {formatTimeAgo(item.createdAt)}
+                      </span>
+                      {item.link && (
+                        <span className="inline-flex items-center gap-0.5 text-xs text-primary font-medium opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 sm:focus-visible:opacity-100 transition-opacity">
+                          Xem chi tiết <ExternalLink aria-hidden="true" className="h-2.5 w-2.5" />
+                        </span>
+                      )}
+                    </span>
+                  </span>
+                </button>
 
-                {/* Delete button — always visible on touch (<sm), min 44px target */}
+                {/* Delete button — sibling of the open button (no nested interactive), always visible on touch (<sm), min 44px target */}
                 <button
                   type="button"
                   onClick={(e) => handleDelete(e, item._id)}
                   disabled={deletingId === item._id || isDeleting}
                   aria-label="Xóa thông báo"
                   aria-busy={deletingId === item._id}
-                  className="absolute right-1 top-2 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-slate-400 opacity-100 transition-all hover:bg-slate-100 hover:text-rose-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60 sm:right-2 sm:top-3 sm:p-1 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 sm:focus-visible:opacity-100"
+                  className="absolute right-1 top-2 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-slate-500 opacity-100 transition-[background-color,color,opacity] hover:bg-slate-100 hover:text-rose-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60 sm:right-2 sm:top-3 sm:p-1 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 sm:focus-visible:opacity-100"
                 >
                   <Trash2 className="h-4 w-4 sm:h-3 sm:w-3" />
                 </button>
@@ -343,7 +340,7 @@ export default function NotificationBell() {
             shape="circle"
             size="large"
             aria-label="Thông báo"
-            className="flex items-center justify-center text-slate-700 hover:text-primary hover:bg-slate-100 transition-all duration-200 active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="flex items-center justify-center text-slate-700 hover:text-primary hover:bg-slate-100 transition-[background-color,color,transform] duration-200 active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             icon={<Bell className="h-5 w-5" />}
           />
         </Badge>

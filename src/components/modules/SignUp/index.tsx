@@ -52,7 +52,7 @@ function SignUpModule() {
         href="https://forms.gle/hJxSewnuiVFwR1rH8"
         target="_blank"
         rel="noopener noreferrer"
-        className="w-full flex items-center justify-center gap-2 bg-[#0066CC] hover:bg-[#004C99] text-white font-bold text-sm py-3 px-5 rounded-xl text-center no-underline mt-3 mb-4 shadow-md shadow-blue-500/20 transition-all duration-200 active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-blue-200 cursor-pointer"
+        className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-bold text-sm py-3 px-5 rounded-xl text-center no-underline mt-3 mb-4 shadow-md shadow-blue-500/20 transition-colors duration-200 active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-primary/30 cursor-pointer"
       >
         <span>Đăng ký tham gia FU-DEVER (Google Form)</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>

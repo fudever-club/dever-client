@@ -152,17 +152,19 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
             <Form.Item
               name="graduationGen"
               label={<span className="text-xs font-bold text-slate-700">Thế hệ (Gen)</span>}
+              htmlFor="alumni-graduation-gen"
               rules={[{ required: true, message: "Vui lòng chọn thế hệ Gen của Anh/Chị" }]}
             >
-              <Select options={GEN_OPTIONS} className="rounded-xl text-xs" />
+              <Select id="alumni-graduation-gen" options={GEN_OPTIONS} className="rounded-xl text-xs" />
             </Form.Item>
 
             <Form.Item
               name="workplace"
               label={<span className="text-xs font-bold text-slate-700">Nơi công tác / Doanh nghiệp hiện tại</span>}
+              htmlFor="alumni-workplace"
               rules={[{ required: true, message: "Nhập nơi công tác hiện tại" }]}
             >
-              <Input prefix={<BankOutlined className="text-slate-400" />} placeholder="Ví dụ: Google, VNG, FPT Software, Grab, Viettel..." className="rounded-xl text-xs" />
+              <Input id="alumni-workplace" prefix={<BankOutlined className="text-slate-400" />} placeholder="Ví dụ: Google, VNG, FPT Software, Grab, Viettel..." className="rounded-xl text-xs" />
             </Form.Item>
           </div>
 
@@ -170,26 +172,30 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
             <Form.Item
               name="headline"
               label={<span className="text-xs font-bold text-slate-700">Chức danh / Vị trí chuyên môn</span>}
+              htmlFor="alumni-headline"
               rules={[{ required: true, message: "Nhập chức danh chuyên môn" }]}
             >
-              <Input prefix={<IdcardOutlined className="text-slate-400" />} placeholder="Ví dụ: Senior Software Engineer, Tech Lead, AI Engineer..." className="rounded-xl text-xs" />
+              <Input id="alumni-headline" prefix={<IdcardOutlined className="text-slate-400" />} placeholder="Ví dụ: Senior Software Engineer, Tech Lead, AI Engineer..." className="rounded-xl text-xs" />
             </Form.Item>
 
             <Form.Item
               name="profileUrl"
               label={<span className="text-xs font-bold text-slate-700">Đường dẫn liên kết cá nhân</span>}
+              htmlFor="alumni-profile-url"
               tooltip="Bất kỳ đường link nào để kết nối cùng Anh/Chị (Website, Portfolio, LinkedIn, GitHub, Facebook...)"
             >
-              <Input prefix={<LinkOutlined className="text-[#0066CC]" />} placeholder="https://... (Website, Portfolio, Mạng xã hội)" className="rounded-xl text-xs" />
+              <Input id="alumni-profile-url" prefix={<LinkOutlined className="text-primary" />} placeholder="https://... (Website, Portfolio, Mạng xã hội)" className="rounded-xl text-xs" />
             </Form.Item>
           </div>
 
           <Form.Item
             name="mentoringTopics"
             label={<span className="text-xs font-bold text-slate-700">Lĩnh vực sẵn sàng Cố vấn / Chia sẻ kinh nghiệm</span>}
+            htmlFor="alumni-mentoring-topics"
             rules={[{ required: true, message: "Chọn ít nhất 1 chủ đề" }]}
           >
             <Select
+              id="alumni-mentoring-topics"
               mode="multiple"
               options={MENTOR_TOPIC_OPTIONS}
               placeholder="Chọn các lĩnh vực thế mạnh Anh/Chị sẵn sàng chia sẻ..."
@@ -200,8 +206,10 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
           <Form.Item
             name="quote"
             label={<span className="text-xs font-bold text-slate-700">Lời nhắn nhủ gửi thế hệ tiếp nối</span>}
+            htmlFor="alumni-quote"
           >
             <TextArea
+              id="alumni-quote"
               rows={3}
               placeholder="Chia sẻ một lời khuyên chân thành, kinh nghiệm thực chiến hoặc lời chúc gửi tới thế hệ đàn em..."
               className="rounded-xl text-xs"
@@ -217,7 +225,7 @@ export default function AlumniAdvisoryModal({ open, onClose, onSuccess }: Alumni
               type="primary"
               htmlType="submit"
               loading={submitting}
-              className="bg-[#0066CC] hover:bg-[#004C99] rounded-xl font-bold text-xs shadow-md h-10 px-6 active:scale-[0.98] transition-all cursor-pointer"
+              className="bg-primary hover:bg-primary-dark rounded-xl font-bold text-xs shadow-md h-10 px-6 active:scale-[0.98] transition-[background-color,transform] cursor-pointer"
             >
               {isJoined ? "Cập Nhật Hồ Sơ Cố Vấn" : "Trân Trọng Nhận Lời & Đồng Hành"}
             </Button>

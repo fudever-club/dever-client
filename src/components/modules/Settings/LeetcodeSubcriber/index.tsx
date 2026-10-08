@@ -162,6 +162,7 @@ function LeetcodeSubcriber({ isUserProfileLoading, userData, refetchUserData }: 
                   </span>
                 }
                 name="leetcodeUsername"
+                htmlFor="settings-leetcode-username"
                 extra={
                   <Typography.Text type="secondary" style={{ fontSize: 12 }}>
                     Nhập đúng tên đăng nhập LeetCode của bạn để hệ thống tự động đồng bộ bài giải và tính điểm bảng xếp hạng.
@@ -175,6 +176,7 @@ function LeetcodeSubcriber({ isUserProfileLoading, userData, refetchUserData }: 
                 ]}
               >
                 <Input
+                  id="settings-leetcode-username"
                   size="large"
                   prefix={<SocialBrandIcon platform="LEETCODE" size={18} />}
                   placeholder="Ví dụ: quangnhat1504 hoặc john_doe"

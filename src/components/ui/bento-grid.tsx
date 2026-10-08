@@ -50,20 +50,20 @@ export const BentoCard = ({
     key={name}
     style={style}
     className={cn(
-      "group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-white p-5 sm:p-7 border border-slate-200/90 transition-all duration-300 block text-left no-underline min-h-[16rem] sm:min-h-0",
+      "group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-white p-5 sm:p-7 border border-slate-200/90 transition-[border-color,box-shadow,transform] duration-300 block text-left no-underline min-h-[16rem] sm:min-h-0",
       "shadow-[0_4px_20px_-2px_rgba(0,102,204,0.04)] hover:shadow-[0_14px_36px_-4px_rgba(0,102,204,0.14)] hover:border-blue-400 motion-safe:hover:-translate-y-1 cursor-pointer",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:border-blue-400",
       className
     )}
   >
     {/* Ambient Background Graphic Layer */}
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-100 transition-all duration-500">
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-100 transition-opacity duration-500">
       {background}
     </div>
 
     {/* Top Row: Icon Capsule + Optional Badge */}
     <div className="relative z-10 flex items-center justify-between gap-3 w-full">
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-primary border border-blue-100/90 shadow-xs transform-gpu transition-all duration-300 ease-in-out motion-safe:group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-primary border border-blue-100/90 shadow-xs transform-gpu transition-[background-color,color,border-color,transform] duration-300 ease-in-out motion-safe:group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
         <Icon className="h-6 w-6" />
       </div>
 
@@ -93,6 +93,6 @@ export const BentoCard = ({
     </div>
 
     {/* Soft Hover Overlay Glow */}
-    <div className="pointer-events-none absolute inset-0 z-0 transform-gpu transition-all duration-300 group-hover:bg-blue-500/[0.015]" />
+    <div className="pointer-events-none absolute inset-0 z-0 transform-gpu transition-colors duration-300 group-hover:bg-blue-500/[0.015]" />
   </Link>
 );

@@ -351,7 +351,7 @@ export default function FundModule() {
             <ThunderboltOutlined />
             <span>{t("badge", "CỔNG ĐÓNG QUỸ FU-DEVER")}</span>
           </div>
-          <Title level={2} className="!mb-1 text-slate-900 font-extrabold tracking-tight">
+          <Title level={1} className="!mb-1 !text-3xl text-slate-900 font-extrabold tracking-tight">
             {t("heading", "Quỹ Hoạt Động & Phát Triển CLB")}
           </Title>
           <Text type="secondary" className="text-sm">
@@ -535,7 +535,7 @@ export default function FundModule() {
                   <div className="inline-flex p-1 bg-white rounded-xl border border-slate-200 shadow-sm text-xs font-bold">
                       <button
                         onClick={() => setQrMode("vietqr")}
-                        className={`px-3.5 py-1.5 min-h-[44px] rounded-lg transition-all inline-flex items-center gap-1 ${
+                        className={`px-3.5 py-1.5 min-h-[44px] rounded-lg transition-colors inline-flex items-center gap-1 ${
                           qrMode === "vietqr" ? "bg-primary text-white shadow-md" : "text-slate-600 hover:text-slate-900"
                         }`}
                     >
@@ -543,7 +543,7 @@ export default function FundModule() {
                     </button>
                       <button
                         onClick={() => setQrMode("custom")}
-                        className={`px-3.5 py-1.5 min-h-[44px] rounded-lg transition-all inline-flex items-center gap-1 ${
+                        className={`px-3.5 py-1.5 min-h-[44px] rounded-lg transition-colors inline-flex items-center gap-1 ${
                           qrMode === "custom" ? "bg-primary text-white shadow-md" : "text-slate-600 hover:text-slate-900"
                         }`}
                     >
@@ -569,7 +569,7 @@ export default function FundModule() {
                       >
                         <Image
                           src={vietQrImageUrl}
-                          alt="VietQR HD Napas247"
+                          alt="Mã VietQR đóng quỹ CLB"
                           fill
                           sizes="(max-width: 640px) 100vw, 320px"
                           loading="lazy"
@@ -746,7 +746,7 @@ export default function FundModule() {
                         <div className="relative mx-auto h-52 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-md">
                           <Image
                             src={proofImageUrl}
-                            alt="Uploaded Bill Preview"
+                            alt="Xem trước ảnh biên lai đã tải lên"
                             fill
                             sizes="(max-width: 640px) 100vw, 400px"
                             loading="lazy"
@@ -827,7 +827,7 @@ export default function FundModule() {
                   loading={submitting || uploadingImage}
                   disabled={!proofImageUrl}
                   onClick={handleSubmitPayment}
-                  className="bg-primary hover:bg-primary-dark rounded-2xl font-extrabold text-sm shadow-xl shadow-blue-600/25 active:scale-[0.98] transition-all h-14 text-white flex items-center justify-center gap-2"
+                  className="bg-primary hover:bg-primary-dark rounded-2xl font-extrabold text-sm shadow-xl shadow-blue-600/25 active:scale-[0.98] transition-[background-color,transform] h-14 text-white flex items-center justify-center gap-2"
                 >
                   <span>{t("confirmSubmit", "Xác Nhận Đã Chuyển Khoản & Nộp Minh Chứng")}</span>
                   <ArrowRightOutlined />
@@ -942,7 +942,7 @@ export default function FundModule() {
             <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-white">
               <Image
                 src={vietQrImageUrl}
-                alt="QR Code Zoom Khổng Lồ"
+                alt="Mã QR chuyển khoản phóng to"
                 fill
                 sizes="(max-width: 640px) 95vw, 500px"
                 loading="lazy"
@@ -991,7 +991,7 @@ export default function FundModule() {
           <div className="relative mx-auto mt-3 h-[60vh] max-h-[560px] min-h-[280px] w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-md">
             <Image
               src={activePayment.proofImageUrl}
-              alt="Bill Proof"
+              alt="Ảnh biên lai đã nộp"
               fill
               sizes="(max-width: 640px) 95vw, 520px"
               loading="lazy"

@@ -36,7 +36,7 @@ export default function LevelProgressCard() {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white via-slate-50/90 to-blue-50/40 p-6 sm:p-7 border border-slate-200/90 shadow-sm transition-all hover:shadow-md">
+    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white via-slate-50/90 to-blue-50/40 p-6 sm:p-7 border border-slate-200/90 shadow-sm transition-shadow hover:shadow-md">
       {/* Subtle Ambient Decorative Glow */}
       <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-gradient-to-br from-blue-400/10 to-cyan-400/15 blur-3xl" />
 
@@ -68,9 +68,9 @@ export default function LevelProgressCard() {
             <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-slate-600 font-medium">
               <span className="inline-flex items-center gap-1 font-bold text-slate-800">
                 <Zap className="w-4 h-4 text-amber-500 fill-amber-400" />
-                <span>{stats.exp}</span> <span className="text-slate-400">EXP</span>
+                <span>{stats.exp}</span> <span className="text-slate-500">EXP</span>
               </span>
-              <span className="text-slate-300">•</span>
+              <span className="text-slate-400">•</span>
               <span className="text-slate-500">
                 Huy hiệu: <strong className="text-slate-800">{stats.unlockedCount}/{stats.totalBadgesCount}</strong> đã đạt
               </span>
@@ -100,7 +100,7 @@ export default function LevelProgressCard() {
             type="button"
             onClick={handleDailyCheckin}
             disabled={stats.isCheckedInToday || isCheckingIn}
-            className={`group relative inline-flex items-center gap-2 rounded-2xl px-5 py-3 text-xs sm:text-sm font-extrabold transition-all ${
+            className={`group relative inline-flex items-center gap-2 rounded-2xl px-5 py-3 text-xs sm:text-sm font-extrabold transition-[background-color,box-shadow,transform] ${
               stats.isCheckedInToday
                 ? "bg-slate-100 text-slate-500 border border-slate-200 cursor-default"
                 : "bg-gradient-to-r from-primary to-primary-light text-white shadow-md shadow-blue-600/25 hover:shadow-lg hover:shadow-blue-600/35 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0"
@@ -135,7 +135,7 @@ export default function LevelProgressCard() {
 
         <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-slate-100 border border-slate-200/60">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-primary via-primary-light to-cyan-400 shadow-sm transition-all duration-700 ease-out"
+            className="h-full rounded-full bg-gradient-to-r from-primary via-primary-light to-cyan-400 shadow-sm transition-[width] duration-700 ease-out"
             style={{
               width: `${Math.min(100, Math.max(0, stats.progressPercent))}%`,
             }}

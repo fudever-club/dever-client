@@ -136,7 +136,7 @@ function Dashboard() {
           showIcon
           closable
           onClose={handlePromoClose}
-          className="!rounded-3xl !border-blue-200 !bg-white shadow-sm [&_.ant-alert-message]:!text-slate-900 [&_.ant-alert-description]:!text-slate-600 [&_.ant-alert-close-icon]:!text-slate-400"
+          className="!rounded-3xl !border-blue-200 !bg-white shadow-sm [&_.ant-alert-message]:!text-slate-900 [&_.ant-alert-description]:!text-slate-600 [&_.ant-alert-close-icon]:!text-slate-500"
           message={
             <span className="font-extrabold text-sm sm:text-base">
               Cộng đồng DEVER Open Source &amp; Hội đồng Cố vấn (+150 EXP)
@@ -306,14 +306,14 @@ function Dashboard() {
             {/* Event Card */}
             <Link
               href={`/${locale}/discover`}
-              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-[border-color,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-primary text-xs font-extrabold border border-blue-100">
                     <Calendar className="w-3.5 h-3.5" /> Sự kiện sắp tới
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-primary motion-safe:group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-primary motion-safe:group-hover:translate-x-0.5 transition-[color,transform]" />
                 </div>
                 <h3 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-primary transition-colors">
                   {eventsQuery.data?.data?.[0]?.title || "Chưa có sự kiện nào"}
@@ -327,14 +327,14 @@ function Dashboard() {
             {/* Resource Card */}
             <Link
               href={`/${locale}/discover`}
-              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-[border-color,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-primary text-xs font-extrabold border border-blue-100">
                     <BookOpen className="w-3.5 h-3.5" /> Kho tài liệu
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-primary motion-safe:group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-primary motion-safe:group-hover:translate-x-0.5 transition-[color,transform]" />
                 </div>
                 <h3 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-primary transition-colors">
                   {resourcesQuery.data?.data?.[0]?.title || "Chưa có tài liệu nào"}
@@ -348,14 +348,14 @@ function Dashboard() {
             {/* Tech Blog Card */}
             <Link
               href={`/${locale}/discover`}
-              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="group flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-[border-color,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-primary text-xs font-extrabold border border-blue-100">
                     <FileText className="w-3.5 h-3.5" /> Bài viết công nghệ
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-primary motion-safe:group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-primary motion-safe:group-hover:translate-x-0.5 transition-[color,transform]" />
                 </div>
                 <h3 className="font-extrabold text-slate-900 text-sm mb-1.5 line-clamp-1 group-hover:text-primary transition-colors">
                   {blogsQuery.data?.data?.[0]?.title || "Chưa có bài viết nào"}

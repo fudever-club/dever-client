@@ -40,7 +40,7 @@ function SelectLanguage() {
           src={
             <Image
               src={EnglandFlag}
-              alt="flag"
+              alt="Cờ tiếng Anh"
               width={48}
               height={48}
               sizes="48px"
@@ -58,7 +58,7 @@ function SelectLanguage() {
           src={
             <Image
               src={VietnamFlag}
-              alt="flag"
+              alt="Cờ tiếng Việt"
               width={48}
               height={48}
               sizes="48px"
@@ -89,7 +89,7 @@ function SelectLanguage() {
           src={
             <Image
               src={localActive === "en" ? EnglandFlag : VietnamFlag}
-              alt="bell"
+              alt={localActive === "en" ? "Cờ tiếng Anh (ngôn ngữ hiện tại)" : "Cờ tiếng Việt (ngôn ngữ hiện tại)"}
               width={48}
               height={48}
               sizes="48px"

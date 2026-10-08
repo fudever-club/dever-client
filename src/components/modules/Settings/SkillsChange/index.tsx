@@ -130,6 +130,7 @@ function SkillsChange({ isUserProfileLoading, userData }: IProps) {
                   ref={inputRef}
                   type="text"
                   size="large"
+                  aria-label={t("enterNewTag")}
                   style={{ width: 200 }}
                   placeholder={t("enterNewTag")}
                   value={inputValue}

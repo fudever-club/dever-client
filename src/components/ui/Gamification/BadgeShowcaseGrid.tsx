@@ -86,7 +86,7 @@ export default function BadgeShowcaseGrid() {
   const unlockedCount = badges.filter((b: any) => b.isUnlocked).length;
 
   return (
-    <div className="rounded-3xl bg-white p-6 sm:p-7 border border-slate-200/90 shadow-sm transition-all hover:shadow-md">
+    <div className="rounded-3xl bg-white p-6 sm:p-7 border border-slate-200/90 shadow-sm transition-shadow hover:shadow-md">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
@@ -125,7 +125,7 @@ export default function BadgeShowcaseGrid() {
             }
           >
             <div
-              className={`group relative flex flex-col items-center justify-between p-5 rounded-2xl transition-all duration-300 cursor-pointer ${
+              className={`group relative flex flex-col items-center justify-between p-5 rounded-2xl transition-[border-color,box-shadow,transform] duration-300 cursor-pointer ${
                 badge.isUnlocked
                   ? "bg-white border-2 hover:shadow-lg motion-safe:hover:-translate-y-1"
                   : "bg-slate-50/80 border border-slate-200 hover:border-slate-300"
@@ -144,7 +144,7 @@ export default function BadgeShowcaseGrid() {
                     border: badge.isUnlocked ? `1.5px solid ${badge.color}60` : "1px solid #CBD5E1",
                   }}
                 >
-                  {getBadgeIcon(badge.id, badge.isUnlocked ? badge.color : "#64748B")}
+                  {getBadgeIcon(badge.id, badge.isUnlocked ? badge.color : themeColors.muted)}
                 </div>
               </div>
 

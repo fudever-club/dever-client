@@ -82,7 +82,7 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
             ) : (
               <S.PreviewGroupCustom>
                 <S.AvatarCustom
-                  alt="avatar"
+                  alt="Ảnh đại diện thành viên"
                   src={userData?.avatar || "/images/avatar/avatar.jpg"}
                   fallback="/images/avatar/avatar.jpg"
                 />
@@ -122,7 +122,7 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                 <Flex align="center" gap={8} style={{ minHeight: 24 }}>
                   <Image
                     src={BriefCaseIcon}
-                    alt="icon"
+                    alt=""
                     width={18}
                     height={18}
                   />
@@ -144,7 +144,7 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                 />
               ) : (
                 <Flex align="center" gap={8} style={{ minHeight: 24 }}>
-                  <Image src={Cake} alt="icon" width={18} height={18} />
+                  <Image src={Cake} alt="" width={18} height={18} />
                   <Typography.Text
                     $fontSize="14px"
                     style={{ whiteSpace: "nowrap" }}
@@ -165,7 +165,7 @@ function BaseInformation({ userData, isUserDataFetching }: IProps) {
                 />
               ) : (
                 <Flex align="center" gap={8} style={{ minHeight: 24 }}>
-                  <Image src={Gen} alt="icon" width={18} height={18} />
+                  <Image src={Gen} alt="" width={18} height={18} />
                   <Typography.Text
                     $fontSize="14px"
                     $fontWeight={600}
