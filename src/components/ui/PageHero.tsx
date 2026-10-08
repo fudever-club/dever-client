@@ -10,20 +10,26 @@ interface PageHeroProps {
   icon?: ReactNode;
   eyebrow?: ReactNode;
   action?: ReactNode;
+  /** "brand" (default): solid primary + white text. "light": white card, slate text. */
+  tone?: "brand" | "light";
 }
 
 /**
  * PageHero — banner đầu trang dùng chung cho Discover / Hall of Fame / CreateBlog.
- * Nền đặc token primary (không gradient, không blur). Icon luôn trắng để đủ tương phản.
+ * tone="brand": nền đặc token primary (không gradient, không blur), icon trắng.
+ * tone="light": thẻ trắng chữ slate cho trang đã nhiều màu (Discover).
  */
-export default function PageHero({ title, subtitle, icon, eyebrow, action }: PageHeroProps) {
+export default function PageHero({ title, subtitle, icon, eyebrow, action, tone = "brand" }: PageHeroProps) {
+  const light = tone === "light";
   return (
     <div
       style={{
-        backgroundColor: themeColors.primary,
+        backgroundColor: light ? "#FFFFFF" : themeColors.primary,
         borderRadius: "24px",
         padding: "32px",
-        color: "#FFFFFF",
+        color: light ? "#0F172A" : "#FFFFFF",
+        border: light ? "1px solid #E2E8F0" : "none",
+        boxShadow: light ? "0 4px 16px -2px rgba(0,0,0,0.04)" : "none",
       }}
     >
       <div
@@ -44,17 +50,17 @@ export default function PageHero({ title, subtitle, icon, eyebrow, action }: Pag
                   alignItems: "center",
                   gap: "6px",
                   borderRadius: "9999px",
-                  backgroundColor: "rgba(255, 255, 255, 0.16)",
+                  backgroundColor: light ? "#EFF6FF" : "rgba(255, 255, 255, 0.16)",
                   padding: "4px 14px",
                   fontSize: "11px",
                   fontWeight: 800,
                   letterSpacing: "0.05em",
-                  border: "1px solid rgba(255, 255, 255, 0.35)",
-                  color: "#FFFFFF",
+                  border: light ? "1px solid #BFDBFE" : "1px solid rgba(255, 255, 255, 0.35)",
+                  color: light ? themeColors.primaryDark : "#FFFFFF",
                 }}
               >
                 {icon && (
-                  <span style={{ color: "#FFFFFF", display: "inline-flex", alignItems: "center" }}>
+                  <span style={{ color: light ? themeColors.primary : "#FFFFFF", display: "inline-flex", alignItems: "center" }}>
                     {icon}
                   </span>
                 )}
@@ -67,7 +73,7 @@ export default function PageHero({ title, subtitle, icon, eyebrow, action }: Pag
             style={{
               fontSize: "28px",
               fontWeight: 800,
-              color: "#FFFFFF",
+              color: light ? "#0F172A" : "#FFFFFF",
               letterSpacing: "-0.02em",
               margin: 0,
               lineHeight: 1.2,
@@ -77,7 +83,7 @@ export default function PageHero({ title, subtitle, icon, eyebrow, action }: Pag
           </h1>
 
           {subtitle && (
-            <p style={{ fontSize: "14px", color: "rgba(255, 255, 255, 0.92)", margin: 0, lineHeight: 1.6 }}>
+            <p style={{ fontSize: "14px", color: light ? "#475569" : "rgba(255, 255, 255, 0.92)", margin: 0, lineHeight: 1.6 }}>
               {subtitle}
             </p>
           )}

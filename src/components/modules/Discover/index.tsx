@@ -31,8 +31,9 @@ function Discover() {
 
   return (
     <main style={{ maxWidth: "1280px", margin: "0 auto", paddingBottom: "48px", display: "flex", flexDirection: "column", gap: "28px" }}>
-      {/* Header Banner */}
+      {/* Header Banner (light tone: page already carries many colors) */}
       <PageHero
+        tone="light"
         icon={<CompassOutlined />}
         eyebrow="KHÁM PHÁ HỆ SINH THÁI DEVER"
         title="Tài nguyên, sự kiện và nhóm học tập theo lịch Ban tổ chức"
