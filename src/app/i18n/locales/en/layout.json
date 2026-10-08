@@ -23,5 +23,8 @@
 
   "featureNotAvailable": "This feature is coming soon!",
   "verificationError": "Unable to verify your session. Please try again.",
+  "verificationNetworkHint": "Cannot reach the server (network, VPN, or ad blocker). Check your connection and retry.",
+  "verificationServerHint": "The server is busy or your session is stale. Retry, or sign in again to refresh it.",
+  "reLogin": "Sign in again",
   "retry": "Retry"
 }

@@ -23,5 +23,8 @@
 
   "featureNotAvailable": "Tính năng đang được phát triển",
   "verificationError": "Không thể xác thực phiên đăng nhập. Vui lòng thử lại.",
+  "verificationNetworkHint": "Không kết nối được máy chủ (mạng, VPN hoặc trình chặn quảng cáo). Kiểm tra mạng rồi thử lại.",
+  "verificationServerHint": "Máy chủ bận hoặc phiên của bạn đã cũ. Thử lại, hoặc đăng nhập lại để làm mới phiên.",
+  "reLogin": "Đăng nhập lại",
   "retry": "Thử lại"
 }

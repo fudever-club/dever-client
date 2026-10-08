@@ -61,6 +61,9 @@ const MainLayout = ({
   const [loadingVisible, setLoadingVisible] = useState<boolean>(true);
   const [loadingFadeOut, setLoadingFadeOut] = useState<boolean>(false);
   const [verificationFailed, setVerificationFailed] = useState(false);
+  // Distinguishes "server unreachable" (network/adblock/VPN) from other
+  // failures so stuck users get the right guidance + an escape hatch.
+  const [verificationFailureKind, setVerificationFailureKind] = useState<"network" | "server" | null>(null);
   const [verificationAttempt, setVerificationAttempt] = useState(0);
   // True only for temporary-password accounts (flag persisted at login).
   // Old members (false/absent) never see the banner.
@@ -116,6 +119,13 @@ const MainLayout = ({
           router.replace(`/${localActive}/sign-in`);
         } else {
           setLoadingVisible(false);
+          // RTK reports unreachable servers as FETCH_ERROR/TIMEOUT (never
+          // 401) — name it so the screen can guide network troubleshooting.
+          const kind =
+            error?.status === "FETCH_ERROR" || error?.name === "AbortError" || error?.name === "TimeoutError"
+              ? "network"
+              : "server";
+          setVerificationFailureKind(kind as "network" | "server");
           setVerificationFailed(true);
         }
       });
@@ -164,11 +174,24 @@ const MainLayout = ({
     link: `/${item.key}`,
   }));
 
+  const handleReLogin = () => {
+    webStorageClient.removeAll();
+    router.replace(`/${localActive}/sign-in`);
+  };
+
   return (
     <>
       {loadingVisible && <LoadingScreen fadeOut={loadingFadeOut} />}
       {verificationFailed && <Result status="error" title={t("verificationError")}
-        extra={<Button type="primary" onClick={() => setVerificationAttempt((attempt) => attempt + 1)}>{t("retry")}</Button>} />}
+        subTitle={
+          verificationFailureKind === "network"
+            ? t("verificationNetworkHint", "Không kết nối được máy chủ (mạng, VPN hoặc trình chặn quảng cáo). Kiểm tra mạng rồi thử lại.")
+            : t("verificationServerHint", "Máy chủ bận hoặc phiên của bạn đã cũ. Thử lại, hoặc đăng nhập lại để làm mới phiên.")
+        }
+        extra={[
+          <Button key="retry" type="primary" onClick={() => setVerificationAttempt((attempt) => attempt + 1)}>{t("retry")}</Button>,
+          <Button key="relogin" onClick={handleReLogin}>{t("reLogin", "Đăng nhập lại")}</Button>,
+        ]} />}
       {isAuth && (
         <S.ContainerLayoutCustom>
           <AppProgressBar
